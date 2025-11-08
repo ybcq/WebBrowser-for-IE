@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="Author" content="Sam." />
+    <meta name="viewport" content="width=1024" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>恢复未关闭的网页</title>
+	<link rel="shortcut icon" href="history.ico"/>
+    <style>
+	html{overflow:hidden;}
+	body{font-family:'寰蒋闆呴粦',Tahoma,'瀹嬩綋';font-size:14px;color:#5d7388;margin:0 auto;background:#fefefe;}
+	body,h1,h2,h3,h4,h5,h6,p,ul,li{margin: 0;padding: 0;font-weight:normal;font-size:12px;}
+	img{border:none;}
+	div{cursor:default;}
+	li{list-style: none;}
+	.clear{clear:both;font-size: 1px;line-height:1px;height:1px;width:100%;}
+	.clearDot{clear:both;font-size: 1px;line-height:1px;height:1px;min-width:600px;width:100%;border-bottom:1px dotted #ccc;}
+	.fontGray{color:#ccc;}
+	.fontRed{color:red;}
+
+	.mainWap{width:100%; position:relative;}
+	.mainTitle{height:78px;width:100%;background:#fff;border-bottom:1px solid #e8ecef;clear:both;}
+	.mainTitle h1{height:78px;width:190px;font-size:24px;float:left;margin-left:28px;color:#777;line-height:78px;}
+	.mainTitle .topMessage{float:right;width:230px; position:relative;}
+	.mainTitle .topMessage span{cursor:pointer;color:#3c84f1;}
+	.mainTitle .topMessage .clearPage, .mainTitle .topMessage .cleanMore{margin:32px 3px;line-height:16px;float:right;font-size:14px;}
+	.mainTitle .topMessage a{text-decoration:none;color:#3c84f1;}
+	.mainTitle .topMessage .clearPage{width:78px;}
+	.mainTitle .topMessage .cleanMore{width:94px;}
+	
+	.mainContain{clear:both;height:500px;width:100%;margin:0 auto;}
+	.lastopen{font-size:12px;background:url(blank.gif);overflow-x:hidden;margin:0px auto;width:100%;}
+	.histroyDate{font-size:20px;color:#fb9347;width:685px;margin:25px 0 0 35px;}
+	.errFlag{width:227px;height:100px; position:absolute;top:50px;left:-15px;background:#fefefe; background:url(lastopen_err1.png) no-repeat;_background:url(lastopen_err1.gif) no-repeat;}
+	
+	.errFlag p{padding:0;margin:33px 13px 13px 18px;font-size:12px;line-height:20px;}
+	.errFlag .closeBtn{width:20px;height:20px; background:url(close2.png) no-repeat center;position:absolute;top:20px;right:13px;cursor:pointer;}
+	.lastopen ul{padding:10px 0;width:800px;margin:0 auto;}
+	.lastopen li{border-top:1px solid #fff;border-bottom:1px solid #fff;cursor:default;height:30px;line-height:30px;clear:both;cursor:pointer;}
+	.lastopen li:hover{border-top:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;background:#f1f1f1;cursor:pointer;}
+	.lastopen li h3{display:block;float:left;margin:0;height:30px;width:25px;background:none;cursor:pointer;}
+	
+	.lastopen li h4{display:block;height:16px;width:16px;float:left;margin:7px 8px 0 8px;}
+	.lastopen li h4 img{height:16px;width:16px;}
+	.lastopen li h5{float:left;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:740px;line-height:34px;}
+	.deleted{opacity:0.5;filter:alpha(opacity:40);zoom:1}
+	.lastopen li.deleted h5,.lastopen li.deleted h6{text-decoration:line-through;}
+	.lastopen li h6{float:right;text-align:left;color:#aaa;padding-right:5px;}
+	.lastopen li a:link{color:#5d7388;text-decoration:none;}	
+	.lastopen li a:visited{color:#5d7388;text-decoration:none;}	
+	.lastopen li a:hover{color:#5d7388;text-decoration:none;}
+
+	</style>
+    <script src="jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div class="mainWap">
+    <div class="mainTitle">
+    	<div style="width:800px;margin:0 auto;">
+        	<h1>恢复未关闭网页</h1>
+            <div class="topMessage">
+               
+               <div class="cleanMore"><a href="Aurora:history" onFocus="this.blur()" target="_blank" >浏览历史</a></div>
+               <div id="openAllPage" class="clearPage"><span>打开全部</span></div>
+                <div class="clear"></div>
+                <div class="errFlag" style="display:none;">
+                    <div class="closeBtn"></div>
+                    <div  class="arr"></div>
+                    <p>
+                        浏览器未正确退出。 <br />
+                        单击以恢复上一个会话。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+	<div class="mainContain">
+		<div id="lastOpen" class="lastopen">
+			<ul id="lastopenList" style="margin:0 auto;overflow-y:hidden;"></ul>
+	</div>
+    </div>
+    </div>
+<script src="language_js.js"></script>
+<script src="lastopen.class.js"></script>
+<script src="lastopen.js"></script>
+<script>
+	var lastopenList;
+	var lastopenObj = new lastopen();
+</script>
+</body>
+</html>

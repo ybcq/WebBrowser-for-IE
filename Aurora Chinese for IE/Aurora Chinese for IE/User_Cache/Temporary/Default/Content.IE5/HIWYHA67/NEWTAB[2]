@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title>新标签页</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!--[if !IE]><!--><script>
+if (/*@cc_on!@*/false) {document.documentElement.className+=' ie10';}
+if (/*@cc_on!@*/true) {document.documentElement.className += ' ie' + document.documentMode;}
+</script><!--<![endif]-->
+
+<style>
+
+html{overflow:hidden;}
+body{ font-size:12px;font-family:'微软雅黑','宋体',Verdana, Geneva, sans-serif;max-width:1920px;margin:0 auto;border-top:0px solid #fff;background:#f0f0f0;}
+img{border:none;-ms-interpolation-mode: bicubic;max-height:200px;}
+.clearH5{clear:both;height:10px;_height:10px;width:100%;}
+.clear{clear:both;height:1px;width:100%;font-size:1px;}
+.clearH2{clear:both;height:2px;width:100%;font-size:1px;}
+a{font-size:12px;color:#333;*overflow:hidden;text-decoration:none;}
+a:hover{}
+a:active{}
+
+div.mainwarp{min-width:670px;*min-width:706px;max-width:1920px;padding:0 10%;zoom: 1;position:relative;}
+
+.newTab2wap{height:60px;margin:0 auto 0 auto;_margin-top:0px;position:relative; z-index:7000;padding:0;position:absolute;}
+.newTab2Logo{width:140px;height:42px; background:url(newtab_newTab3.png) 0 0 no-repeat;position:absolute;left:0px;top:15px;}
+.newTab2Input,.newTab2InputPop{margin:0 auto;height:35px;_height:33px;width:394px;position: absolute;top:14px;left:140px;}
+
+.newTab2Input{background:url(newtab_newTab3.png) 0 -43px no-repeat;}
+.newTab2InputPop{background:url(newtab_newTab3.png) 0 -43px no-repeat;}
+.searchBox2{position: absolute;top:5px;_top:5px; left: 8px; height: 24px; font-size:14px;line-height: 24px;*line-height: 24px;_line-height: 24px;background: none; border: none; width: 365px;color:#aaa;}
+
+.newTabSearchBtn2,
+.newTabSearchBtn2Hov,
+.newTabSearchBtn2Act{display:block;width:87px;height:33px;cursor:pointer;position:absolute;left:628px;_right:1px;top:15px;_top:14px;  }	
+.newTabSearchBtn2{background:url(newtab_newTab3.png) no-repeat 0 -78px;margin-left:-100px;}
+.newTabSearchBtn2Hov{background:url(newtab_newTab3.png) no-repeat -88px -78px;margin-left:-100px;}
+.newTabSearchBtn2Act{background:url(newtab_newTab3.png) no-repeat -176px -78px;margin-left:-100px;}
+
+.newTab2Link{margin-left:8px;height:26px;font-size:14px;line-height:18px;}
+.newTab2Link span{display:block;width:50px;text-align:center;float:left;}
+.newTab2Link a{color:#777;text-decoration:underline;}
+.newTab2Link a:hover{color:#333;font-weight:bold; text-decoration:none;}
+.newTab2Link a:active{}
+
+.newTab2Popdown{width:387px;_width:387px;border:1px solid #ccc;background:#fff;position:absolute;top:47px;_top:46px;left:140px;z-index:8000;}
+.newTab2Popdown .popDownList,.newTab2Popdown .popDownListHov,.newTab2Popdown .popDownListOff{}
+.newTab2Popdown .popDownListHov{background:#e9e9e9;}
+
+.newTab2Popdown ul{margin:0;padding:0;}
+.newTab2Popdown li{width:98.6%;list-style:none;border-top:0px solid #fff;;height:28px;margin:0px 0 0 0;padding-left:5px;cursor:pointer; position:relative;}
+.newTab2Popdown li .num1,.newTab2Popdown li .num2{width:16px;height:15px; display:block; float:left;margin:6px 5px 0 3px;font-size:10px;line-height:14px;text-align:center;}
+.newTab2Popdown li .num1{background:url(newtab_newTab3.png) 0 -127px no-repeat;color:#fff;}
+.newTab2Popdown li .num2{background:url(newtab_newTab3.png) 0 -142px no-repeat;color:#fff;}
+.newTab2Popdown li .sugg{font-size:14px;float:left;display:block;width:340px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;line-height:28px;color:#333;height:28px;}
+.newTab2Popdown img{margin-top:-10px;_margin-top:7px;}
+.newTab2Popdown a{text-decoration:none;color:#333;}
+.promoteLink{text-align:left;line-height:35px;margin-left:126px;padding-top:50px;height:15px;}
+.promoteLink a{font-size:14px;color:#777;}
+.promoteLink a:hover{text-decoration:underline;}
+
+.list9g{margin:0 auto;padding:0;max-width:1230px;_width:expression((document.documentElement.clientWidth||document.body.clientWidth)>1200?"1200px":""); }
+.list9g ul{margin:0;padding:0;margin-left:5.05%;text-align:center; _height:10px;width:100%;}
+.list9g li{margin:0;padding:0;list-style:none;width:21%;float:left; position:relative;margin-right:15px;_margin-right:1.5%;margin-bottom:15px;_margin-bottom:1.5%;background-color:#ffffff;*overflow:hidden;}
+.list9g li img{width:100%;*width:100.45%;_width:100.4%;}
+.liDropHover{position:relative;top:-8px;left:-8px;}
+.liNom,.liHov,.liAct{list-style:none;width:22%;float:left; position:relative;margin-right:15px;margin-bottom:15px;background-color:#ffffff;behavior: url(PIE.htc);}
+
+.ie10 .liNom{list-style:none;width:22%;float:left; position:relative;margin-right:15px;margin-bottom:15px;background-color:#ffffff;}
+.ie10 .liHov{list-style:none;width:22%;float:left; position:relative;margin-right:15px;margin-bottom:15px;background-color:#ffffff;}
+.ie10 .liAct{list-style:none;width:22%;float:left; position:relative;margin-right:15px;margin-bottom:15px;background-color:#ffffff;}
+
+.liNom{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(235,235,235,1);_box-shadow:none;behavior: url(PIE.htc);}
+.liHov{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(230,230,230,1);_box-shadow:none;behavior: url(PIE.htc);}
+.liAct{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(220,220,220,1);_box-shadow:none;behavior: url(PIE.htc);}
+
+.ie9 .liNom{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.08);_box-shadow:none;behavior: url(PIE.htc);}
+.ie9 .liHov{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.12);_box-shadow:none;behavior: url(PIE.htc);}
+.ie9 .liAct{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.2);_box-shadow:none;behavior: url(PIE.htc);}
+
+.ie10 .liNom{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.08);_box-shadow:none;behavior: url(PIE.htc);}
+.ie10 .liHov{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.12);_box-shadow:none;behavior: url(PIE.htc);}
+.ie10 .liAct{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.2);_box-shadow:none;behavior: url(PIE.htc);}
+
+.ie11 .liNom{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.08);_box-shadow:none;behavior: url(PIE.htc);}
+.ie11 .liHov{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.12);_box-shadow:none;behavior: url(PIE.htc);}
+.ie11 .liAct{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(100,100,100,0.2);_box-shadow:none;behavior: url(PIE.htc);}
+
+.ieundefined .liNom{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(235,235,235,1);_box-shadow:none;behavior: url(PIE.htc);}
+.ieundefined .liHov{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(230,230,230,1);_box-shadow:none;behavior: url(PIE.htc);}
+.ieundefined .liAct{overflow:hidden;box-shadow: 0px 3px 5px 0px rgba(220,220,220,1);_box-shadow:none;behavior: url(PIE.htc);}
+
+
+
+.aPi{display:block; cursor:pointer; outline:none;}
+.closePi,.closePiHov,.closePiAct{position:absolute;display:block;width:30px;height:30px;font-size:1px;top:0px;right:0px;background:url(newtab_close2.png) 0 0 no-repeat;cursor:pointer;}
+.closePiHov{background:url(newtab_close2.png) 0 -30px no-repeat;}
+.closePiAct{background:url(newtab_close2.png) 0 -60px no-repeat;}
+.titlePi{position:absolute;left:0;bottom:-1px;display:block;height:24px;line-height:27px;padding:0 3%;width:94%;background:#FFF;filter:Alpha(Opacity='84'); opacity:0.8;text-align:center;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+
+.topMask{width:100%;*width:102%;_width:101.5%;position:absolute;top:0;left:0;z-index:1000;height:2000px;}
+.maskShadowTop{margin:0 auto;width:494px;height:40px;background:url(newtab_shadow1.png) 0 3px no-repeat;}
+.maskShadowBottom{margin:0px  auto 0 auto;width:494px;height:40px;background:url(newtab_shadow1.png) 0 -51px no-repeat;}
+.maskShadow{margin:0px  auto;width:450px;padding:0px 0px 0 42px;background:url(newtab_shadow2.png) repeat-y;}
+.whiteMask{filter: alpha(opacity=70);opacity:0.7;background-color:#fff;height:2000px;width:100%;*width:110%;_width:105%; position:absolute;top:0;left:0;z-index:-1;}
+
+.maskColor{width:402px;height:3px;background:#FF7547;font-size:1px;}
+.maskBlock{width:400px;min-height:116px;background:#fff;border:1px solid #ccc;1border-top:none;}
+.maskTitle{width:100%;height:13px;padding:5px 0 5px 0px;}
+.maskTitle h2{color:#777; background:url(newtab_edit.jpg) no-repeat left top;height:40px;width:50%;font-size:12px;position:absolute;left:25px;top:-5px;padding-left:38px;line-height:30px;_line-height:33px;}
+
+.editBoxClose{display:block;float:right;height:10px;width:10px;float:right;margin:10px 13px 0 0px;cursor:pointer;}
+.editBox{padding:0 20px;_margin-left:7px;}
+.editBox h3{color:#777;font-size:12px;width:36px;float:left;font-weight:normal;line-height:28px;padding:0;margin:0;margin-left:10px;_margin-left:0px;}
+.editBox input{color:#777;border:1px solid #ccc;padding:4px 0 4px 5px;width:300px;line-height:16px;}
+
+.advEditTab{width:346px;_width:345px;margin:15px auto 0 auto;height:27px;border-top:none;font-size:14px;color:#777; position:relative;*z-index:100}
+.advEditTab .tab1,.advEditTab .tab2,.advEditTab .tab3{position:absolute;height:25px;width:115px;border:1px solid #ccc;background:#fff;text-align:center;font-size:12px;line-height:26px;bottom:-1px;_bottom:-2px;z-index:100}
+.advEditTab .tab1{left:0px;}
+.advEditTab .tab2{left:115px;}
+.advEditTab .tab3{left:229px;}
+.advEditTab .current{border-top:2px solid #f60;border-bottom:none;}
+.advEditTab span{margin:0;padding:0;width:115px;cursor:pointer;}
+
+.advEditList{width:344px;margin:0 auto;padding:0;border:1px solid #ccc;color:#777; position:relative;z-index:0}
+.advEditList ul{margin:0;padding:0;height:110%;}
+.advEditList li{list-style:none;padding:0;float:none;clear:both;height:25px;padding:2px 0 ;line-height:14px;clear:both;}
+.advEditLi{list-style:none;padding:0;float:none;clear:both;height:25px;padding:2px 0 ;line-height:14px;clear:both;}
+.advEditLiHov{list-style:none;padding:0;float:none;clear:both;height:25px;padding:2px 0 ;line-height:14px;clear:both;background:#eaeaea;}
+.advEditList li:hover{list-style:none;padding:0;float:none;clear:both;height:25px;padding:2px 0 ;line-height:14px;clear:both;background:#eaeaea;}
+.advEditList h4{margin:0;padding:0;display:block;height:16px;width:16px;float:left;margin:4px 4px 0 8px;}
+.advEditList h4 img{width:16px;height:16px;}
+.advEditList h5{font-size:12px;margin:0;padding:0;font-weight:normal;float:left;clear:right;margin:5px 8px 0 0px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:280px;cursor:pointer;}
+.advEditList .urlText{display:none;}
+.advEditList a{color:#777;}
+	
+
+a.btnConfirm,a.btnConfirmHov,a.btnConfirmAct,a.btnConfirmOff{display:block;width:73px;height:28px;text-align:center;line-height:28px;background:url(newtab_btn2.gif) -73px 0 no-repeat;margin-left:10px;cursor:pointer;color:#ffffff;}
+a.btnConfirmHov{background:url(newtab_btn2.gif) -73px -28px  no-repeat;}
+a.btnConfirmAct{background:url(newtab_btn2.gif) -73px -56px  no-repeat;}
+a.btnConfirmOff{display:block;width:73px;height:28px;background:url(newtab_btn2.gif) -73px -84px no-repeat;cursor:auto;color:#fff5e5;}
+
+.btnLine{height:41px;text-align:right;padding:17px 28px 0px 0;*padding:17px 28px 0px 0;_padding:16px 35px 0px 0;border-top:1px solid #ddd;}
+a.btnCancle,a.btnCancleHov,a.btnCancleAct,a.btnCancleOff{display:block;width:73px;height:28px;text-align:center;line-height:28px;background:url(newtab_btn2.gif) 0 0 no-repeat;margin-left:10px;cursor:pointer;}
+a.btnCancleHov{background:url(newtab_btn2.gif) 0 -28px  no-repeat;}
+a.btnCancleAct{background:url(newtab_btn2.gif) 0 -56px  no-repeat;}
+a.btnCancleOff{display:block;width:73px;height:28px;background:url(newtab_btn2.gif) 0 -84px no-repeat;cursor:auto;}
+
+/*ad css */
+#bgwall{position:absolute;width:100%;z-index:-1000;top:0;left:0; overflow:hidden;}
+#bgwall img{max-width:2500px;max-height:2500px;}
+/*.bgwallLink1{position:absolute;width:100%;top:0;left:0; overflow:hidden;background:red; opacity:0.3;cursor:pointer}
+.bgwallLink2{position:absolute;width:100%;top:0;left:0; overflow:hidden;background:green; opacity:0.3;cursor:pointer}
+.bgwallLink3{position:absolute;width:100%;top:0;left:0; overflow:hidden;background:yellow; opacity:0.3;cursor:pointer}
+*/
+.bgwallLink1,.bgwallLink2,.bgwallLink3{position:absolute;width:100%;top:0;left:0; overflow:hidden;cursor:pointer}
+
+.floatBoxLB,.floatBoxLT,.floatBoxRB,.floatBoxRT{position:absolute;z-index:2000;}
+.floatBoxLB{left:0;bottom:0px;}
+.floatBoxLT{left:0;top:0px;}
+.floatBoxRB{right:0;bottom:0px;}
+.floatBoxRT{right:0;top:0px;}
+
+#floatBox{display:none;}
+#floatBox img{max-width:300px;max-height:300px;}
+
+.floatBoxBtn{text-align:center;position:absolute;z-index:2100;cursor:pointer;_left:0;background:url(blank.gif);}
+.floatBoxBtn img{}
+.hidead,.showad{position:absolute;right:20px;bottom:20px;cursor:pointer;z-index:2200;text-decoration:underline;color:#46494b;display:none;}
+hidead:hover,showad:hover{color:red;}
+
+</style>
+
+<!--[if IE 6]>
+		<script src="DD_png.js" mce_src="DD_png.js"></script>
+        <script type="text/javascript">
+DD_belatedPNG.fix('.delq,.newTab2Logo,.newTab2Input,.newTab2InputPop,.maskShadowTop,.maskShadowBottom,.maskShadow,.closePi,.closePiHov,.closePiAct');
+		</script>
+<![endif]-->
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="jquery-ui-1.10.3.custom.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(".bgwallLink1").hide();
+	$(".bgwallLink2").hide();
+	$(".bgwallLink3").hide();
+});
+</script>
+</head>
+
+<body>
+<div class="bgwallLink3" style="height:2000px;z-index:1;" ><div id="bgwall"></div></div>
+<div class="floatBoxRT" id="floatBox">
+	<img id="adimg" onload="fixPNG(this)" ondragstart="return false;"  />
+    <div id="floatBoxBtn" class="floatBoxBtn">
+		<div id="blankFloatBoxBtn" style=""></div>
+	</div>
+</div>
+<div class="hidead">隐藏推荐内容</div>
+<div class="showad">显示推荐内容</div>
+<div style="height:30px;"></div>
+<div id="topMargin"></div>
+
+<div class="mainwarp" style="z-index:2;position:relative;" id="searchFormDiv" >
+<form id="searchForm" action="http://www.baidu.com/s" method="get">
+<table align="center" style="width:100%;min-width:795px;padding:0 5.5%;_width:626px;margin:0;_margin:0 0 0 0px;" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+    <td style="position:relative;height:60px;">
+    <div style="margin:0 auto;width:616px;height:auto;position:relative;padding-left:15px;">
+        <div class="newTab2Logo"></div>
+    	<div class="newTab2Input" id="newTab2InputStat">
+        	<!--下拉状态为 class="newTab2InputPop"-->
+            <input id="searchText" name="wd" type="text"  class="searchBox2" value="" autocomplete="off" />
+    	</div>
+        <div class="promoteLink" id="promoteLink"></div>
+
+        <div class="newTab2Popdown" id="newTab2Popdown" style="display:none;">
+            <ul></ul>
+        </div>
+            <span id="searchBtn" class="newTabSearchBtn2"
+                   onMouseOver="this.className='newTabSearchBtn2Hov'"
+                   onMouseOut="this.className='newTabSearchBtn2'"
+                   onMouseDown="this.className='newTabSearchBtn2Act'"
+                   onMouseUp="this.className='newTabSearchBtn2Hov'">
+            </span>
+    		<input id="tn" name="tn" type="hidden" value=""/>
+    </div>
+    </td>
+    </tr>
+</table>
+</form>
+<div class="bgwallLink1" style="height:66px;width:2000px;z-index:-100;" ></div>
+
+</div>
+
+<div class="mainwarp" style="z-index:1;" id="piForm" >
+<div id="midMargin" style="_margin-top:-20px;margin-bottom:20px;_margin-bottom:0px;"></div>
+<div class="list9g">
+	<table align="center"  cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;width:90 %;*width:100%;min-width:790px;"><tr><td>
+	<ul>
+        <li>
+        	<a class="aPi" onfocus = this.blur()><img src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+        	<a class="aPi" onfocus = this.blur()><img  src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+       	<a class="aPi" onfocus = this.blur() ondragstart="return false"><img ondragstart="return false" src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+        	<a class="aPi" onfocus = this.blur() ondragstart="return false"><img ondragstart="return false" on src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+        	<a class="aPi" onfocus = this.blur() ondragstart="return false"><img ondragstart="return false" src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+        	<a class="aPi" onfocus = this.blur() ondragstart="return false"><img ondragstart="return false" src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+        	<a class="aPi" onfocus = this.blur() ondragstart="return false"><img ondragstart="return false" src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+        <li>
+        	<a class="aPi" onfocus = this.blur() ondragstart="return false"><img ondragstart="return false" src="newtab_init.png" width="100%"/>
+                <span class="closePi" style="display: none;"></span>
+                <span class="titlePi" style="display: none;"></span>
+            </a>
+        </li>
+    </ul>
+    </td></tr>
+    </table>
+	<div class="bgwallLink2" style="height:500px;width:2000px;z-index:-100;" ></div>
+
+</div>
+<script>
+	var x = $("#searchFormDiv").height();
+	var y = $("#piForm ul li").height() * 2;
+	var y1 = $("#piForm ul li").height();
+	var z = $(window).height() - y;
+	//alert($("#piForm").height());
+	$("#topMargin").height((z * 0.4) - 80);
+	$("#midMargin").height((y1 * 0.2));
+	$(window).resize(function(){
+		var x = $("#searchFormDiv").height();
+		var y = $("#piForm ul li").height() * 2;
+		var y1 = $("#piForm ul li").height();
+		var z = $(window).height() - y;
+		//alert($("#piForm").height());
+		$("#topMargin").height((z * 0.4) - 80);
+		$("#midMargin").height((y1 * 0.2));
+	});
+</script>
+
+</div><!--mainwarp-->
+<div id="editForm" class="topMask" style="display: none;">
+    <div style="width:100%;height:100px;" id="heightDiv" ></div><!--塞入控制弹出框距离顶部的div-->
+    <div class="maskShadowTop"></div>
+    <div class="maskShadow">
+        <!--/*<div class="maskColor"></div>*/-->
+        <div class="maskBlock">
+            <div class="maskTitle" style="position:relative;">
+                <span class="editBoxClose" id="editFormCloseBtn"><img src="newtab_close.png" /></span>
+                <h2>添加网站</h2>
+            </div>
+            <div class="clear"  style="height:15px;_height:1px;"></div>
+            <div class="editBox">
+                <h3>标题:&nbsp;</h3>
+                <input id="editFormTitleText" type="text" value=""/>
+                <div class="clear" style="height:15px;"></div>
+                <h3>URL:&nbsp;</h3>
+                <input id="editFormUrlText" type="text" value=""/>
+            </div>
+            <div class="clear"></div>
+             <div class="advEditTab">
+             		<div class="tab1 current" id="advEditTab1"><span>热门网站</span></div>
+            		<div class="tab2" id="advEditTab2"><span>最常访问</span></div>
+                  <div class="tab3" id="advEditTab3"><span>当前打开</span></div>					  
+            </div>
+            <div class="advEditList" id="advEditList1">
+            	<ul style="height:200px;overflow-x:hidden;" id="advEditListUl"></ul>
+            </div>
+            <div class="advEditList" id="advEditList2" style="display:none;">
+                <ul style="height:200px;overflow-x:hidden;"></ul>
+            </div>
+            <div class="advEditList" id="advEditList3" style="display:none;">
+                <ul  style="height:200px;overflow-x:hidden;overflow-y:auto;"></ul>
+            </div>
+            <div style="height:19px;width:100%;"></div>
+            <div class="btnLine">
+                <a id="editFormCancleBtn" class="btnCancle" style="float:right;">取消</a>
+                <a id="editFormConfirmBtn" class="btnConfirm" style="float:right;">确定</a>
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom"></div>
+    <div class="whiteMask"></div>
+    <!--透明遮罩需定义浏览器高度-->
+</div>
+	<script src="language_js.js"></script>
+    <script src="json2.js"></script>
+    <script src="newtab.class.js"></script>
+	<script src="newtab.js"></script>
+    <script src="histroy.class.js"></script>
+    <script src="histroy.js"></script>
+</body>
+</html>

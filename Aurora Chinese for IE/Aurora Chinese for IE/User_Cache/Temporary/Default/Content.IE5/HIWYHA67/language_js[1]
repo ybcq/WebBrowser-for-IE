@@ -1,0 +1,813 @@
+var requFlag = 0;
+$(document).ready(function(){
+	/**
+ * 点击清除此页记录
+ */
+/**
+ * 设置接口对象
+ */
+//var histroyObj = new histroy();
+//var settingObj = new setting();
+
+/**
+ * 当前选择日期
+ */
+//var currentDate = getTodayDate();
+
+/**
+ * 当前选择对象
+ */
+	var currentObj = $("#todayMenu");
+	
+	/**
+	 * 当前关键字
+	 */
+	var currentKeyWord = '';
+	
+	// 搜索建议参数
+var currentSu = -1;
+var suNum = 0;
+var selSu = 0;
+var isMidKey = 0;
+
+$("#clearCurrentPage").click(function(){
+	var msg = "";
+	if(currentKeyWord != ''){
+		msg = "Do you want to delete all search results?";
+	}else{
+		msg = "Do you want to delete all history in " + dateToCnDate(currentDate) + "?";
+	}
+	showCleanConfirmForm(msg);
+});
+
+//搜索代码开始
+/**
+ * 点击搜索按钮
+ */
+$("#searchBtn").click(function(){
+	var keyWord = $("#searchText").val();
+	keyWord = $.trim(keyWord);
+	if(keyWord != '' && keyWord != 'Search history'){
+		addSearchList(histroyObj, keyWord);
+		currentKeyWord = keyWord;
+		menuReset();
+	}
+	if(keyWord == ''){
+		$(currentObj).click();
+	}
+});
+
+/**
+ * 搜索框获得焦点
+ */
+$("#searchText").focus(function(){
+	var keyWord = $("#searchText").val();
+	keyWord = $.trim(keyWord);
+	if(keyWord == 'Search history'){
+		$("#searchText").attr("value", "");
+	}else{
+		$("#searchText").select();}
+});
+
+/**
+ * 搜索框失去焦点
+ */
+$("#searchText").blur(function(){
+	var keyWord = $("#searchText").val();
+	keyWord = $.trim(keyWord);
+	if(keyWord == ''){
+		$("#searchText").attr("value", "");
+	}
+});
+
+ /**
+     * 提交搜索
+     */
+    $("#searchForm").submit(function(){
+		var newtabObj = new newtab();							 
+        var kw = $.trim($("#searchText").val());
+        if(kw != ""){
+            //var tn = newtabObj.getTNSS();
+            var url = "http://www.google.com/search?q=" + encodeURIComponent(kw);
+			//添加搜索统计
+			newtabObj.StatAddValue("newtab",2);
+            newtabObj.navigate(url);
+        }
+        return false;
+    });
+
+    /**
+     * 点击搜索
+     */
+    $("#searchBtn").click(function(){
+		//var tn = newtabObj.getTNSS();
+		var url = "http://www.google.com/search?q=";
+		//console.log(url);
+		if($("#searchText").val() != ""){
+			$("#searchForm").submit();
+		}
+    });
+	
+	
+	$(window).bind('beforeunload',function(){
+	 	$("#searchText").val("");
+	});
+	
+	$('#searchText').focus(function (){
+        $("#searchFormDiv").css("z-index",3);
+		$("#piForm").css("z-index",1);
+    })
+			
+    /**
+     * 弹出建议点击搜索
+     */	
+	 $('#newTab2Popdown ul').on('click', 'li', function(){
+		 var kw = $(this).children("span").html();
+         $("#searchText").val(kw);
+		 $("#searchForm").submit();
+    });
+	
+	 /**
+     * 弹出建议框消失
+     */
+	$("html").click(function(){
+		$("#newTab2Popdown").hide();
+    });
+
+	$("#newTab2Popdown ul").on("mouseenter", 'li', function(){
+		currentSu = $(this).index();
+		$("#newTab2Popdown ul li").attr("class", "");
+        $(this).attr("class","popDownListHov");
+    	});
+		
+    $("#newTab2Popdown ul").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+		
+
+	/**
+	* 搜索建议
+	*/
+	$("#searchText").bind("propertychange", function() {
+		var isFocus=$("#searchText").is(":focus"); 
+		if(true==isFocus && $("#searchText").val() == ''){
+			requFlag = 0;
+			$("#newTab2Popdown").hide();
+			$("#newTab2Popdown ul").html('');
+		}else{
+			getSu($("#searchText").val());
+		}
+	});
+		
+	$("body").on("propertychange input", "#searchText", function () {
+		var isFocus=$("#searchText").is(":focus"); 
+		if(true==isFocus && $("#searchText").val() == ''){
+			requFlag = 0;
+			$("#newTab2Popdown").hide();
+			$("#newTab2Popdown ul").html('');
+		}else{
+			getSu($("#searchText").val());
+		}
+	});
+	
+	$("body").bind('keyup', function(e){
+		var isFocus=$("#searchText").is(":focus"); 
+		if(true==isFocus && $("#searchText").val() == ''){
+			requFlag = 0;
+			$("#newTab2Popdown").hide();
+			$("#newTab2Popdown ul").html('');
+		}else{
+			getSu($("#searchText").val());
+		}
+	});
+	
+});//end document.ready
+
+/**
+ * 点击鼠标手势数组
+ */
+var doarry = new Array("No Command","Page Up","Page Down","","","Previous  tab","Next tab","Back","Forward","Restore closed tab","Close current tab","Close all","Reload","Stop","New tab","Home page","Page Top","Page Bottom","View source","Full Screen","","","","Minimize","Maximize/Restore","Add to Favorites","","");
+ 
+ /**
+ * 重置关闭当前标签后，切换到状态
+ */
+function resetTabClosePolicy(settingObj)
+{
+    var value = settingObj.getTabClosePolicy();
+    if(value == "0"){
+        $("#tabClosePolicyText").html("&nbsp;&nbsp;Smart(Recommended)");
+    }
+    if(value == "1"){
+        $("#tabClosePolicyText").html("&nbsp;&nbsp;Tab to the left");
+    }
+    if(value == "2"){
+        $("#tabClosePolicyText").html("&nbsp;&nbsp;Tab to the right");
+    }
+}
+
+
+ /**
+ * 重置下载标签后，初始化显示
+ */
+function resetDownloadPolicy(settingObj)
+{		var dtool = settingObj.getDownloadPolicy();	
+		if(dtool == "0"){
+			$("#downloadPolicyText").html("&nbsp;&nbsp;Always ask me");
+		}
+		if(dtool == "16"){
+			$("#downloadPolicyText").html("&nbsp;&nbsp;Build-in Downloader");
+		}
+		if(dtool == "17"){
+			$("#downloadPolicyText").html("&nbsp;&nbsp;Thunder");
+		}
+		if(dtool == "18"){
+			$("#downloadPolicyText").html("&nbsp;&nbsp;Flashget");
+		}
+		if(dtool == "19"){
+			$("#downloadPolicyText").html("&nbsp;&nbsp;QQDownload");
+		}
+}
+
+/**
+ * 重置新打开的标签放在状态
+ */
+function resetNewTabAlignment(settingObj)
+{
+    var value = settingObj.getNewTabAlignment();
+    if(value == "-1"){
+        $("#newTabAtText").html("&nbsp;&nbsp;To the right of current tab");
+    }
+    if(value == "-3"){
+        $("#newTabAtText").html("&nbsp;&nbsp;To the right of all tabs");
+    }
+}
+
+
+/**
+ * 重置清除上网痕迹时间
+ */
+function resetCleanPrivacyTime(settingObj)
+{
+    var value = settingObj.getCleanPrivacyTime();
+    var text = "";
+    if(value == "0"){
+        text = "&nbsp;&nbsp;All";
+    }
+    if(value == "1"){
+        text = "&nbsp;&nbsp;the past hour";
+    }
+    if(value == "2"){
+        text = "&nbsp;&nbsp;the past day";
+    }
+    if(value == "3"){
+        text = "&nbsp;&nbsp;the past week";
+    }
+    if(value == "4"){
+        text = "&nbsp;&nbsp;the past month";
+    }
+    $("#cleanPrivacyTimeText").html(text);
+}
+
+/**
+ * 设置清除上网痕迹时间
+ */
+function setCleanPrivacyTime(settingObj)
+{
+    var text = $("#cleanPrivacyTimeText").html();
+    var value = "0";
+    if(text == '&nbsp;&nbsp;All'){
+        value = "0";
+    }
+    if(text == '&nbsp;&nbsp;the past hour'){
+        value = "1";
+    }
+    if(text == '&nbsp;&nbsp;the past day'){
+        value = "2";
+    }
+    if(text == '&nbsp;&nbsp;the past week'){
+        value = "3";
+    }
+    if(text == '&nbsp;&nbsp;the past month'){
+        value = "4";
+    }
+    settingObj.setCleanPrivacyTime(value);
+}
+
+/**
+ * 检测默认浏览器状态
+ */
+function checkDefBrowser(settingObj)
+{
+    var value = settingObj.checkBrowser();
+    if(value == "1"){
+        $("#defaultBrowT").html("Aurora is currently your default browser.");
+        $("#defaultBrow").hide();
+        $("#defaultBrowOff").show();
+        //showSuccessMessage();
+        clearInterval(checkDefBrowserTimer);
+    }
+}
+/**
+ * 重置默认浏览器状态
+ */
+function resetDefBrowser(settingObj)
+{
+    var value = settingObj.checkBrowser();
+    if(value == "1"){
+        $("#defaultBrowT").html("Aurora is currently your default browser.");
+        $("#defaultBrow").hide();
+        $("#defaultBrowOff").show();
+    }else{
+        //$("#defaultBrowT").html(defaultBrowT.html);
+        $("#defaultBrow").show();
+        $("#defaultBrowOff").hide();
+		//设置默认浏览器按钮状态
+		if(checkstr($("#defaultBrow").html()) >= 17){
+			$("#defaultBrow").on("mouseenter",function(){
+				checkDefBrowser();
+				$(this).attr("class", "btnSetDefault2Hov");
+				});
+			$("#defaultBrow").on("mouseleave",function(){
+				checkDefBrowser();
+				$(this).attr("class", "btnSetDefault2");
+				});
+			$("#defaultBrow").on("mousedown",function(){
+				$(this).attr("class", "btnSetDefault2Act");
+				});
+			$("#defaultBrow").on("mouseup",function(){
+				checkDefBrowser();
+				$(this).attr("class", "checkDefBrowser");
+				});
+		}else{
+			$("#defaultBrow").on("mouseenter",function(){
+				checkDefBrowser();
+				$(this).attr("class", "btnSetDefaultHov");
+				});
+			$("#defaultBrow").on("mouseleave",function(){
+				checkDefBrowser();
+				$(this).attr("class", "btnSetDefault");
+				});
+			$("#defaultBrow").on("mousedown",function(){
+				$(this).attr("class", "btnSetDefaultAct");
+				});
+			$("#defaultBrow").on("mouseup",function(){
+				checkDefBrowser();
+				$(this).attr("class", "checkDefBrowser");
+				});
+		}
+    }
+}
+
+/**
+ * 重置主页选择状态
+ */
+function currentHomePageSelectReset(settingObj)
+{
+    var value = settingObj.getCurSelHomePage();
+    var text = "";
+    var src = "";
+    if(value == "0"){
+        text = "New tab";
+        src = "faviconImg3";
+       // if(isIE6){
+//        	$("#setFaviconImg").css("background", "url(favicon1.gif)");
+//        }else{
+//            $("#setFaviconImg").css("background", "url(favicon1.png)");
+//        }
+    }
+    if(value == "1"){
+        text = "#settingText10#";
+        src = "faviconImg2";
+        $("#setFaviconImg").css("background", "url(favicon2.png)");
+    }
+    if(value == "2"){
+        text = "New tab";
+        src = "faviconImg3"
+        $("#setFaviconImg").css("background", "url(favicon3.png)");
+    }
+	if(value == "4"){
+        text = "Last Session";
+        src = "faviconImg4";
+        if(isIE6){
+        	$("#setFaviconImg").css("background", "url(favicon4.gif)");
+        }else{
+            $("#setFaviconImg").css("background", "url(favicon4.png)");
+        }     
+    }
+	
+    if(value == "3"){
+        var url = settingObj.getHomePage();
+        var urlList = url.split('\r\n');
+        url = urlList[0];
+		if(url.indexOf("http:\/\/") >= 0 || url.indexOf("https:\/\/") >= 0){
+			var urlLine = url.split('://');
+			url = urlLine[1];
+			var urlSite = url.split('/');
+			url = urlSite[0];
+			var text = filterUrl(url);
+				}else{
+					var text = filterUrl(url);
+			};
+        if(text.length > 13){
+            text = text.substring(0, 13) + "...";
+        }
+        homePageUserDefinedOptionReset(settingObj);
+        src = settingObj.getUrlIconPath(url);
+		
+        if(typeof(src) == "undefined"){
+            src = "faviconImg0"
+			$("#setFaviconImg").css("background", "url(favicon0.png)");
+        }else{
+        	$("#setFaviconImg").css("background", "url("+src+")");
+        	src = "faviconImg0";
+			
+        }
+    }
+	
+    $("#currentHomePageOptionText").html(text);
+	$("#setFaviconImg").attr("class",src);
+	
+}
+
+
+/**
+ * 设置成功提示
+ */
+function showSuccessMessage()
+{
+    $("#topMessage").stop();
+    $("#topMessage").hide();
+    var msg = arguments[0] ? arguments[0] : "Settings saved";
+    $(".savedTip").html(msg);
+    $("#topMessage").show(1).delay(3000).hide(1);
+}
+
+/**
+ * 正在清除提示
+ */
+function showCleanningMessage()
+{
+    $("#topMessage").stop();
+    $("#topMessage").hide();
+    var msg = arguments[0] ? arguments[0] : "Clearing";
+    $(".savedTip").html(msg);
+    $("#topMessage").show(1).delay(3000).hide(1);
+}
+
+/**
+ * 清楚完毕提示
+ */
+function showCleanedMessage()
+{
+    $("#topMessage").stop();
+    $("#topMessage").hide();
+    var msg = arguments[0] ? arguments[0] : "Cleared";
+    $(".savedTip").html(msg);
+    $("#topMessage").show(1).delay(3000).hide(1);
+}
+
+	/**
+	* 老板键选项显示
+	*/
+function displayBossKeyOption(bossKeyType){
+	var html = bossKeyType;
+	if(bossKeyType == "") {
+		html = "Disable";
+		bossKeyMidKeyTipHide();
+	}else{
+		bossKeyMidKeyTipShow();
+	}
+	if(bossKeyType == "Ctrl+`"){
+		html = "Ctrl+~";
+	}
+	if(bossKeyType == "Alt+`"){
+		html = "Alt+~";
+	}
+	if(bossKeyType == "userCustom"){
+		html = "Customize...";
+	}
+	
+	$("#bossKeyDrawDownCurrentOption").html(html);
+}
+
+/**
+ * 鼠标手势动作列表
+ */
+function MouseGestureListAdd(){
+	
+	$(".MouseGestureActList").html("<li doid='0'><span class='faviconText'>No Command</span></li><li doid='7'><span class='faviconText'>Back</span></li><li doid='8'><span class='faviconText'>Forward</span></li><li doid='13'><span class='faviconText'>Stop</span></li><li doid='12'><span class='fav-iconText'>Reload</span></li><li doid='1'><span class='faviconText'>Page Up</span></li><li doid='2'><span class='faviconText'>Page Down</span></li><li doid='16'><span class='faviconText'>Page Top</span></li><li doid='17'><span class='faviconText'>Page Bottom</span></li>	<li doid='5'><span class='faviconText'>Previous  tab</span></li><li doid='6'><span class='faviconText'>Next tab</span></li><li doid='9'><span class='faviconText'>Restore closed tab</span></li><li doid='10'><span class='faviconText'>Close current tab</span></li><li doid='11'><span class='faviconText'>Close all</span></li><li doid='14'><span class='faviconText'>New tab</span></li><li doid='15'><span class='faviconText'>Home page</span></li>	<li doid='18'><span class='faviconText'>View source</span></li><li doid='19'><span class='faviconText'>Full Screen</span></li><li doid='23'><span class='faviconText'>Minimize</span></li><li doid='24'><span class='faviconText'>Maximize/Restore</span></li><li doid='25'><span class='faviconText'>Add to Favorites</span></li>");
+	
+	$(".MouseGestureDefine").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+	$(".MouseGestureDefine").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	}
+	
+
+/**
+ * 添加历史记录列表
+ */
+function addHistroyList(histroyObj, date)
+{
+    var isIE=!!window.ActiveXObject;
+    var isIE6=isIE&&!window.XMLHttpRequest;
+    if(isIE6){
+        var closeStyle = "";
+    }else{
+        var closeStyle = "display: none;";
+    }
+    var data = histroyObj.getHistoryByDate(date);
+    var histroyList = data.split('\r\n');
+    var histroyHtml = "";
+    for(var i = 0; i < histroyList.length; i++){
+        if(histroyList[i] != ""){
+            var row = histroyList[i].split('\t\n');
+            var src = histroyObj.getUrlIconPath(row[2]);
+            if(typeof(src) == "undefined"){
+                src = "favicon0.png"
+            }
+            histroyHtml = histroyHtml + '<li hid="' + row[0] + '" timeStamp="' + row[3] + '"><h3><a href="#"  onfocus="this.blur();" style="' + closeStyle + '"><img src="close2.png"  alt="Delete"/></a></h3><h4><img src="' + src + '" /></h4><h5><a href="' + filterUrl(row[2]) + '" target="_blank">' + filterStr(row[1]) + '</a></h5><h6>' + timeStampToTime(row[3]) + '</h6></li>';
+        }
+    }
+    $("#histroyList").html(histroyHtml);
+    addDateWeek(date);
+}
+
+/**
+ * 添加搜索列表
+ */
+function addSearchList(histroyObj, keyWord)
+{
+    var isIE=!!window.ActiveXObject;
+    var isIE6=isIE&&!window.XMLHttpRequest;
+    if(isIE6){
+        var closeStyle = "";
+    }else{
+        var closeStyle = "display: none;";
+    }
+    var data = histroyObj.searchHistory(keyWord);
+    var histroyList = data.split('\r\n');
+    var histroyHtml = "";
+    for(var i = 0; i < histroyList.length; i++){
+        if(histroyList[i] != ""){
+            var row = histroyList[i].split('\t\n');
+            var src = histroyObj.getUrlIconPath(row[2]);
+            if(typeof(src) == "undefined"){
+                src = "favicon0.png"
+            }
+            histroyHtml = histroyHtml + '<li hid="' + row[0] + '" timeStamp="' + row[3] + '"><h3><a href="#" style="' + closeStyle + '"><img src="close2.png"  alt="Delete"/></a></h3><h4><img src="' + src + '" /></h4><h5><a href="' + filterUrl(row[2]) + '" target="_blank">' + filterStr(row[1]) + '</a></h5><h6>' + timeStampToTime(row[3], 1) + '</h6></li>';
+        }
+    }
+    $("#histroyList").html(histroyHtml);
+    var maxTip = "";
+    if(histroyList.length >= 100){
+        maxTip = "（The most recent 100）";
+    }
+    $("#dateWeek").html('“' + keyWord + '” ' + maxTip);
+}
+
+/**
+ * 日期转换中文日期
+ */
+ 
+function dateToCnDateCn(dStr)
+{
+    dStr = dStr.replace(/-/g,'/');
+    var date = new Date(dStr);
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr = (m < 10 ? "0" + m : m) + " - " + (d < 10 ? "0"+ d : d) + " - ";
+    return dateStr;
+}
+
+function addDateWeekCn(dstr)
+{
+    var dtstr = dstr.replace(/-/g,'/')
+    var date = new Date(dtstr);
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr = (m < 10 ? "0" + m : m) + " - " + (d < 10 ? "0"+ d : d) + " - ";
+    var weekStr = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[date.getDay()];
+    $("#dateWeek").html(dateStr + "-" + weekStr);
+}
+
+
+
+/**
+ * 日期转换英文日期
+ */
+function dateToCnDate(dStr)
+{
+    dStr = dStr.replace(/-/g,'/');
+    var date = new Date(dStr);
+	var y = date.getYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr =y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0"+ d : d);
+    return dateStr;
+}
+
+function addDateWeek(dstr)
+{
+    var dtstr = dstr.replace(/-/g,'/')
+    var date = new Date(dtstr);
+	var y = date.getYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr = y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0"+ d : d);
+    var weekStr = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[date.getDay()];
+    $("#dateWeek").html(dateStr + " " + weekStr);
+}
+
+
+//新标签页语言文本
+
+var newtabtext1 = "Click to add a site";
+var newtabtext2 = "Show thumbnails after visit";
+var newtabtext3 = "Click to add a site";
+
+//预置热门网址列表		
+
+function fillAdvEditList1(){
+        var hotData ="<li><h4><img src='http://www.aurorabrowser.com/icons/google.ico'></h4><h5><span class='titleText'>Google</span><span class='urlText'>http://www.google.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/facebook.ico'></h4><h5><span class='titleText'>Facebook</span><span class='urlText'>http://www.facebook.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/youtube.ico'></h4><h5><span class='titleText'>Youtube</span><span class='urlText'>http://www.youtube.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/yahoo.ico'></h4><h5><span class='titleText'>Yahoo</span><span class='urlText'>http://www.yahoo.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/twitter.ico'></h4><h5><span class='titleText'>Twitter</span><span class='urlText'>http://www.twitter.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/linkedin.ico'></h4><h5><span class='titleText'>Linkedin</span><span class='urlText'>http://www.linkedin.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/amazon.ico'></h4><h5><span class='titleText'>Amazon</span><span class='urlText'>http://www.amazon.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/ebay.ico'></h4><h5><span class='titleText'>Ebay</span><span class='urlText'>http://www.ebay.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/espn.ico'></h4><h5><span class='titleText'>Espn</span><span class='urlText'>http://espn.go.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/wikipedia.ico'></h4><h5><span class='titleText'>Wikipedia</span><span class='urlText'>http://www.wikipedia.org/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/ask.ico'></h4><h5><span class='titleText'>ask.fm</span><span class='urlText'>http://ask.fm/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/instagram.ico'></h4><h5><span class='titleText'>Instagram</span><span class='urlText'>http://instagram.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/microsoft.ico'></h4><h5><span class='titleText'>Microsoft</span><span class='urlText'>http://www.microsoft.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/cnn.ico'></h4><h5><span class='titleText'>CNN</span><span class='urlText'>http://www.cnn.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/craigslist.ico'></h4><h5><span class='titleText'>craigslist</span><span class='urlText'>http://www.craigslist.org/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/live.ico'></h4><h5><span class='titleText'>Live</span><span class='urlText'>http://www.live.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/pinterest.ico'></h4><h5><span class='titleText'>Pinterest</span><span class='urlText'>http://www.pinterest.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/netflix.ico'></h4><h5><span class='titleText'>Netflix</span><span class='urlText'>http://www.netflix.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/walmart.ico'></h4><h5><span class='titleText'>Walmart</span><span class='urlText'>http://www.walmart.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/bing.ico'></h4><h5><span class='titleText'>bing</span><span class='urlText'>http://www.bing.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/msn.ico'></h4><h5><span class='titleText'>MSN</span><span class='urlText'>http://www.msn.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/tumblr.ico'></h4><h5><span class='titleText'>Tumblr</span><span class='urlText'>http://www.tumblr.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/paypal.ico'></h4><h5><span class='titleText'>Paypal</span><span class='urlText'>http://www.paypal.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/gmail.com.ico'></h4><h5><span class='titleText'>Gmail</span><span class='urlText'>http://mail.google.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/weather.ico'></h4><h5><span class='titleText'>Weather</span><span class='urlText'>http://www.weather.com/</span></h5></li><li><h4><img src='http://www.aurorabrowser.com/icons/flickr.ico'></h4><h5><span class='titleText'>Flickr</span><span class='urlText'>http://www.flickr.com/</span></h5></li>";
+$("#advEditListUl").html("");
+$("#advEditListUl").html(hotData);
+$("#advEditListUl").width(344);	/*IE6下锁定宽度*/
+$("#advEditListUl").height(200);
+}
+
+/**
+ * 其他事件绑定
+ */
+function otherEventBind(newtabObj){
+	/**
+	 * 点击关闭按钮
+	 */
+	$("#editFormCloseBtn").click(function(){
+		
+		$("#editForm").hide();
+		emptyAdvEditList1();
+		$("#advEditTab1").addClass("current");
+		$("#advEditTab2").removeClass("current");
+		$("#advEditTab3").removeClass("current");
+		$("#advEditList1").show();
+		$("#advEditList2").hide();
+		$("#advEditList3").hide();
+	});
+
+	/**
+	 * 点击取消按钮
+	 */
+	$("#editFormCancleBtn").click(function(){
+		$("#editForm").hide();
+		emptyAdvEditList1();
+	});
+	/**
+	 * 点击确认按钮
+	 */
+	$("#editFormConfirmBtn").click(function(){
+		var url = $.trim($("#editFormUrlText").val());
+		var title = $.trim($("#editFormTitleText").val());
+		if(url != ""){
+			var tver = newtabObj.modifyNewTabItem(editId, url, title);
+			if(tver > 0) ver = tver;
+			// 重置数据
+			setBoxData(newtabObj);
+		}
+		$("#editForm").hide();
+		emptyAdvEditList1();
+		$("#advEditList3").hide();
+		$("#advEditList2").hide();
+		$("#advEditList1").show();
+		$("#advEditTab3").removeClass("current");
+		$("#advEditTab2").removeClass("current");
+		$("#advEditTab1").addClass("current");
+	});
+	
+    /**
+     * 宫格鼠标事件
+     */
+    $(".list9g ul li").bind("mouseenter",function(){
+        if(!isIE6)
+            $(this).attr("class", "liHov");
+        if($(this).children("a").children("img").attr("src").indexOf("newtab_blankAdd.png") < 0){
+            $(this).children(".aPi").find("span").eq(0).show();
+            if($(this).attr("def") != 1)
+                $(this).children(".aPi").children(".titlePi").show();
+        }
+    });
+    $(".list9g ul li").bind("mouseleave",function(){
+        if(!isIE6)
+            $(this).attr("class", "liNom");
+        $(this).children(".aPi").find("span").eq(0).hide();
+        $(this).children(".aPi").children(".titlePi").hide();
+    });
+    $(".list9g ul li").bind("mousedown",function(){
+        if(!isIE6)
+            $(this).attr("class", "liAct");
+    });
+
+    /**
+     * 键盘事件
+     */
+    $("#editForm").bind('keydown', function(e){
+        var key = e.which;
+        if(key == 13){
+            $("#editFormConfirmBtn").click();
+        }
+        if(key == 27){
+            $("#editFormCloseBtn").click();
+        }
+    });
+	
+	/**
+	* 键盘箭头选择
+	*/
+	$("body").bind('keydown', function(e){
+        var key = e.which;
+		if($("#newTab2Popdown").css("display") != "none"){
+			if(key == 38){
+				selSu = 1;
+				currentSu--;
+				if(currentSu < 0)currentSu=suNum-1;
+				$("#newTab2Popdown ul li").attr("class","");
+				$("#newTab2Popdown ul").find("li").eq(currentSu).attr("class","popDownListHov");
+				var kw =$("#newTab2Popdown ul").find("li").eq(currentSu).children("span").html();
+				$("#searchText").val(kw);
+			}
+			if(key == 40){
+				selSu =1;
+				currentSu++;
+				if(currentSu > (suNum-1))currentSu=0;
+				$("#newTab2Popdown ul li").attr("class","");
+				$("#newTab2Popdown ul").find("li").eq(currentSu).attr("class","popDownListHov");
+				var kw =$("#newTab2Popdown ul").find("li").eq(currentSu).children("span").html();
+				$("#searchText").val(kw);
+			}
+		}
+		var isFocus=$("#searchText").is(":focus"); 
+		if(true==isFocus){
+			if(key == 13){
+			//var tn = newtabObj.getTNSS();
+			var url = "http://www.google.com/search?q=";
+			if($("#searchText").val() == ""){
+			newtabObj.navigate(url);
+			}else{
+			$("#searchForm").submit();
+				}
+				 return false;
+			}
+		}
+    });
+}
+
+/**
+* 弹出搜索建议JSON
+*/
+
+function getSu(kw){
+//	console.log("a:" + requFlag);
+	if(requFlag == 0){
+		requFlag = 1;
+		$.ajax({
+			type : "get",
+			async : false,
+			url : "http://suggestqueries.google.com/complete/search?",
+			data:{q:kw,client:"firefox",hl:"us"},
+			cache : false, 
+			dataType : "jsonp",
+			jsonpCallback:"setSu",
+			success : function(json){  
+			},
+			error:function(){
+				requFlag = 0;
+			}
+		});
+	}
+}
+
+function setSu(json){	
+	requFlag = 0;
+	var suggLinkLiHtml = "";
+	if(typeof(json) == "undefined"){
+		$("#newTab2Popdown").hide();
+		} else{
+			$("#newTab2Popdown").show();
+		}
+	var suN = 0;
+	//var w = json.split(",");
+	for(i = 0; i<10 ; i++){
+		
+		if(typeof(json[1][i]) == "undefined"){
+			continue;
+		}
+		suggLinkLiHtml += "<li><span class='sugg'>" + json[1][i] + "</span></li>";
+		suN++;
+	}
+	currentSu = -1;
+	suNum = suN;
+	$("#newTab2Popdown ul").html(suggLinkLiHtml);	
+}
+

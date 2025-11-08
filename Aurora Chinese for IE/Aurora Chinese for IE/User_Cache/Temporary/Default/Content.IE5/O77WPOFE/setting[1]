@@ -1,0 +1,3122 @@
+/**
+ * 置项主流程
+ */
+$(document).ready(function(){
+		
+    /**
+     * 设置接口对象
+     */
+    /**
+     * 初始化设置选项
+     */
+	var settingObj = new setting();
+
+	initSetting(settingObj);
+
+    /**
+     * 点击导航单选按钮
+     */
+    $("#hao123CheckRadio").parent("li").click(function(){
+        if($("#hao123CheckRadio").attr("class") != "checkRadio_act"){
+            settingObj.setStartPageType("0");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+    });
+
+    /**
+     * 点击上次关闭时浏览的网页单选按钮
+     */
+    $("#lastCloseCheckRadio").parent("li").click(function(){
+        if($("#lastCloseCheckRadio").attr("class") != "checkRadio_act"){
+            settingObj.setStartPageType("1");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+    });
+
+    /**
+     * 点击主页单选按钮
+     */
+    $("#homePageCheckRadio").parent("li").click(function(){
+        if($("#homePageCheckRadio").attr("class") != "checkRadio_act"){
+            settingObj.setStartPageType("2");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+    });
+
+    /**
+     * 点击主页单下拉列表
+     */
+    $("#homePageDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("homePageDrawDownList");
+        $("#homePageDrawDownList").toggle();
+    });
+
+    /**
+     * 选择主页下拉列表选项
+     */
+    $("#homePageDrawDownList").delegate("li","click",function(){
+        var optionID = $(this).attr("id");
+        if(optionID == "hao123Option"){
+            settingObj.setStartPageType("2");
+            settingObj.setCurSelHomePage("0");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "baiduOption"){
+            settingObj.setStartPageType("2");
+            settingObj.setCurSelHomePage("1");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "newPageOption"){
+            settingObj.setStartPageType("2");
+            settingObj.setCurSelHomePage("2");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "homePageUserDefinedOption"){
+            settingObj.setStartPageType("2");
+            settingObj.setCurSelHomePage("3");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+		if(optionID == "lastOpenPageOption"){
+            settingObj.setStartPageType("2");
+            settingObj.setCurSelHomePage("4");
+            resetStartPageType(settingObj);
+            showSuccessMessage();
+        }
+		if(optionID == "userDefinedOption"){
+            showUserDefinedHomePageForm(settingObj);
+        }
+    });
+	
+	/**
+	 *下拉选单滑过效果合集
+	 */
+
+	//左侧选单
+	$(".leftList ul").on("mouseenter", 'li', function(){
+		if($(this).hasClass("current")){
+			$(this).attr("class", "current");
+		}else{
+			$(this).attr("class", "leftLiHov");
+			}
+    	});
+    $(".leftList ul").on("mouseleave", 'li', function(){
+        if($(this).hasClass("current")){
+			 $(this).attr("class", "current");
+			}
+		if($(this).hasClass("leftLiHov")){
+			 $(this).attr("class", "");
+			}
+    	});
+
+	//首页选择
+	$("#homePageDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#homePageDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	//老板键
+	$("#bossKeyDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#bossKeyDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	//语言选择
+	$("#languageDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#languageDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	//新标签页	
+	$("#newTabAtDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#newTabAtDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	//标签页关闭
+	$("#tabClosePolicyDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#tabClosePolicyDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	//下载选项	
+	$("#downloadAtDrawDownList").on("mouseenter", 'li', function(){
+		if($(this).hasClass("fontGray")){
+			return;
+			}else{
+				$(this).attr("class", "liHov");
+			}
+    	});
+    $("#downloadAtDrawDownList").on("mouseleave", 'li', function(){
+		if($(this).hasClass("fontGray")){
+			return;
+			}else{
+				$(this).attr("class", "");
+			}
+    	});
+	//清除缓存
+	$("#cleanPrivacyTimeDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#cleanPrivacyTimeDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});
+	//购物助手
+	$("#shoppingHelperDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#shoppingHelperDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});  
+	//翻译选择
+	$("#translateHelperDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+    	});
+    $("#translateHelperDrawDownList").on("mouseleave", 'li', function(){
+        $(this).attr("class", "");
+    	});  
+    /**
+     * 老板键下拉列表选项
+     */
+    $("#bossKeyDrawDownList").delegate("li","click",function(){
+		var bossKey = settingObj.getBossKey();
+        var data = $(this).children("span").attr("data");
+        settingObj.setBossKey(data);
+		checkBossKeyCustomStatus(settingObj,bossKey);
+    });
+	
+	/**
+	* 老板键鼠标中键
+	*/
+
+    $("#bossKeyMidKey").parent("li").click(function(){
+        var value = settingObj.getBossKeyMidKey();
+        if(value == 1){
+            settingObj.setBossKeyMidKey("0");
+        }else{
+            settingObj.setBossKeyMidKey("1");
+        }
+        resetBossKeyMidKey(settingObj);
+        showSuccessMessage();
+    });
+	/**
+     * 语言选择下拉列表选项
+     */
+	var cl = settingObj.getProcessLanguage();
+    $("#languageDrawDownList").delegate("li","click",function(){
+		var lan = $(this).children("span").attr("lang");
+        changeLanguage(settingObj)
+		if(lan == cl){
+			$("#languageTip").hide();
+		}else{
+			$("#languageTip").show();
+			showSuccessMessage();
+		}
+		
+    });
+    /**
+     * 点击用户自定义首页关闭按钮
+     */
+    $("#userDefinedHomePageFormClose").click(function(){
+        hideUserDefinedHomePageForm();
+    });
+
+    /**
+     * 点击用户自定义首页完成按钮
+     */
+    $("#userDefinedHomePageFormConfirm").click(function(){
+        var value = $("#userDefinedHomePageFormText").text();
+		value = value.replace(/\r/g,"\r\n");
+		settingObj.setStartPageType("2");
+        settingObj.setCurSelHomePage("3");
+        settingObj.setHomePage(value);
+        resetStartPageType(settingObj);
+        hideUserDefinedHomePageForm();
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击用户自定义首页取消按钮
+     */
+    $("#userDefinedHomePageFormCancel").click(function(){
+        hideUserDefinedHomePageForm();
+    });
+
+    /**
+     * 默认浏览器
+     */
+
+    /**
+     * 点击设为默认浏览器按钮
+     */
+    $("#defaultBrow").click(function(){
+        if($("#defaultBrowOff").is(":hidden")){
+            settingObj.setDefBrowser();
+            clearInterval(checkDefBrowserTimer);
+            checkDefBrowserTimer = setInterval(function(){
+                checkDefBrowser(settingObj);
+            },500);
+        }
+    });
+
+    /**
+     * 广告过滤
+     */
+
+    /**
+     * 点击不过滤广告单选按钮
+     */
+    $("#noADFilterCheckRadio").parent("li").click(function(){
+        if($("#noADFilterCheckRadio").attr("class") != "checkRadio_act"){
+            settingObj.setADFilterClass("0");
+            resetADFilterClass(settingObj);
+            showSuccessMessage();
+        }
+    });
+
+    /**
+     * 点击仅拦截自动弹出广告单选按钮
+     */
+    $("#aotoADFilterCheckRadio").parent("li").click(function(){
+        if($("#aotoADFilterCheckRadio").attr("class") != "checkRadio_act"){
+            settingObj.setADFilterClass("1");
+            resetADFilterClass(settingObj);
+            showSuccessMessage();
+        }
+    });
+
+    /**
+     * 点击拦截自动弹出的网页和浮动广告单选按钮
+     */
+    $("#aotoAndFloatADFilterCheckRadio").parent("li").click(function(){
+        if($("#aotoAndFloatADFilterCheckRadio").attr("class") != "checkRadio_act"){
+            settingObj.setADFilterClass("2");
+            resetADFilterClass(settingObj);
+            showSuccessMessage();
+        }
+    });
+
+    /**
+     * 点击拦截自动弹出广告复选按钮
+     */
+    $("#winBlockCheckBox").parent("li").click(function(){
+        if($("#winBlockCheckBox").attr("class") != "checkBox_act"){
+            settingObj.setWinBlock("1");
+        }else{
+            settingObj.setWinBlock("0");
+        }
+        resetWinBlock(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击拦截页面广告复选按钮
+     */
+    $("#adBlockCheckBox").parent("li").click(function(){
+        if($("#adBlockCheckBox").attr("class") != "checkBox_act"){
+            settingObj.setAdBlock("1");
+        }else{
+            settingObj.setAdBlock("0");
+        }
+        resetAdBlock(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击管理不过滤的网站按钮
+     */
+    $("#manageNoADFilterBtn").click(function(){
+        showManageNoADFilterForm(settingObj);
+    });
+
+    /**
+     * 点击管理不过滤的网站窗口确定按钮
+     */
+    $("#manageNoADFilterConfirmBtn").click(function(){
+        hideManageNoADFilterForm();
+    });
+
+    /**
+     * 点击管理不过滤的网站窗口取消按钮
+     */
+    $("#manageNoADFilterCancleBtn").click(function(){
+        hideManageNoADFilterForm();
+    });
+
+    /**
+     * 点击管理不过滤的网站窗口关闭按钮
+     */
+    $("#manageNoADFilterCloseBtn").click(function(){
+        hideManageNoADFilterForm();
+    });
+
+    /**
+     * 点击删除不过滤的网站按钮
+     */
+    $('#manageNoADFilterList').on('click', '.delNoADFilterItem', function(){
+		var site = $(this).parent('span').parent('li').children('h4').html();
+       // alert(site);
+		settingObj.delWinBlockItem(site);
+        $(this).parent('span').parent('li').hide();
+    });
+	
+	/**
+     * 点击保存密码复选按钮
+     */
+    $("#passwordSaveCheckBox").parent("p").click(function(){
+        if($("#passwordSaveCheckBox").attr("class") != "checkBox_act"){
+			settingObj.setLoginAssis("1");
+        }else{
+            settingObj.setLoginAssis("0");
+        }
+        resetPasswordSave(settingObj)
+        showSuccessMessage();
+    });
+	/**
+	 * 点击已保存密码网站管理窗口
+	 */
+    $("#managePasswordSaveBtn").click(function(){
+		resetPasswordSaveFormHeight();
+        showManagePasswordSaveForm(settingObj);
+    });
+	/**
+	 * 点击已保存密码网站管理窗口
+	 */
+    $("#managePasswordNoSaveBtn").click(function(){
+		resetPasswordNoSaveFormHeight();
+        showManagePasswordNoSaveForm(settingObj);
+    });
+	
+    /**
+     * 点击buscape shopping helper checkbox
+     */
+    $("#shoppingHelperCheckBox").parent("p").click(function(){
+        if($("#shoppingHelperCheckBox").attr("class") != "checkBox_act"){
+            settingObj.setShopHelperSetting("1");
+        }else{
+            settingObj.setShopHelperSetting("0");
+        }
+        resetShoppingHelper(settingObj)
+        showSuccessMessage();
+    });
+	/**
+     * 点击aurora translate helper checkbox
+     */
+    $("#translateHelperCheckBox").parent("p").click(function(){
+        if($("#translateHelperCheckBox").attr("class") != "checkBox_act"){
+            settingObj.setTranslateHelperMode("1");
+        }else{
+            settingObj.setTranslateHelperMode("0");
+        }
+        resetTranslateHelper(settingObj)
+        showSuccessMessage();
+    });
+    
+    /**
+     * 关闭浏览器时
+     */
+
+    /**
+     * 点击若有多个标签则询问是否要关闭浏览器复选按钮
+     */
+    $("#multiTabAskCloseCheckBox").parent("li").click(function(){
+        var value = settingObj.getCloseMultiTabTip();
+        if(value == 1){
+            settingObj.setCloseMultiTabTip("0");
+        }else{
+            settingObj.setCloseMultiTabTip("1");
+        }
+        resetConfirmCloseAll(settingObj);
+        showSuccessMessage();
+    });
+	
+    /**
+     * 点击选用桔子下载时保存复选按钮
+     */
+    $("#askDownloadSaveLocation").parent("li").click(function(){
+        var value = settingObj.getAskSaveLocation();
+        if(value == 1){
+            value == 0
+	    settingObj.setAskSaveLocation("0");
+        }else{
+		value == 1
+		settingObj.setAskSaveLocation("1");
+        }
+        resetDownloadSaveLocation(settingObj);
+        showSuccessMessage();
+    });
+	
+	/**
+     * 点击选用桔子下载时显示列表复选按钮
+     */
+    $("#showDownloadListWindow").parent("li").click(function(){
+        var value = settingObj.getShowDownlistWnd();
+        if(value == 1){
+            value == 0
+	    	settingObj.setShowDownlistWnd("0");
+        }else{
+			value == 1
+ 	        settingObj.setShowDownlistWnd("1");
+        }
+        resetDownloadListWindow(settingObj);
+        showSuccessMessage();
+    });
+	
+	
+	/**
+     * 点击老板键下拉列表
+     */
+    $("#bossKeyDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("bossKeyDrawDownList");
+        $("#bossKeyDrawDownList").toggle();
+    });
+	
+	/**
+     * 点击语言选择下拉列表
+     */
+    $("#languageDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("languageDrawDownList");
+        $("#languageDrawDownList").toggle();
+    });
+	
+    /**
+     * 鼠标手势
+     */
+
+    /**
+     * 使用鼠标手势
+     */
+
+    /**
+     * 点击开启鼠标手势复选按钮
+     */
+    $("#mouseGestureCheckBox").parent("p").click(function(){
+        var value = settingObj.getMouseGesture();
+        if(value == 1){
+            settingObj.setMouseGesture("0");
+        }else{
+            settingObj.setMouseGesture("1");
+        }
+        resetMouseGesture(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 左侧菜单
+     */
+
+    /**
+     * 点击基本设置菜单
+     */
+    $("#baseSettingMenu").click(function(){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("baseSettingMenu");
+        setCurrentSettingMain("baseSetting");
+        resetRightOptionSize();
+		MouseGestureListClean();
+    });
+
+    /**
+     * 点击上网痕迹菜单
+     */
+    $("#internetTracesMenu").click(function(){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("internetTracesMenu");
+        setCurrentSettingMain("internetTraces");
+        resetRightOptionSize();
+		 MouseGestureListClean();
+    });
+
+    /**
+     * 点击标签设置菜单
+     */
+    $("#tabSettingMenu").click(function(){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("tabSettingMenu");
+        setCurrentSettingMain("tabSetting");
+        resetRightOptionSize();
+		MouseGestureListClean();
+    });
+	
+	 /**
+     * 点击下载设置菜单
+     */
+    $("#downloadSettingMenu").click(function(){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("downloadSettingMenu");
+        setCurrentSettingMain("downloadSetting");
+        resetRightOptionSize();
+		MouseGestureListClean();
+    });
+
+    /**
+     * 点击鼠标手势菜单
+     */
+    $("#mouseHandMenu").click(function(){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("mouseHandMenu");
+        setCurrentSettingMain("mouseHand");
+        resetRightOptionSize();
+		intiMouseGestureNum(settingObj);
+    });
+	
+    /**
+     * 点击更多设置菜单
+     */
+    $("#moreMenu").click(function(){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("moreMenu");
+        setCurrentSettingMain("moreSetting");
+        resetRightOptionSize();
+		MouseGestureListClean();
+	//intiMouseGestureNum(settingObj);
+    });
+
+    /**
+     * 上网痕迹
+     */
+
+    /**
+     * 清除上网痕迹
+     */
+
+    /**
+     * 点击清除网页浏览记录复选按钮
+     */
+    $("#cleanPrivacyCheckBox2").parent("li").click(function(){
+        var classname = $("#cleanPrivacyCheckBox2").attr("class");
+        if(classname == "checkBox_act"){
+            resetCleanPrivacyCheckBox("2");
+        }else{
+            setCleanPrivacyCheckBox("2");
+        }
+        setCleanPrivacyOption(settingObj);
+        resetCleanPrivacyOption(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击清除保存的网页表单数据复选按钮
+     */
+    $("#cleanPrivacyCheckBox16").parent("li").click(function(){
+        var classname = $("#cleanPrivacyCheckBox16").attr("class");
+        if(classname == "checkBox_act"){
+            resetCleanPrivacyCheckBox("16");
+        }else{
+            setCleanPrivacyCheckBox("16");
+        }
+        setCleanPrivacyOption(settingObj);
+        resetCleanPrivacyOption(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击清除地址栏下拉列表复选按钮
+     */
+    $("#cleanPrivacyCheckBox8").parent("li").click(function(){
+        var classname = $("#cleanPrivacyCheckBox8").attr("class");
+        if(classname == "checkBox_act"){
+            resetCleanPrivacyCheckBox("8");
+        }else{
+            setCleanPrivacyCheckBox("8");
+        }
+        setCleanPrivacyOption(settingObj);
+        resetCleanPrivacyOption(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击清除缓存的临时文件复选按钮
+     */
+    $("#cleanPrivacyCheckBox1").parent("li").click(function(){
+        var classname = $("#cleanPrivacyCheckBox1").attr("class");
+        if(classname == "checkBox_act"){
+            resetCleanPrivacyCheckBox("1");
+        }else{
+            setCleanPrivacyCheckBox("1");
+        }
+        setCleanPrivacyOption(settingObj);
+        resetCleanPrivacyOption(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击清除Cookie等网站数据复选按钮
+     */
+    $("#cleanPrivacyCheckBox4").parent("li").click(function(){
+        var classname = $("#cleanPrivacyCheckBox4").attr("class");
+        if(classname == "checkBox_act"){
+            resetCleanPrivacyCheckBox("4");
+        }else{
+            setCleanPrivacyCheckBox("4");
+        }
+        setCleanPrivacyOption(settingObj);
+        resetCleanPrivacyOption(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击开始清除痕迹按钮
+     */
+    $("#startCleanPrivacyBtn").click(function(){
+        var value = settingObj.getCleanPrivacyStatus();
+        if(value == "0"){
+            startCleanPrivacy(settingObj);
+            checkCleanPrivacyStatus(settingObj);
+            showCleanningMessage();
+            $(".savedTip").attr("flag", "1");
+			$("#startCleanPrivacyBtn").hide();
+   			$("#startCleanPrivacyBtnOff").show();
+        }else{
+			$("#startCleanPrivacyBtn").show();
+   			$("#startCleanPrivacyBtnOff").hide();
+
+			//清除痕迹按钮状态
+			$("#startCleanPrivacyBtn").on("mouseenter",function(){
+				$(this).attr("class", "btnSetDefaultHov");
+				});
+			$("#startCleanPrivacyBtn").on("mouseleave",function(){
+				$(this).attr("class", "btnSetDefault");
+				});
+			$("#startCleanPrivacyBtn").on("mousedown",function(){
+				$(this).attr("class", "btnSetDefaultAct");
+				});
+			$("#startCleanPrivacyBtn").on("mouseup",function(){
+				$(this).attr("class", "checkDefBrowser");
+				});				
+			}
+    });
+
+    /**
+     * 点击清除指定时间内的数据下拉框
+     */
+    $("#cleanPrivacyTimeDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("cleanPrivacyTimeDrawDownList");
+        $("#cleanPrivacyTimeDrawDownList").toggle();
+    });
+
+    /**
+     * 选择清除指定时间内的数据下拉列表
+     */
+    $("#cleanPrivacyTimeDrawDownList").delegate("li","click",function(){
+        var text = $(this).children("span").html();
+        $("#cleanPrivacyTimeText").html(text);
+        setCleanPrivacyTime(settingObj);
+        resetCleanPrivacyTime(settingObj);
+        showSuccessMessage();
+    });
+	
+    /**
+     * 点击购物助手下拉框
+     */
+    $("#shoppingHelperDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("shoppingHelperDrawDownList");
+        $("#shoppingHelperDrawDownList").toggle();
+    });
+
+    /**
+     * 选择购物助手的数据下拉列表
+     */
+    $("#shoppingHelperDrawDownList").delegate("li","click",function(){
+        var text = $(this).children("span").html();
+        $("#shoppingHelperText").html(text);
+    });
+    /**
+     * 自动清除
+     */
+
+    /**
+     * 点击退出浏览器时自动清除上面勾选的数据复选按钮
+     */
+    $("#cleanPrivacyOnExitCheckBox").parent("li").click(function(){
+        var value = settingObj.getCleanPrivacyOnExit();
+        if(value == "1"){
+            settingObj.setCleanPrivacyOnExit("0");
+        }else{
+            settingObj.setCleanPrivacyOnExit("1");
+        }
+        resetCleanPrivacyOnExit(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 标签设置
+     */
+
+    /**
+     * 新建标签
+     */
+
+    /**
+     * 点击在新标签打开地址栏输入的网址复选按钮
+     */
+    $("#newTabFromAddrBoxCheckBox").parent("li").click(function(){
+        var value = settingObj.getNewTabFromAddrBox();
+        if(value == "1"){
+            settingObj.setNewTabFromAddrBox("0");
+        }else{
+            settingObj.setNewTabFromAddrBox("1");
+        }
+        resetNewTabFromAddr(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击在新标签打开收藏夹里的网址复选按钮
+     */
+    $("#newTabFromBookmarkCheckBox").parent("li").click(function(){
+        var value = settingObj.getNewTabFromBookmark();
+        if(value == "1"){
+            settingObj.setNewTabFromBookmark("0");
+        }else{
+            settingObj.setNewTabFromBookmark("1");
+        }
+        resetNewTabFromBookmark(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击点击链接新打开标签时，自动切换到该标签复选按钮
+     */
+    $("#alwaysActiveNewTabCheckBox").parent("li").click(function(){
+        var value = settingObj.getAlwaysActiveNewTab();
+        if(value == "1"){
+            settingObj.setAlwaysActiveNewTab("0");
+        }else{
+            settingObj.setAlwaysActiveNewTab("1");
+        }
+        resetAlwaysActiveNewTab(settingObj);
+        //showSuccessMessage();
+    });
+
+    /**
+     * 点击新打开的标签放在下拉框
+     */
+    $("#newTabAtDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("newTabAtDrawDownList");
+        $("#newTabAtDrawDownList").toggle();
+    });
+
+    /**
+     * 选择新打开的标签放在下拉列表选项
+     */
+    $("#newTabAtDrawDownList").delegate("li","click",function(){
+        var optionID = $(this).attr("id");
+        if(optionID == "currentTabR"){
+            settingObj.setNewTabAlignment("-1");
+            resetNewTabAlignment(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "AllTabR"){
+            settingObj.setNewTabAlignment("-3");
+            resetNewTabAlignment(settingObj);
+            showSuccessMessage();
+        }
+    });
+	
+	/**
+     * 点击下载设置标签放在下拉框
+     */
+    $("#downloadAtDrawDown").click(function(event){
+        event.stopPropagation();
+		var lang = settingObj.getProcessLanguage();
+			//if(cl == 1 || lang == 3){
+				$("#chooseXunlei").hide();
+				$("#chooseXunleiOff").hide();
+				$("#chooseKuaiche").hide();
+				$("#chooseKuaicheOff").hide();
+				$("#chooseXuanfeng").hide();
+				$("#chooseXuanfengOff").hide();
+			//}
+		
+        resetAllDrawDownList("downloadAtDrawDownList");
+        $("#downloadAtDrawDownList").toggle();
+    });
+
+    
+	
+	/**
+     * 选择下载设置标签放在下拉列表选项
+     */
+    $("#newTabAtDrawDownList").delegate("li","click",function(){
+
+    });
+	
+
+    /**
+     * 关闭标签
+     */
+
+    /**
+     * 点击双击关闭对应标签复选按钮
+     */
+    $("#dbClickCloseTabCheckBox").parent("li").click(function(){
+        var value = settingObj.getDbClickCloseTab();
+        if(value == "1"){
+            settingObj.setDbClickCloseTab("0");
+        }else{
+            settingObj.setDbClickCloseTab("1");
+        }
+        resetDbClickCloseTab(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击右击关闭对应标签（按住shift）再右击可显示菜单复选按钮
+     */
+    $("#rbClickCloseTabCheckBox").parent("li").click(function(){
+        var value = settingObj.getRbClickCloseTab();
+        if(value == "1"){
+            settingObj.setRbClickCloseTab("0");
+        }else{
+            settingObj.setRbClickCloseTab("1");
+        }
+        resetRbClickCloseTab(settingObj);
+        showSuccessMessage();
+    });
+
+    /**
+     * 点击关闭当前标签后，切换到下拉框
+     */
+    $("#tabClosePolicyDrawDown").click(function(event){
+        event.stopPropagation();
+        resetAllDrawDownList("tabClosePolicyDrawDownList");
+        $("#tabClosePolicyDrawDownList").toggle();
+    });
+
+    /**
+     * 选择关闭当前标签后，切换到下拉列表选项
+     */
+    $("#tabClosePolicyDrawDownList").delegate("li","click",function(){
+        var optionID = $(this).attr("id");
+        if(optionID == "tabClosePolicyS"){
+            settingObj.setTabClosePolicy("0");
+            resetTabClosePolicy(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "tabClosePolicyL"){
+            settingObj.setTabClosePolicy("1");
+            resetTabClosePolicy(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "tabClosePolicyR"){
+            settingObj.setTabClosePolicy("2");
+            resetTabClosePolicy(settingObj);
+            showSuccessMessage();
+        }
+    });
+	
+	/**
+     * 选择下载工具列表选项
+     */
+    $("#downloadAtDrawDownList").delegate("li","click",function(){
+																
+        var optionID = $(this).attr("id");
+        if(optionID == "chooseEverTime"){
+            settingObj.setDownloadPolicy("0");
+            resetDownloadPolicy(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "chooseAurora"){
+            settingObj.setDownloadPolicy("16");
+            resetDownloadPolicy(settingObj);
+            showSuccessMessage();
+        }
+        if(optionID == "chooseXunlei"){
+			settingObj.setDownloadPolicy("17");
+			resetDownloadPolicy(settingObj);
+			showSuccessMessage();
+        }
+		if(optionID == "chooseKuaiche"){
+			settingObj.setDownloadPolicy("18");
+			resetDownloadPolicy(settingObj);
+			showSuccessMessage();
+        }
+		if(optionID == "chooseXuanfeng"){
+			settingObj.setDownloadPolicy("19");
+			resetDownloadPolicy(settingObj);
+			showSuccessMessage();
+        }
+    });
+	/**
+     * 选择购物助手选项
+     */
+    $("#shoppingHelperDrawDownList").delegate("li","click",function(){
+        var optionID = $(this).attr("id");
+        if(optionID == "showAll"){
+			settingObj.setGWDSetting("0");
+			showSuccessMessage();
+        }
+        if(optionID == "showPrice"){
+ 			settingObj.setGWDSetting("1");
+           	showSuccessMessage();
+        }
+        if(optionID == "showTran"){
+			settingObj.setGWDSetting("2");
+			showSuccessMessage();
+        }
+		if(optionID == "showOff"){
+			settingObj.setGWDSetting("3");
+			showSuccessMessage();
+        }
+    });    
+    /**
+     * 空白处点击事件
+     */
+    $(document).click(function(){
+        resetAllDrawDownList("");
+		resetMouseGestureActList();
+
+    });
+
+    /**
+     * 窗口大小改变
+     */
+    $(window).resize(function(){
+        resetLeftMenuHeight();
+        resetRightOptionSize();
+        resetUserDefinedHomePageFormHeight();
+        resetManageNoADFilterFormHeight();
+		resetManageAutoTransFormHeight()
+		resetManageNoTransFormHeight();
+		resetPasswordSaveFormHeight();
+		resetPasswordNoSaveFormHeight();
+    });
+	
+	 /**
+     * 点击鼠标手势下拉列表
+     */
+	$("td.MouseGestureDefine div.drawDown").click(function(event){
+		event.stopPropagation();
+		for(i = 0; i <= 16; i++){
+			if($("ul.MouseGestureActList").eq(i).parent("div.drawDown").attr("mgid") != $(this).children("ul.MouseGestureActList").parent(".drawDown").attr("mgid")){
+				$("ul.MouseGestureActList").eq(i).hide();
+				
+			}else{
+				$("ul.MouseGestureActList").eq(i).toggle();
+			}
+		}
+	});
+		
+	/**
+     * 鼠标手势下拉列表选项
+     */
+    $(".MouseGestureActList").delegate("li","click",function(event){
+		event.stopPropagation();
+		var mgid = $(this).parent().parent().attr("mgid");
+		var actid = $(this).attr("doid");
+		eval('settingObj.setMouseGestureNum'+ mgid +'(actid);');
+		$(this).parent().parent().children("#MouseGestureToDo").text(doarry[actid]);
+		showSuccessMessage();
+		$(this).parent(".MouseGestureActList").hide();
+    });
+	
+
+	
+	
+	/**
+     * 选择翻译助手选项
+     */
+    $("#translateHelperDrawDownList").delegate("li","click",function(){
+        var optionID = $(this).attr("id");
+        if(optionID == "showTransBarAndIcon"){
+			settingObj.setTranslateMode("0");
+			$("#transPop").show();
+			$("#transPopHide").hide();
+			showSuccessMessage();
+        }
+        if(optionID == "showTransIcon"){
+ 			settingObj.setTranslateMode("1");
+			$("#transPop").show();
+			$("#transPopHide").hide();
+			showSuccessMessage();
+        }
+        if(optionID == "showTransNo"){
+			settingObj.setTranslateMode("2");
+			$("#transPop").hide();
+			$("#transPopHide").show();
+			showSuccessMessage();
+        }
+    });
+	/**
+     * 选择翻译助手的数据下拉列表
+     */
+    $("#translateHelperDrawDownList").delegate("li","click",function(){
+        var text = $(this).children("span").html();
+        $("#translateHelperText").html(text);
+    });
+
+	/**
+	 * 点击翻译下拉列表
+	 */
+	$("#translateHelperDrawDown").click(function(event){
+		event.stopPropagation();
+		resetAllDrawDownList("translateHelperDrawDownList");
+		$("#translateHelperDrawDownList").toggle();
+	});
+	//首页选择
+	$("#homePageDrawDownList").on("mouseenter", 'li', function(){
+		$(this).attr("class", "liHov");
+		});
+	
+	/**
+	 * 点击管理显示自动翻译的网站
+	 */
+	$("#manageAutoTrans").click(function(){
+		showManageAutoTransForm(settingObj);
+	});
+	/**
+	 * 点击管理关闭不提示翻译的网站
+	 */
+	$("#manageNoTrans").click(function(){
+		showManageNoTransForm(settingObj);
+	});
+	
+	/**
+	 * 点击关闭自动翻译的网站窗口取消按钮
+	 */
+	$("#manageAutoTransCancleBtn").click(function(){
+		hideManageAutoTransForm();
+	});
+	/**
+	 * 点击关闭不提示翻译的网站窗口取消按钮
+	 */
+	$("#manageNoTransCancleBtn").click(function(){
+		hideManageNoTransForm();
+	});
+	/**
+	 * 点击关闭自动翻译的网站窗口取消按钮
+	 */
+	$("#manageAutoTransCloseBtn").click(function(){
+		hideManageAutoTransForm();
+	});
+	/**
+	 * 点击关闭不提示翻译的网站窗口取消按钮
+	 */
+	$("#manageNoTransCloseBtn").click(function(){
+		hideManageNoTransForm();
+	});
+	
+	/**
+	 * 点击删除自动翻译网站按钮
+	 */
+	$('#manageAutoTransList').on('click', '.delAutoTransItem', function(){
+		var delItem = ($(this).parent('span').parent('li').children('h3').html());
+		settingObj.translateSetting(3,delItem);
+		$(this).parent('span').parent('li').hide();
+	});
+	/**
+	 * 点击删除不过滤的网站按钮
+	 */
+	$('#manageNoTransList').on('click', '.delNoTransItem', function(){
+		var delItem = ($(this).parent('span').parent('li').children('h3').html());
+		settingObj.translateSetting(6,delItem);
+		$(this).parent('span').parent('li').hide();
+	});
+	
+	/**
+	 *选择语言按钮
+	 */
+	
+	$("#setLanguageEN").click(function(){
+		setLanguageTypeEN(settingObj);
+	});
+	$("#setLanguageCN").click(function(){
+		setLanguageTypeCN(settingObj);
+	});
+	$("#setLanguagePU").click(function(){
+		setLanguageTypePU(settingObj);
+	});
+});//---------------------------document.ready end----------------------
+
+
+var isIE=!!window.ActiveXObject;
+var isIE6=isIE&&!window.XMLHttpRequest;
+
+/**
+ * 点击鼠标手势数组
+ */
+//已替换
+/**
+ * 初始化设置选项
+ */
+function initSetting(settingObj)
+{	
+	changeLanguage(settingObj);
+	initTextLength();
+	resetLeftMenuHeight();
+	resetRightOptionSize();
+	baseSettingInit(settingObj);
+	tabSettingInit(settingObj);
+	downloadSettingInit(settingObj);
+	internetTracesInit(settingObj);
+	mouseGestureSettingInit(settingObj);
+	shoppingHelperInit(settingObj);
+	translateHelperInit(settingObj);
+
+	whereIn();
+
+	resetPasswordSaveFormHeight();
+	resetPasswordNoSaveFormHeight();
+
+    hideTranslater(settingObj);
+}
+function hideTranslater(settingObj){
+    var t = settingObj.gettranslateShow();
+    if(t==1){
+        $(".translater").show();
+    }
+    if(t==0){
+        $(".translater").hide();
+    }
+}
+/**
+ * 默认进入选项
+ */
+function whereIn()
+{
+    // 参数判断
+    var p = window.location.hash;
+    if(p == '#b'){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("baseSettingMenu");
+        setCurrentSettingMain("baseSetting");
+        resetRightOptionSize();
+    }
+    if(p == '#t'){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("tabSettingMenu");
+        setCurrentSettingMain("tabSetting");
+        resetRightOptionSize();
+    }
+	if(p == '#d'){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("downloadSettingMenu");
+        setCurrentSettingMain("downloadSetting");
+        resetRightOptionSize();
+    }
+    if(p == '#c'){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("internetTracesMenu");
+        setCurrentSettingMain("internetTraces");
+        resetRightOptionSize();
+    }
+    if(p == '#m'){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("mouseHandMenu");
+        setCurrentSettingMain("mouseHand");
+        resetRightOptionSize();
+    }
+ 	if(p == '#e'){
+        resetLeftMenu();
+        resetSettingMain();
+        setCurrentMenu("moreMenu");
+        setCurrentSettingMain("moreSetting");
+        resetRightOptionSize();
+    }}
+
+/**
+ * 基本设置选项初始化
+ */
+function baseSettingInit(settingObj)
+{
+    resetStartPageType(settingObj);
+    resetDefBrowser(settingObj);
+    resetADFilterClass(settingObj);
+    resetWinBlock(settingObj);
+    resetAdBlock(settingObj);
+    resetConfirmCloseAll(settingObj);
+	resetDownloadSaveLocation(settingObj);
+	resetDownloadListWindow(settingObj)
+	resetBossKey(settingObj);
+	resetBossKeyMidKey(settingObj);
+	resetPasswordSave(settingObj);
+    resetShoppingHelper(settingObj);
+    resetTranslateHelper(settingObj)
+
+}
+
+/**
+ * 标签设置选项初始化
+ */
+function tabSettingInit(settingObj)
+{
+    resetNewTabFromAddr(settingObj);
+    resetNewTabFromBookmark(settingObj);
+    resetAlwaysActiveNewTab(settingObj);
+    resetNewTabAlignment(settingObj);
+    resetDbClickCloseTab(settingObj);
+    resetRbClickCloseTab(settingObj);
+    resetTabClosePolicy(settingObj);
+	resetDownloadPolicy(settingObj);
+	resetDownloadToolsList(settingObj);
+}
+
+/**
+ * 下载设置选项初始化
+ */
+function downloadSettingInit(settingObj)
+{
+
+}
+
+/**
+ * 上网痕迹选项初始化
+ */
+function internetTracesInit(settingObj)
+{
+    resetCleanPrivacy(settingObj);
+    resetCleanPrivacyOnExit(settingObj);
+}
+
+/**
+ * 鼠标手势设置选项初始化
+ */
+function mouseGestureSettingInit(settingObj)
+{
+    resetMouseGesture(settingObj);
+}
+
+/**
+ * 购物助手选项初始化
+ */
+function shoppingHelperInit(settingObj)
+{
+    resetShoppingHelper(settingObj);
+}
+/**
+ * 网站翻译选项初始化
+ */
+function translateHelperInit(settingObj)
+{	
+    resetTranslateHelper(settingObj);
+}
+
+
+/**
+ * 重置左侧菜单高度
+ */
+function resetLeftMenuHeight()
+{
+    var windowHeight = $(window).height();
+    var mainTitleHeight = $('.mainTitle').height() + 1;
+    var height = null;
+    var mainHeight = null;
+    if($('#baseSetting').css('display') != "none")
+    {
+        mainHeight = $('#baseSetting').height();
+    }
+    if($('#tabSetting').css('display') != "none")
+    {
+        mainHeight = $('#tabSetting').height();
+    }
+	if($('#downloadSetting').css('display') != "none")
+    {
+        mainHeight = $('#downloadSetting').height();
+    }
+    if($('#internetTraces').css('display') != "none")
+    {
+        mainHeight = $('#internetTraces').height();
+    }
+    if($('mouseHand').css('display') != "none")
+    {
+        mainHeight = $('mouseHand').height();
+    }
+    if(windowHeight > (mainHeight + mainTitleHeight)){
+        height = windowHeight - mainTitleHeight;
+    }else{
+        height = mainHeight;
+    }
+    $('.leftList').css('height',height);
+}
+
+/**
+ * 重置用户自定义主页窗口高度
+ */
+function resetUserDefinedHomePageFormHeight()
+{
+    if($('#userDefinedHomePageForm').css('display') != "none"){
+        var windowHeight = $(window).height();
+        var mainTitleHeight = $('.mainTitle').height() + 1;
+        var mainHeight =$('#baseSetting').height();
+        var height = null;
+
+        if(windowHeight > (mainHeight + mainTitleHeight)){
+            height = windowHeight;
+        }else{
+            height = mainHeight + mainTitleHeight;
+        }
+        $('#userDefinedHomePageForm').css('height',height);
+        $('#heightDiv').css('height',height / 2 - 200);
+
+        if(windowHeight < 280){
+            $('html').css('overflow-y', 'auto');
+        }else{
+            $('html').css('overflow-y', 'hidden');
+        }
+    }
+}
+
+/**
+ * 重置右侧选项尺寸
+ */
+function resetRightOptionSize()
+{
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var mainTitleHeight = $('.mainTitle').height() + 1;
+    var LeftMenuWidth = $('.leftList').width() + 1;
+    var mainHeight =windowHeight - mainTitleHeight;
+    var mainWidth =windowWidth - LeftMenuWidth;
+    var maxMainHeight = 833;
+
+    if($('#baseSetting').css('display') != "none")
+    {
+        $('#baseSetting').css('height',mainHeight);
+        $('#baseSetting').css('width',mainWidth);
+        if(windowWidth < maxMainHeight){
+            $('#baseSetting').css('overflow-x', 'auto');
+        }else{
+            $('#baseSetting').css('overflow-x', 'hidden');
+        }
+    }
+    if($('#tabSetting').css('display') != "none")
+    {
+        $('#tabSetting').css('height',mainHeight);
+        $('#tabSetting').css('width',mainWidth);
+        if(windowWidth < maxMainHeight){
+            $('#tabSetting').css('overflow-x', 'auto');
+        }else{
+            $('#tabSetting').css('overflow-x', 'hidden');
+        }
+    }
+	if($('#downloadSetting').css('display') != "none")
+    {
+        $('#downloadSetting').css('height',mainHeight);
+        $('#downloadSetting').css('width',mainWidth);
+        if(windowWidth < maxMainHeight){
+            $('#downloadSetting').css('overflow-x', 'auto');
+        }else{
+            $('#downloadSetting').css('overflow-x', 'hidden');
+        }
+    }
+    if($('#internetTraces').css('display') != "none")
+    {
+        $('#internetTraces').css('height',mainHeight);
+        $('#internetTraces').css('width',mainWidth);
+        if(windowWidth < maxMainHeight){
+            $('#internetTraces').css('overflow-x', 'auto');
+        }else{
+            $('#internetTraces').css('overflow-x', 'hidden');
+        }
+    }
+    if($('#mouseHand').css('display') != "none")
+    {
+        $('#mouseHand').css('height',mainHeight);
+        $('#mouseHand').css('width',mainWidth);
+        if(windowWidth < maxMainHeight){
+            $('#mouseHand').css('overflow-x', 'auto');
+        }else{
+            $('#mouseHand').css('overflow-x', 'hidden');
+        }
+    }
+	if($('#moreSetting').css('display') != "none")
+    {
+        $('#moreSetting').css('height',mainHeight);
+        $('#moreSetting').css('width',mainWidth);
+        if(windowWidth < maxMainHeight){
+            $('#moreSetting').css('overflow-x', 'auto');
+        }else{
+            $('#moreSetting').css('overflow-x', 'hidden');
+        }
+    }
+}
+
+/**
+ * 开始清除上网痕迹
+ */
+function startCleanPrivacy(settingObj)
+{
+    settingObj.startCleanPrivacy();
+    $("#waitingImg").show();
+    $("#startCleanPrivacyBtn").hide();
+    $("#startCleanPrivacyBtnOff").show();
+}
+
+/**
+ * 获取是否正在清理
+ */
+function getCleanPrivacyStatus(settingObj)
+{
+    var value = settingObj.getCleanPrivacyStatus();
+    if(value == "0"){
+        $("#waitingImg").hide();
+		$("#startCleanPrivacyBtn").show();
+		$("#startCleanPrivacyBtnOff").hide();
+        clearInterval(cleanPrivacyTimer);
+        if($(".savedTip").attr("flag") == "1"){
+            showCleanedMessage();
+			$("#startCleanPrivacyBtn").show();
+   			$("#startCleanPrivacyBtnOff").hide();
+        }
+    }else{
+        $("#waitingImg").show();
+        $("#startCleanPrivacyBtn").hide();
+    	$("#startCleanPrivacyBtnOff").show();
+    }
+}
+
+var cleanPrivacyTimer = null;
+
+/**
+ * 检测是否正在清理
+ */
+function checkCleanPrivacyStatus(settingObj)
+{
+    clearInterval(cleanPrivacyTimer);
+    cleanPrivacyTimer = setInterval(function(){
+        getCleanPrivacyStatus(settingObj);
+    },1000);
+}
+
+var bossKeyCustomTimer = null;
+
+/**
+ * 老板键自定义按键定时器
+ */
+function checkBossKeyCustomStatus(settingObj,currentBossKey)
+{
+    clearInterval(bossKeyCustomTimer);
+    bossKeyCustomTimer = setInterval(function(){
+        getBossKeyCustomStatus(settingObj, currentBossKey);
+    },200);
+}
+
+/**
+ * 
+ */
+function getBossKeyCustomStatus(settingObj, currentBossKey)
+{
+    var bossKeyType = settingObj.getBossKey();
+	if(bossKeyType != currentBossKey){
+		displayBossKeyOption(bossKeyType);
+		clearInterval(bossKeyCustomTimer);
+		showSuccessMessage();
+	}
+}
+
+
+/**
+ * 重置关闭当前标签后，切换到状态
+ */
+//已替换
+
+/**
+ * 重置下载标签后，初始化显示
+ */
+//已替换
+/**
+ * 重置下载标签后，初始化显示下载工具列表
+ */
+function resetDownloadToolsList(settingObj){
+		var value = settingObj.GetDownTools();
+		var toolname = value.split("|");
+		var xunlei=$.inArray("17",toolname);
+		var kuaiche=$.inArray("18",toolname);
+		var xuanfeng=$.inArray("19",toolname);
+		if(xunlei < 0){
+			$("#chooseXunlei").hide();
+			$("#chooseXunleiOff").show();
+		}else{
+			$("#chooseXunlei").show();
+			$("#chooseXunleiOff").hide();
+			}
+			
+		if(kuaiche < 0){
+			$("#chooseKuaiche").hide();
+			$("#chooseKuaicheOff").show();
+		}else{
+			$("#chooseKuaiche").show();
+			$("#chooseKuaicheOff").hide();
+			}
+			
+		if(xuanfeng<0){
+			$("#chooseXuanfeng").hide();
+			$("#chooseXuanfengOff").show();
+		}else{
+			$("#chooseXuanfeng").show();
+			$("#chooseXuanfengOff").hide();
+			}
+	}
+
+/**
+ * 重置在新标签打开收藏夹里的网址状态
+ */
+function resetDbClickCloseTab(settingObj)
+{
+    var value = settingObj.getDbClickCloseTab();
+    if(value == "1"){
+        setDbClickCloseTabCheckBox();
+    }else{
+        resetDbClickCloseTabCheckBox();
+    }
+}
+
+/**
+ * 重置右击关闭对应标签（按住shift）再右击可显示菜单状态
+ */
+function resetRbClickCloseTab(settingObj)
+{
+    var value = settingObj.getRbClickCloseTab();
+    if(value == "1"){
+        setRbClickCloseTabCheckBox();
+    }else{
+        resetRbClickCloseTabCheckBox();
+    }
+}
+
+/**
+ * 重置新打开的标签放在状态
+ */
+//已替换
+
+/**
+ * 重置在新标签打开收藏夹里的网址状态
+ */
+function resetAlwaysActiveNewTab(settingObj)
+{
+    var value = settingObj.getAlwaysActiveNewTab();
+    if(value == "1"){
+        setAlwaysActiveNewTabCheckBox();
+    }else{
+        resetAlwaysActiveNewTabCheckBox();
+    }
+}
+
+/**
+ * 重置在新标签打开收藏夹里的网址状态
+ */
+function resetNewTabFromBookmark(settingObj)
+{
+    var value = settingObj.getNewTabFromBookmark();
+    if(value == "1"){
+        setNewTabFromBookmarkCheckBox();
+    }else{
+        resetNewTabFromBookmarkCheckBox();
+    }
+}
+
+/**
+ * 重置在新标签打开地址栏输入的网址状态
+ */
+function resetNewTabFromAddr(settingObj)
+{
+    var value = settingObj.getNewTabFromAddrBox();
+    if(value == "1"){
+        setNewTabFromAddrBoxCheckBox();
+    }else{
+        resetNewTabFromAddrBoxCheckBox();
+    }
+}
+
+/**
+ * 重置自动清除状态
+ */
+function resetCleanPrivacyOnExit(settingObj)
+{
+    var value = settingObj.getCleanPrivacyOnExit();
+    if(value == "1"){
+        setCleanPrivacyOnExitCheckBox();
+    }else{
+        resetCleanPrivacyOnExitCheckBox();
+    }
+}
+
+/**
+ * 重置清除上网痕迹选项
+ */
+function resetCleanPrivacyOption(settingObj)
+{
+    var value = settingObj.getCleanPrivacy();
+    if((value & 2) > 0){
+        setCleanPrivacyCheckBox(2);
+    }
+    if((value & 16) > 0){
+        setCleanPrivacyCheckBox(16);
+    }
+    if((value & 8) > 0){
+        setCleanPrivacyCheckBox(8);
+    }
+    if((value & 1) > 0){
+        setCleanPrivacyCheckBox(1);
+    }
+    if((value & 4) > 0){
+        setCleanPrivacyCheckBox(4);
+    }
+}
+
+/**
+ * 重置清除上网痕迹时间
+ */
+//已替换
+/**
+ * 设置清除上网痕迹时间
+ */
+//已替换
+
+/**
+ * 设置清除上网痕迹选项
+ */
+function setCleanPrivacyOption(settingObj)
+{
+    var value = 0;
+    var classname = $("#cleanPrivacyCheckBox2").attr("class");
+    if(classname == "checkBox_act"){
+        value = value | 2;
+    }
+    classname = $("#cleanPrivacyCheckBox16").attr("class");
+    if(classname == "checkBox_act"){
+        value = value | 16;
+    }
+    classname = $("#cleanPrivacyCheckBox8").attr("class");
+    if(classname == "checkBox_act"){
+        value = value | 8;
+    }
+    classname = $("#cleanPrivacyCheckBox1").attr("class");
+    if(classname == "checkBox_act"){
+        value = value | 1;
+    }
+    classname = $("#cleanPrivacyCheckBox4").attr("class");
+    if(classname == "checkBox_act"){
+        value = value | 4;
+    }
+    value = value.toString();
+    settingObj.setCleanPrivacy(value);
+}
+
+/**
+ * 重置清除上网痕迹状态
+ */
+function resetCleanPrivacy(settingObj)
+{
+    resetCleanPrivacyOption(settingObj);
+    resetCleanPrivacyTime(settingObj);
+}
+
+/**
+ * 重置启动时打开选择状态
+ */
+function resetStartPageType(settingObj)
+{
+    hao123CheckRadioReset();
+    lastCloseCheckRadioReset();
+    homePageCheckRadioReset();
+    homePageUserDefinedOptionReset(settingObj);
+    currentHomePageSelectReset(settingObj);
+    homePageIconReset(settingObj);
+
+    var value = settingObj.getStartPageType();
+    if(value == "0"){
+        hao123CheckRadioAct();
+    }
+    if(value == "1"){
+        lastCloseCheckRadioAct();
+    }
+    if(value == "2"){
+        homePageCheckRadioAct();
+    }
+}
+
+/**
+ * 重置关闭浏览器时状态
+ */
+function resetConfirmCloseAll(settingObj)
+{
+    var value = settingObj.getCloseMultiTabTip();
+    if(value == 1){
+        multiTabAskCloseCheckBoxAct();
+    }else{
+        multiTabAskCloseCheckBoxReset();
+    }
+}
+/**
+ * 重置选用桔子浏览器下载时保存复选框状态
+ */
+function resetDownloadSaveLocation(settingObj)
+{
+    var value = settingObj.getAskSaveLocation();
+	//var value = 0;
+    if(value == 1){
+        resetDownloadSaveLocationAct();
+    }else{
+        resetDownloadSaveLocationReset();
+    }
+}
+/**
+ * 重置选用桔子浏览器下载时显示列表复选框状态
+ */
+function resetDownloadListWindow(settingObj)
+{
+    var value = settingObj.getShowDownlistWnd();
+	//var value = 0;
+    if(value == 1){
+        resetDownloadListWindowAct();
+    }else{
+        resetDownloadListWindowReset();
+    }
+}
+
+
+/**
+ * 开启鼠标手势状态
+ */
+function resetMouseGesture(settingObj)
+{
+    var value = settingObj.getMouseGesture();
+    if(value == 1){
+        mouseGestureCheckBoxAct();
+    }else{
+        mouseGestureCheckBoxReset();
+    }
+}
+
+/**
+ * 重置广告过滤选择状态
+ */
+function resetADFilterClass(settingObj)
+{
+    noADFilterCheckRadioReset();
+    aotoADFilterCheckRadioReset();
+    aotoAndFloatADFilterCheckRadioReset();
+
+    var value = settingObj.getADFilterClass();
+    if(value == "0"){
+        noADFilterCheckRadioAct();
+    }
+    if(value == "1"){
+        aotoADFilterCheckRadioAct();
+    }
+    if(value == "2"){
+        aotoAndFloatADFilterCheckRadioAct();
+    }
+}
+
+/**
+ * 重置弹出广告选择状态
+ */
+function resetWinBlock(settingObj)
+{
+    var value = settingObj.getWinBlock();
+    if(value == "0"){
+        winBlockCheckBoxReset();
+    }else{
+        winBlockCheckBoxAct();
+    }
+}
+
+/**
+ * 重置页面广告选择状态
+ */
+function resetAdBlock(settingObj)
+{
+    var value = settingObj.getAdBlock();
+    if(value == "0"){
+        adBlockCheckBoxReset();
+    }else{
+        adBlockCheckBoxAct();
+    }
+}
+/**
+ * 重置广告助手选择状态
+ */
+// function resetShoppingHelper(settingObj)
+// {
+//     var value = settingObj.getGWDSetting();
+//     if(value == 0){
+// 		var optionVal0 = $("#showAll span").html()
+//         $("#shoppingHelperText").html(optionVal0);
+//     }
+// 	if(value == 1){
+// 		var optionVal1 = $("#showPrice span").html()
+//         $("#shoppingHelperText").html(optionVal1);
+//     }
+// 	if(value == 2){
+// 		var optionVal2 = $("#showTran span").html()
+//         $("#shoppingHelperText").html(optionVal2);
+//     }
+// 	if(value == 3){
+// 		var optionVal4 = $("#showOff span").html()
+//         $("#shoppingHelperText").html(optionVal4);
+//     }
+	
+// 	//IE6,IE7
+// 	var ver = 0;
+// 	if(ver == 0){
+// 		$("#lowiehide").hide();
+// 		$("#lowiehide2").hide();
+// 		$("#transPop").hide();
+// 		$("#translateHelperDrawDown").hide();
+
+// 	}else{
+// 		$("#lowiehide").show();
+// 		$("#lowiehide2").show();
+// 		$("#transPopHide").show();
+// 		$("#translateHelperNoSupport").show();
+// 	}
+// }
+/**
+ * 重置所有下拉菜单
+ */
+function resetAllDrawDownList(currentList)
+{
+    if(currentList != "homePageDrawDownList"){
+        $("#homePageDrawDownList").hide();
+    }
+    if(currentList != "newTabAtDrawDownList"){
+        $("#newTabAtDrawDownList").hide();
+    }
+	if(currentList != "downloadAtDrawDownList"){
+        $("#downloadAtDrawDownList").hide();
+    }
+    if(currentList != "tabClosePolicyDrawDownList"){
+        $("#tabClosePolicyDrawDownList").hide();
+    }
+    if(currentList != "cleanPrivacyTimeDrawDownList"){
+        $("#cleanPrivacyTimeDrawDownList").hide();
+    }
+	if(currentList != "bossKeyDrawDownList"){
+        $("#bossKeyDrawDownList").hide();
+    }
+	if(currentList != "languageDrawDownList"){
+        $("#languageDrawDownList").hide();
+    }
+	if(currentList != "shoppingHelperDrawDownList"){
+        $("#shoppingHelperDrawDownList").hide();
+    }
+	if(currentList != "translateHelperDrawDownList"){
+        $("#translateHelperDrawDownList").hide();
+    }
+}
+/**
+ * 重置所有鼠标手势下拉菜单
+ */
+function resetMouseGestureActList()
+{	
+	$(".MouseGestureActList").hide();
+	
+} 
+
+
+/**
+ * 重置右击关闭对应标签（按住shift）再右击可显示菜单复选按钮
+ */
+function resetRbClickCloseTabCheckBox()
+{
+    $("#rbClickCloseTabCheckBox").removeClass('checkBox_act');
+    $("#rbClickCloseTabCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活右击关闭对应标签（按住shift）再右击可显示菜单复选按钮
+ */
+function setRbClickCloseTabCheckBox()
+{
+    $("#rbClickCloseTabCheckBox").removeClass('checkBox');
+    $("#rbClickCloseTabCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置双击关闭对应标签复选按钮
+ */
+function resetDbClickCloseTabCheckBox()
+{
+    $("#dbClickCloseTabCheckBox").removeClass('checkBox_act');
+    $("#dbClickCloseTabCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活双击关闭对应标签复选按钮
+ */
+function setDbClickCloseTabCheckBox()
+{
+    $("#dbClickCloseTabCheckBox").removeClass('checkBox');
+    $("#dbClickCloseTabCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置点击链接新打开标签时，自动切换到该标签复选按钮
+ */
+function resetAlwaysActiveNewTabCheckBox()
+{
+    $("#alwaysActiveNewTabCheckBox").removeClass('checkBox_act');
+    $("#alwaysActiveNewTabCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活点击链接新打开标签时，自动切换到该标签复选按钮
+ */
+function setAlwaysActiveNewTabCheckBox()
+{
+    $("#alwaysActiveNewTabCheckBox").removeClass('checkBox');
+    $("#alwaysActiveNewTabCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置在新标签打开收藏夹里的网址复选按钮
+ */
+function resetNewTabFromBookmarkCheckBox()
+{
+    $("#newTabFromBookmarkCheckBox").removeClass('checkBox_act');
+    $("#newTabFromBookmarkCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活在新标签打开收藏夹里的网址复选按钮
+ */
+function setNewTabFromBookmarkCheckBox()
+{
+    $("#newTabFromBookmarkCheckBox").removeClass('checkBox');
+    $("#newTabFromBookmarkCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置在新标签打开地址栏输入的网址复选按钮
+ */
+function resetNewTabFromAddrBoxCheckBox()
+{
+    $("#newTabFromAddrBoxCheckBox").removeClass('checkBox_act');
+    $("#newTabFromAddrBoxCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活在新标签打开地址栏输入的网址复选按钮
+ */
+function setNewTabFromAddrBoxCheckBox()
+{
+    $("#newTabFromAddrBoxCheckBox").removeClass('checkBox');
+    $("#newTabFromAddrBoxCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置退出浏览器时自动清除上面勾选的数据复选按钮
+ */
+function resetCleanPrivacyOnExitCheckBox()
+{
+    $("#cleanPrivacyOnExitCheckBox").removeClass('checkBox_act');
+    $("#cleanPrivacyOnExitCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活退出浏览器时自动清除上面勾选的数据复选按钮
+ */
+function setCleanPrivacyOnExitCheckBox()
+{
+    $("#cleanPrivacyOnExitCheckBox").removeClass('checkBox');
+    $("#cleanPrivacyOnExitCheckBox").addClass('checkBox_act');
+}
+
+
+/**
+ * 重置清除上网痕迹复选按钮
+ */
+function resetCleanPrivacyCheckBox(value)
+{
+    $("#cleanPrivacyCheckBox" + value).removeClass('checkBox_act');
+    $("#cleanPrivacyCheckBox" + value).addClass('checkBox');
+}
+
+/**
+ * 激活清除上网痕迹复选按钮
+ */
+function setCleanPrivacyCheckBox(value)
+{
+    $("#cleanPrivacyCheckBox" + value).removeClass('checkBox');
+    $("#cleanPrivacyCheckBox" + value).addClass('checkBox_act');
+}
+
+/**
+ * 重置左侧菜单
+ */
+function resetLeftMenu()
+{
+	$("#baseSettingMenu").removeClass('current');
+	$("#tabSettingMenu").removeClass('current');
+	$("#downloadSettingMenu").removeClass('current');
+	$("#internetTracesMenu").removeClass('current');
+	$("#mouseHandMenu").removeClass('current');
+	$("#moreMenu").removeClass('current');
+}
+
+/**
+ * 设置当前菜单
+ */
+function setCurrentMenu(classname)
+{
+    $("#" + classname).addClass('current');
+}
+
+/**
+ * 重置设置主界面
+ */
+function resetSettingMain()
+{
+	resetAllDrawDownList();
+	$("#baseSetting").hide();
+	$("#tabSetting").hide();
+	$("#downloadSetting").hide();
+	$("#internetTraces").hide();
+	$("#mouseHand").hide();
+	$("#moreSetting").hide();
+	
+	
+}
+
+/**
+ * 设置设置主界面
+ */
+function setCurrentSettingMain(classname)
+{
+    $("#" + classname).show();
+    resetLeftMenuHeight();
+}
+
+/**
+ * 重置若有多个标签则询问是否要关闭浏览器按钮状态
+ */
+function multiTabAskCloseCheckBoxReset()
+{
+    $("#multiTabAskCloseCheckBox").removeClass('checkBox_act');
+    $("#multiTabAskCloseCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活若有多个标签则询问是否要关闭浏览器按钮状态
+ */
+function multiTabAskCloseCheckBoxAct()
+{
+    $("#multiTabAskCloseCheckBox").removeClass('checkBox');
+    $("#multiTabAskCloseCheckBox").addClass('checkBox_act');
+}
+
+
+/**
+ * 重置选用桔子下载时保存位置状态
+ */
+function resetDownloadSaveLocationReset()
+{
+    $("#askDownloadSaveLocation").removeClass('checkBox_act');
+    $("#askDownloadSaveLocation").addClass('checkBox');
+}
+
+/**
+ * 激活选用桔子下载时保存位置状态
+ */
+function resetDownloadSaveLocationAct()
+{
+    $("#askDownloadSaveLocation").removeClass('checkBox');
+    $("#askDownloadSaveLocation").addClass('checkBox_act');
+}
+
+
+/**
+ * 重置选用桔子下载时显示列表状态
+ */
+function resetDownloadListWindowReset()
+{
+    $("#showDownloadListWindow").removeClass('checkBox_act');
+    $("#showDownloadListWindow").addClass('checkBox');
+}
+
+/**
+ * 激活选用桔子下载时显示列表状态
+ */
+function resetDownloadListWindowAct()
+{
+    $("#showDownloadListWindow").removeClass('checkBox');
+    $("#showDownloadListWindow").addClass('checkBox_act');
+}
+
+
+/**
+ * 重置开启鼠标手势按钮状态
+ */
+function mouseGestureCheckBoxReset()
+{
+    $("#mouseGestureCheckBox").removeClass('checkBox_act');
+    $("#mouseGestureCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活开启鼠标手势按钮状态
+ */
+function mouseGestureCheckBoxAct()
+{
+    $("#mouseGestureCheckBox").removeClass('checkBox');
+    $("#mouseGestureCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置不过滤广告按钮状态
+ */
+function noADFilterCheckRadioReset()
+{
+    $("#noADFilterCheckRadio").removeClass('checkRadio_act');
+    $("#noADFilterCheckRadio").addClass('checkRadio');
+}
+
+/**
+ * 激活不过滤广告按钮状态
+ */
+function noADFilterCheckRadioAct()
+{
+    $("#noADFilterCheckRadio").removeClass('checkRadio');
+    $("#noADFilterCheckRadio").addClass('checkRadio_act');
+}
+
+/**
+ * 重置自动弹出广告按钮状态
+ */
+function aotoADFilterCheckRadioReset()
+{
+    $("#aotoADFilterCheckRadio").removeClass('checkRadio_act');
+    $("#aotoADFilterCheckRadio").addClass('checkRadio');
+}
+
+/**
+ * 激活自动弹出广告按钮状态
+ */
+function aotoADFilterCheckRadioAct()
+{
+    $("#aotoADFilterCheckRadio").removeClass('checkRadio');
+    $("#aotoADFilterCheckRadio").addClass('checkRadio_act');
+}
+
+/**
+ * 重置拦截自动弹出的网页和浮动广告按钮状态
+ */
+function aotoAndFloatADFilterCheckRadioReset()
+{
+    $("#aotoAndFloatADFilterCheckRadio").removeClass('checkRadio_act');
+    $("#aotoAndFloatADFilterCheckRadio").addClass('checkRadio');
+}
+
+/**
+ * 激活拦截自动弹出的网页和浮动广告按钮状态
+ */
+function aotoAndFloatADFilterCheckRadioAct()
+{
+    $("#aotoAndFloatADFilterCheckRadio").removeClass('checkRadio');
+    $("#aotoAndFloatADFilterCheckRadio").addClass('checkRadio_act');
+}
+
+/**
+ * 重置hao123按钮状态
+ */
+function hao123CheckRadioReset()
+{
+    $("#hao123CheckRadio").removeClass('checkRadio_act');
+    $("#hao123CheckRadio").addClass('checkRadio');
+}
+
+/**
+ * 激活hao123按钮状态
+ */
+function hao123CheckRadioAct()
+{
+    $("#hao123CheckRadio").removeClass('checkRadio');
+    $("#hao123CheckRadio").addClass('checkRadio_act');
+}
+
+/**
+ * 重置上次关闭时浏览的网页按钮状态
+ */
+function lastCloseCheckRadioReset()
+{
+    $("#lastCloseCheckRadio").removeClass('checkRadio_act');
+    $("#lastCloseCheckRadio").addClass('checkRadio');
+}
+
+/**
+ * 激活上次关闭时浏览的网页按钮状态
+ */
+function lastCloseCheckRadioAct()
+{
+    $("#lastCloseCheckRadio").removeClass('checkRadio');
+    $("#lastCloseCheckRadio").addClass('checkRadio_act');
+}
+
+/**
+ * 重置主页按钮状态
+ */
+function homePageCheckRadioReset()
+{
+    $("#homePageCheckRadio").removeClass('checkRadio_act');
+    $("#homePageCheckRadio").addClass('checkRadio');
+}
+
+/**
+ * 激活主页按钮状态
+ */
+function homePageCheckRadioAct()
+{
+    $("#homePageCheckRadio").removeClass('checkRadio');
+    $("#homePageCheckRadio").addClass('checkRadio_act');
+}
+
+/**
+ * 重置拦截自动弹出广告按钮状态
+ */
+function winBlockCheckBoxReset()
+{
+    $("#winBlockCheckBox").removeClass('checkBox_act');
+    $("#winBlockCheckBox").addClass('checkBox');
+}
+
+/**
+ * 激活拦截自动弹出广告按钮状态
+ */
+function winBlockCheckBoxAct()
+{
+    $("#winBlockCheckBox").removeClass('checkBox');
+    $("#winBlockCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置拦截页面广告按钮状态
+ */
+function adBlockCheckBoxReset()
+{
+    $("#adBlockCheckBox").removeClass('checkBox_act');
+    $("#adBlockCheckBox").addClass('checkBox');
+}
+/**
+ * 激活拦截页面广告按钮状态
+ */
+function adBlockCheckBoxAct()
+{
+    $("#adBlockCheckBox").removeClass('checkBox');
+    $("#adBlockCheckBox").addClass('checkBox_act');
+}
+/**
+ * 激活拦截页面广告按钮状态
+ */
+//已替换
+/**
+ * 重置主页选择框列表自定义部分
+ */
+function homePageUserDefinedOptionReset(settingObj)
+{
+    var url = settingObj.getHomePage();
+    var urlList = url.split('\r\n');
+    url = urlList[0];
+    var text = url;    
+	//if(text.length > 12){
+//        text = text.substring(0, 12) + "...";
+//    }
+    if(text == ""){
+        $("#homePageUserDefinedOption").hide();
+    }else{
+        $("#homePageUserDefinedOption").show();
+        $("#homePageUserDefinedOptionText").html(filterStr(text));
+
+        var src = settingObj.getUrlIconPath(url);
+        if(typeof(src) == "undefined"){
+            src = "favicon0.png"
+        }
+        $("#homePageUserDefinedOptionIco").attr("src", filterUrl(src));
+    }
+}
+
+/**
+ * 重置主页icon
+ */
+function homePageIconReset()
+{
+    $("#hao123Option").children("span").children("img").attr("src","favicon1.png");
+    $("#baiduOption").children("span").children("img").attr("src","favicon2.png");
+    $("#newPageOption").children("span").children("img").attr("src","favicon3.png");
+	$("#lastOpenPageOption").children("span").children("img").attr("src","favicon4.png");
+}
+
+/**
+ * 重置默认浏览器状态
+ */
+//已替换
+
+var checkDefBrowserTimer = null;
+
+/**
+ * 检测默认浏览器状态
+ */
+//已替换
+
+/**
+ * 设置成功提示
+ */
+//已替换
+
+/**
+ * 显示用户自定义首页窗口
+ */
+function showUserDefinedHomePageForm(settingObj)
+{
+    var text = settingObj.getHomePage();
+	text = text.replace(/\r\n/g,"\r");
+    $("#userDefinedHomePageFormText").text(text);
+    $("#userDefinedHomePageForm").show();
+    resetUserDefinedHomePageFormHeight();
+}
+
+/**
+ * 关闭用户自定义首页窗口
+ */
+function hideUserDefinedHomePageForm()
+{
+    $("#userDefinedHomePageForm").hide();
+    $('html').css('overflow-y', 'hidden');
+}
+
+/**
+ * 添加不过滤网站列表
+ */
+function addNoADFilterList(settingObj)
+{
+    var html = '';
+    var data = settingObj.getWinBlockList();
+    if(typeof(data) != "undefined"){
+        var winBlockList = data.split('\r\n');
+        for(var i = 0; i < winBlockList.length; i++){
+            if(winBlockList[i] != ""){
+                html += '<li><h4>' + winBlockList[i] + '</h4><span ><a href="#" class="delNoADFilterItem"><img src="close2.png" /></a></span></li>';
+            }
+        }
+    }
+    $("#manageNoADFilterList").html(html);
+}
+
+/**
+ * 显示不过滤网站管理窗口
+ */
+function showManageNoADFilterForm(settingObj)
+{
+    addNoADFilterList(settingObj);
+    $("#manageNoADFilterForm").show();
+    resetManageNoADFilterFormHeight();
+}
+
+/**
+ * 关闭不过滤网站管理窗口
+ */
+function hideManageNoADFilterForm()
+{
+    $("#manageNoADFilterForm").hide();
+    $('html').css('overflow-y', 'hidden');
+}
+
+/**
+ * 重置不过滤网站管理窗口高度
+ */
+function resetManageNoADFilterFormHeight()
+{
+    if($('#manageNoADFilterForm').css('display') != "none"){
+        var windowHeight = $(window).height();
+        var mainTitleHeight = $('.mainTitle').height() + 1;
+        var mainHeight =$('#baseSetting').height();
+        var height = null;
+
+        if(windowHeight > (mainHeight + mainTitleHeight)){
+            height = windowHeight;
+        }else{
+            height = mainHeight + mainTitleHeight;
+        }
+        $('#manageNoADFilterForm').css('height',height);
+        $('#manageNoADFilterHeightDiv').css('height',height / 2 - 300);
+        if(windowHeight < 535){
+            $('html').css('overflow-y', 'auto');
+        }else{
+            $('html').css('overflow-y', 'hidden');
+        }
+    }
+}
+
+/**
+ * 重置保存密码选择状态
+ */
+function resetPasswordSave(settingObj)
+{
+    var value = settingObj.getLoginAssis();
+    if(value == "0"){
+        passwordSaveCheckBoxReset();
+    }else{
+        passwordSaveCheckBoxAct();
+    }
+}
+/**
+ * 重保存密码checkbox状态
+ */
+function passwordSaveCheckBoxReset()
+{
+    $("#passwordSaveCheckBox").removeClass('checkBox_act');
+    $("#passwordSaveCheckBox").addClass('checkBox');
+}
+/**
+ * 激活保存密码checkbox状态
+ */
+function passwordSaveCheckBoxAct()
+{
+    $("#passwordSaveCheckBox").removeClass('checkBox');
+    $("#passwordSaveCheckBox").addClass('checkBox_act');
+}
+/**
+ * 显示已保存密码网站管理窗口
+ */
+function showManagePasswordSaveForm(settingObj)
+{	
+	addPasswordSaveList(settingObj);
+    $("#passwordSaveForm").show(); 
+}
+/**
+ * 显示不保存密码网站管理窗口
+ */
+function showManagePasswordNoSaveForm(settingObj)
+{	
+    addPasswordNoSaveList(settingObj);
+    $("#passwordNoSaveForm").show();  
+}
+/**
+ * 添加已保存密码网站列表
+ */
+function addPasswordSaveList(settingObj)
+{
+    var html = '';
+    var data = settingObj.getLoginList(1);
+	
+    if(typeof(data) != "undefined"){
+        var loginList = data.split('|||');
+        for(var i = 0; i < loginList.length; i++){
+			if(loginList[i] != ""){
+				var loginListItem = loginList[i].split(',');
+				var src = loginListItem[1];
+				var icon = settingObj.getUrlIconPath(src);
+			    if(typeof(icon) == "undefined") 
+					icon = "favicon0.png";
+				//html += '<li><img src="' + icon + '" /><span>'+ loginListItem[1] + '</span><span>'+ loginListItem[2] + '</span><span class="delPasswordSaveItem" ><img src="close2.png" /></span></li>';
+				html += '<li><h3><img src="' + icon + '" /></h3><h4 num =" ' +loginListItem[0]+ '" title="' + loginListItem[1] + '">' + loginListItem[1] + '</h4><h5 title="' + loginListItem[3] + '">' + loginListItem[3] + '</h5><span class="delPasswordSaveItem" ><img src="close2.png" /></span></li>'
+            }
+        }
+    }
+    $("#passwordSaveList").html(html);
+ /**
+ * 点击关闭已保存密码按钮
+ */
+    $("#passwordSaveCloseBtn").click(function(){
+        hideManagePasswordSaveForm();
+    });
+	$("#passwordSaveCancleBtn").click(function(){
+        hideManagePasswordSaveForm();
+    });
+	delPasswordRecord(settingObj);
+}
+/**
+ * 添加已保存密码网站列表
+ */
+function addPasswordNoSaveList(settingObj)
+{
+    var html = '';
+    var data = settingObj.getLoginList(3);
+	
+    if(typeof(data) != "undefined"){
+        var loginList = data.split('|||');
+        for(var i = 0; i < loginList.length; i++){
+			if(loginList[i] != ""){
+				var loginListItem = loginList[i].split(',');
+				var src = loginListItem[0];
+				var icon = settingObj.getUrlIconPath(src);
+				//alert(src + "   " + icon);
+			    if(typeof(icon) == "undefined") 
+			    	icon = "favicon0.png";
+				html += '<li><h3><img src="' + icon + '" /></h3><h4 title="' + loginListItem[0] + '">' + loginListItem[0] + '</h4><span class="delPasswordNoSaveItem" ><img src="close2.png" /></span></li>';
+
+            }
+        }
+    }
+	
+    $("#passwordNoSaveList").html(html);
+ /**
+ * 点击关闭已保存密码按钮
+ */
+    $("#passwordNoSaveCloseBtn").click(function(){
+        hideManagePasswordNoSaveForm();
+    });
+	$("#passwordNoSaveCancleBtn").click(function(){
+        hideManagePasswordNoSaveForm();
+    });
+	delPasswordNoSaveRecord(settingObj);
+}
+ /**
+ * 点击删除项目按钮
+ */
+function delPasswordRecord(settingObj){
+	$(".delPasswordSaveItem").delegate("img","click",function(){
+		//alert($(this).parent().parent().children("h4").attr("num"));
+		$(this).parent().parent().hide();
+		var num = $(this).parent().parent().children("h4").attr("num");
+		settingObj.getLoginList(2,num);
+	});
+}
+ /**
+ * 点击不保存网站项目按钮
+ */
+function delPasswordNoSaveRecord(settingObj){
+	$(".delPasswordNoSaveItem").delegate("img","click",function(){
+		$(this).parent().parent().hide();
+		var url = $(this).parent().parent().children("h4").html();
+		settingObj.getLoginList(4,url);
+	});
+}
+
+/**
+ * 关闭已保存密码管理窗口
+ */
+function hideManagePasswordSaveForm()
+{
+    $("#passwordSaveForm").hide();
+    $('html').css('overflow-y', 'hidden');
+}
+/**
+ * 关闭已保存密码管理窗口
+ */
+function hideManagePasswordNoSaveForm()
+{
+    $("#passwordNoSaveForm").hide();
+    $('html').css('overflow-y', 'hidden');
+}
+/**
+ * 重置已保存密码网站管理窗口高度
+ */
+function resetPasswordSaveFormHeight()
+{
+   // if($('#passwordSaveForm').css('display') != "none"){
+        var windowHeight = $(window).height();
+        var mainTitleHeight = $('.mainTitle').height() + 1;
+        var mainHeight =$('#baseSetting').height();
+        var height = null;
+
+        if(windowHeight > (mainHeight + mainTitleHeight)){
+            height = windowHeight;
+        }else{
+            height = mainHeight + mainTitleHeight;
+        }
+        $('#passwordSaveForm').css('height',height);
+        $('#passwordSaveHeightDiv').css('height',height / 2 - 300);
+        if(windowHeight < 535){
+            $('html').css('overflow-y', 'auto');
+        }else{
+            $('html').css('overflow-y', 'hidden');
+        }
+  //  }
+}
+/**
+ * 重置不保存密码网站管理窗口高度
+ */
+function resetPasswordNoSaveFormHeight()
+{
+   // if($('#passwordNoSaveForm').css('display') != "none"){
+        var windowHeight = $(window).height();
+        var mainTitleHeight = $('.mainTitle').height() + 1;
+        var mainHeight =$('#baseSetting').height();
+        var height = null;
+
+        if(windowHeight > (mainHeight + mainTitleHeight)){
+            height = windowHeight;
+        }else{
+            height = mainHeight + mainTitleHeight;
+        }
+        $('#passwordNoSaveForm').css('height',height);
+        $('#passwordNoSaveHeightDiv').css('height',height / 2 - 300);
+        if(windowHeight < 535){
+            $('html').css('overflow-y', 'auto');
+        }else{
+            $('html').css('overflow-y', 'hidden');
+        }
+   // }
+}
+
+/**
+ * 重置buscape shopping helper状态
+ */
+function resetShoppingHelper(settingObj)
+{
+    var value = settingObj.getShopHelperSetting();
+    if(value == "0"){
+        shoppingHelperCheckBoxReset();
+    }else{
+        shoppingHelperCheckBoxBoxAct();
+    }
+}
+/**
+ * buscape shopping helper checkbox状态
+ */
+function shoppingHelperCheckBoxReset()
+{
+    $("#shoppingHelperCheckBox").removeClass('checkBox_act');
+    $("#shoppingHelperCheckBox").addClass('checkBox');
+}
+/**
+ * 激活buscape shopping helper checkbox状态
+ */
+function shoppingHelperCheckBoxBoxAct()
+{
+    $("#shoppingHelperCheckBox").removeClass('checkBox');
+    $("#shoppingHelperCheckBox").addClass('checkBox_act');
+}
+
+/**
+ * 重置aurora translate helper状态
+ */
+function resetTranslateHelper(settingObj)
+{
+    var value = settingObj.getTranslateHelperMode();
+    if(value == "0"){
+        translateHelperCheckBoxReset();
+    }else{
+        translateHelperCheckBoxBoxAct();
+    }
+}
+/**
+ * aurora translate helper checkbox状态
+ */
+function translateHelperCheckBoxReset()
+{
+    $("#translateHelperCheckBox").removeClass('checkBox_act');
+    $("#translateHelperCheckBox").addClass('checkBox');
+}
+/**
+ * 激活aurora translate helper checkbox状态
+ */
+function translateHelperCheckBoxBoxAct()
+{
+    $("#translateHelperCheckBox").removeClass('checkBox');
+    $("#translateHelperCheckBox").addClass('checkBox_act');
+}
+
+
+	/**
+	* 老板键选项显示
+	*/
+//已替换
+
+	/**
+	*设置老板键
+	*/
+function resetBossKey(settingObj){
+		var bossKeyType;
+		bossKeyType = settingObj.getBossKey();
+		displayBossKeyOption(bossKeyType);
+	}
+function bossKeyMidKeyTipHide(){
+		$("#bossKeyMidKeyOptionOn").hide();
+		$("#bossKeyMidKeyOptionOff").show();
+	}
+function bossKeyMidKeyTipShow(){
+		$("#bossKeyMidKeyOptionOn").show();
+		$("#bossKeyMidKeyOptionOff").hide();
+	}
+function bossKeyMidKeyTipOn(){
+		$("#bossKeyTip").show();
+	}
+function bossKeyMidKeyTipOff(){
+		$("#bossKeyTip").hide();
+	}
+		
+	/**
+	*老板键鼠标中键开起关闭
+	*/	
+function resetBossKeyMidKey(settingObj)
+	{	
+		
+		var value = settingObj.getBossKeyMidKey();
+		if(value == 1){
+			resetBossKeyMidKeyAct();
+			bossKeyMidKeyTipOn()
+		}else{
+			resetBossKeyMidKeyReset();
+			bossKeyMidKeyTipOff();
+		}
+	}
+	
+/**
+ * 老板键鼠标中键按钮状态
+ */
+function resetBossKeyMidKeyAct()
+{
+    $("#bossKeyMidKey").removeClass('checkBox');
+    $("#bossKeyMidKey").addClass('checkBox_act');
+}
+
+function resetBossKeyMidKeyReset()
+{
+    $("#bossKeyMidKey").removeClass('checkBox_act');
+    $("#bossKeyMidKey").addClass('checkBox');
+}
+
+/**
+ * 上次打开网页
+
+function setExtGetRestore(newtabObj)
+	{	
+
+		var data = newtabObj.ExtGetRestore();
+		
+		var items = jsonObj.items;
+		var editList2 = "";
+		for(var i = 0; i < items.length; i++){
+			if(items[i].url.indexOf("http:\/\/") >= 0 || items[i].url.indexOf("https:\/\/") >= 0){
+				var icon = newtabObj.getUrlIconPath(items[i].url);
+
+				editList2 = editList2 + '<li class="advEditLi"><h4><img src="' + icon + '"  /></h4><h5><span class="titleText">' + filterStr(items[i].title) + '</span>&emsp;<span class="urlText">' + filterUrl(items[i].url) + '</span></h5></li>';
+			}
+		}
+  		$("#advEditList2 ul").html(editList2);	
+	}
+ */
+ 
+/**
+ * 过滤角号
+ */
+function filterStr(text)
+{
+	var div = document.createElement('div');
+	div.innerText = text;
+	return div.innerHTML;
+}
+/**
+ * 过滤特殊字符
+ */
+	function filterUrl(url)
+	{	
+		if( url.indexOf("javascript:") == 0 ||  url.indexOf("vbscript:") == 0 ||  url.indexOf("jscript:") == 0 )
+			return "";
+		url = url.replace(/\\/g,"%5C");
+		url = url.replace(/</g,"%3C");
+		url = url.replace(/>/g,"%3E");
+		url = url.replace(/"/g,"%22");
+		url = url.replace(/'/g,"%27");
+		url = url.replace(/`/g,"%60");
+	
+		return url;
+	}
+
+
+/**
+ * 鼠标手势定义
+ */
+function GetMouseGestureValue(settingObj)
+{
+	getOptionValue(settingObj);
+}
+ 
+function setMouseGestureValue(settingObj)
+{
+	setOptionValue(settingObj);
+}
+
+/**
+ * 鼠标手势动作列表
+ */
+//已替换
+
+function MouseGestureListClean(){
+	$(".MouseGestureActList").html("blank");
+}
+
+function intiMouseGestureNum(settingObj)
+{	
+	for(var i = 0;i <= 15;i++){
+		eval('$("#MouseGesture'+ i +' #MouseGestureToDo").text(doarry[settingObj.getMouseGestureNum'+ i +'()]);');
+	};
+	MouseGestureListAdd()
+}
+
+
+/**
+ * 显示自动翻译的网站管理窗口
+ */
+function showManageAutoTransForm(settingObj)
+{
+   addAutoTransList(settingObj);
+    $("#manageAutoTransForm").show();
+    resetManageAutoTransFormHeight();
+}
+
+/**
+ * 显示不提示翻译的网站管理窗口
+ */
+function showManageNoTransForm(settingObj)
+{
+   	addNoTransList(settingObj);
+    $("#manageNoTransForm").show();
+    resetManageNoTransFormHeight();
+}
+/**
+ * 添加自动翻译的网站列表
+ */
+function addAutoTransList(settingObj)
+{
+    var html = '';
+    var data = settingObj.translateSetting(1,"");
+    if(typeof(data) != "undefined"){
+        var autoTransList = data.split('|||');
+        for(var i = 0; i < autoTransList.length; i++){
+            if(autoTransList[i] != ""){
+                html += '<li><h3>' + autoTransList[i] + '</h3><span ><img src="close2.png" class="delAutoTransItem" /></span></li>';
+            }
+        }
+    }
+    $("#manageAutoTransList").html(html);
+}
+/**
+ * 添加不翻译的网站列表
+ */
+function addNoTransList(settingObj)
+{
+	var html = '';
+	var data = settingObj.translateSetting(4,"");
+    if(typeof(data) != "undefined"){
+        var noTransList = data.split('|||');
+		
+        for(var i = 0; i < noTransList.length; i++){
+            if(noTransList[i] != ""){
+                html += '<li><h3>' + noTransList[i] + '</h3><span ><img src="close2.png" class="delNoTransItem" /></span></li>';
+            }
+        }
+    }
+    $("#manageNoTransList").html(html);
+}
+
+/**
+ * 重置自动翻译的网站管理窗口高度
+ */
+function resetManageAutoTransFormHeight()
+{
+    if($('#manageAutoTransForm').css('display') != "none"){
+        var windowHeight = $(window).height();
+        var mainTitleHeight = $('.mainTitle').height() + 1;
+        var mainHeight =$('#baseSetting').height();
+        var height = null;
+
+        if(windowHeight > (mainHeight + mainTitleHeight)){
+            height = windowHeight;
+        }else{
+            height = mainHeight + mainTitleHeight;
+        }
+        $('#manageAutoTransForm').css('height',height);
+        $('#manageAutoTransHeightDiv').css('height',height / 2 - 300);
+        if(windowHeight < 535){
+            $('html').css('overflow-y', 'auto');
+        }else{
+            $('html').css('overflow-y', 'hidden');
+        }
+    }
+}
+/**
+ * 重置不提示翻译的网站管理窗口高度
+ */
+function resetManageNoTransFormHeight()
+{
+    if($('#manageNoTransForm').css('display') != "none"){
+        var windowHeight = $(window).height();
+        var mainTitleHeight = $('.mainTitle').height() + 1;
+        var mainHeight =$('#baseSetting').height();
+        var height = null;
+
+        if(windowHeight > (mainHeight + mainTitleHeight)){
+            height = windowHeight;
+        }else{
+            height = mainHeight + mainTitleHeight;
+        }
+        $('#manageNoTransForm').css('height',height);
+        $('#manageNoTransHeightDiv').css('height',height / 2 - 300);
+        if(windowHeight < 535){
+            $('html').css('overflow-y', 'auto');
+        }else{
+            $('html').css('overflow-y', 'hidden');
+        }
+    }
+}
+
+/**
+ * 关闭自动翻译的网站
+ */
+function hideManageAutoTransForm()
+{
+    $("#manageAutoTransForm").hide();
+    $('html').css('overflow-y', 'hidden');
+}
+
+/**
+ * 关闭不提示翻译的网站
+ */
+function hideManageNoTransForm()
+{
+    $("#manageNoTransForm").hide();
+    $('html').css('overflow-y', 'hidden');
+}
+
+/**
+ * 桔子重置翻译助手选择状态
+ */
+// function resetTranslateHelper(settingObj)
+// {	
+// 	var value = settingObj.getTranslateMode();
+// 	var ver = settingObj.ExtGetAppData(4);
+// 	if(ver == 0){
+// 		$("#transPop").show();
+// 		$("#translateHelperDrawDown").show();
+// 		$("#lowiehide2").hide();
+// 		$("#transPopHide").hide();
+// 		$("#translateHelperNoSupport").hide();
+// 	}else{
+// 		value = 2;
+// 		$("#transPop").hide();
+// 		$("#translateHelperDrawDown").hide();
+// 		$("#lowiehide2").show();
+// 		$("#transPopHide").hide();
+// 		$("#translateHelperNoSupport").show();
+// 	}
+//     if(value == 0){
+// 		var optionVal0 = $("#showTransBarAndIcon span").html()
+// 		$("#translateHelperText").html(optionVal0);
+// 		$("#transPop").show();
+// 		$("#transPopHide").hide();
+//     }
+// 	if(value == 1){
+// 		var optionVal1 = $("#showTransIcon span").html()
+// 		$("#translateHelperText").html(optionVal1);
+// 		$("#transPop").show();
+// 		$("#transPopHide").hide();
+//     }
+// 	if(value == 2){
+// 		var optionVal2 = $("#showTransNo span").html()
+//        $("#translateHelperText").html(optionVal2);
+// 		$("#transPop").hide();
+// 		$("#transPopHide").show();
+//     }
+// 	if(ver == 1 && value == 2){
+// 		$("#transPopHide").hide();
+//     }
+
+// //IE6,IE7
+// }
+
+/*
+* 更改语言
+*/
+function changeLanguage(settingObj){
+	var cl = settingObj.getProcessLanguage();
+	if(cl == 1){
+		$("#currentLanguage").html("English");
+		$("#currentLanguageOptionText").html("&nbsp;&nbsp;English");
+		}
+//	else if(cl == 2){
+//		$("#currentLanguage").html("中文");
+//		$("#currentLanguageOptionText").html("&nbsp;&nbsp;中文");
+//		}
+	else if(cl == 3){
+		$("#currentLanguage").html("Português");
+		$("#currentLanguageOptionText").html("&nbsp;&nbsp;Português");
+		}
+}
+
+function initTextLength(){
+	if(checkstr($("#defaultBrow").html()) >= 17){
+		$("#defaultBrow").attr("class","btnSetDefault2");
+		$("#defaultBrowOff").attr("class","btnSetDefault2_un");
+	}else{
+		$("#defaultBrow").attr("class","btnSetDefault");
+		$("#defaultBrowOff").attr("class","btnSetDefault_un");
+	}
+	if(checkstr($("#newTabAtText").html()) >= 25 || checkstr($("#currentTabR span").html()) >= 25 || checkstr($("#AllTabR span").html()) >= 25){
+		$("#newTabAtDrawDown").attr("class","drawDown2");
+		$("#newTabAtDrawDownList").attr("class","drawDownList2");
+	}else{
+		$("#newTabAtDrawDown").attr("class","drawDown");
+		$("#newTabAtDrawDownList").attr("class","drawDownList");
+	}
+	if(checkstr($("#tabClosePolicyText").html()) >= 29 || checkstr($("#tabClosePolicyS span").html()) >= 29 || checkstr($("#tabClosePolicyL span").html()) >= 29 || checkstr($("#tabClosePolicyR span").html()) >= 29){
+		$("#tabClosePolicyDrawDown").attr("class","drawDown2");
+		$("#tabClosePolicyDrawDownList").attr("class","drawDownList2");
+	}else{
+		$("#tabClosePolicyDrawDown").attr("class","drawDown");
+		$("#tabClosePolicyDrawDownList").attr("class","drawDownList");
+	}
+	if(checkstr($("#downloadPolicyText").html()) >= 29 || checkstr($("#chooseAurora span").html()) >= 29 || checkstr($("#chooseEverTime span").html()) >= 29 || checkstr($("#chooseXunlei span").html()) >= 29 || checkstr($("#chooseXunleiOff span").html()) >= 29 || checkstr($("#chooseKuaiche span").html()) >= 29 || checkstr($("#chooseKuaicheOff span").html()) >= 29 || checkstr($("#chooseXuanfeng span").html()) >= 29 || checkstr($("#chooseXuanfengOff span").html()) >= 29){
+		$("#downloadAtDrawDown").attr("class","drawDown2");
+		$("#downloadAtDrawDownList").attr("class","drawDownList2");
+	}else{
+		$("#downloadAtDrawDown").attr("class","drawDown");
+		$("#downloadAtDrawDownList").attr("class","drawDownList");
+	}
+}
+
+function checkstr(str){      
+	var n=0;          
+	//var str=document.getElementById('Title').value;
+	for(i=0;i<str.length;i++){
+		var leg = str.charCodeAt(i);
+		if(leg > 255){
+			n+=2;
+		}else {
+			n+=1;
+		}
+	}
+	return n;
+}
+/**
+ * 设置语言
+ */
+function setLanguageTypeEN(settingObj)
+{
+	settingObj.setProcessLanguage("1");
+	showSuccessMessage();
+}
+
+function setLanguageTypeCN(settingObj)
+{
+	settingObj.setProcessLanguage("2");
+	showSuccessMessage();
+}
+
+function setLanguageTypePU(settingObj)
+{
+	settingObj.setProcessLanguage("3");
+	showSuccessMessage();
+}

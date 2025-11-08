@@ -1,0 +1,167 @@
+/**
+ * 新标签页类
+ */
+function newtab(){
+
+    /**
+     * 构造处
+     * 设置秘钥
+     */
+    var superCode = window.external.ExtGetSuperCode(window);
+
+    /**
+     * 设置选项值
+     */
+    function setOptionValue(key, value)
+    {
+        window.external.ExtSetOptionValue(superCode, key, value);
+    }
+
+    /**
+     * 获取选项值
+     */
+    function getOptionValue(key)
+    {
+        return window.external.ExtGetOptionValue(superCode, key);
+    }
+
+    /**
+     * 获取TNPG
+     */
+    this.getTNPG=function()
+    {
+        return getOptionValue("TNPG");
+    }
+
+    /**
+     * 获取TNSS
+     */
+    this.getTNSS=function()
+    {
+        return getOptionValue("TNSS");
+    }
+
+    /**
+     * 获取TNDZ
+     */
+    this.getTNDZ=function()
+    {
+        return getOptionValue("TNDZ");
+    }
+
+    /**
+     * 获取cid
+     */
+    this.getCid=function()
+    {
+        return getOptionValue("CID");
+    }
+
+    /**
+     * 获取ver
+     */
+    this.getVer=function()
+    {
+        return window.external.ExtGetAppVersion(superCode);
+    }
+
+    /**
+     * 获取宫格数据
+     */
+    this.getNewTabData=function()
+    {
+        return window.external.ExtGetNewTabData(superCode);
+    }
+
+    /**
+     * 获取数据版本号
+     */
+    this.getNewTabVer=function()
+    {
+        return window.external.ExtGetNewTabVer(superCode);
+    }
+
+    /**
+     * 访问某个宫格
+     */
+    this.visitNewTabItem=function(id)
+    {
+        return window.external.ExtVisitNewTabItem(superCode, id);
+    }
+
+    /**
+     * 修改宫格内容
+     */
+    this.modifyNewTabItem=function(id, url, title)
+    {
+        return window.external.ExtModifyNewTabItem(superCode, id, url, title);
+    }
+
+    /**
+     * 删除一个宫格
+     */
+    this.delNewTabItem=function(id)
+    {
+        return window.external.ExtDelNewTabItem(superCode, id);
+    }
+
+    /**
+     * 两宫格交换位置
+     */
+    this.swapNewTabItem=function(id1, id2)
+    {
+        return window.external.ExtSwapNewTabItem(superCode, id1, id2);
+    }
+
+    /**
+     * 打开url
+     */
+    this.navigate=function(url)
+    {
+        window.external.ExtNavigate(superCode, url, "", 0, 0, 0, 0 );
+    }
+	
+	/**
+     * 获取最常访问网页，上次打开网页
+     */
+	this.getOpenUrls=function()
+    {
+        return window.external.ExtGetOpenUrls(superCode);
+    }
+	
+	this.getMostVisitedUrls=function()
+    {
+        return window.external.ExtGetMostVisitedUrls(superCode);
+    }
+	
+	/**
+     * 获取url图标
+     */
+    this.getUrlIconPath=function(url)
+    {
+        return window.external.ExtGetUrlIconPath(superCode, url);
+    }
+	
+	this.StatAddValue=function(name, id)
+    {
+	   window.external.ExtStatAddValue(superCode, name, id, 1 )
+    }
+	/**
+     * 获取版本
+     */
+	
+	this.getVersion=function()
+    {
+        return window.external.ExtGetAppVersion(superCode)
+    }
+	    /**
+     * 获取addata
+     */
+    this.setAdstatu=function(enable)
+    {
+        return window.external.ExtSetNewTabAdimgSwitch(superCode, enable);
+    }
+
+}
+
+

@@ -1,0 +1,989 @@
+﻿<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+    <meta http-equiv="content-type"/ content="text/html; charset=UTF-8" />
+    <meta name="Author" content="Sam." />
+    <meta name="viewport" content="width=1024" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>选项</title>
+    <link rel="shortcut icon" href="settings.ico"/>
+    <link rel="home" href="http://" />
+    <link id="globalheader-stylesheet" rel="stylesheet" href="main.css" type="text/css" />
+    <script src="jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div class="mainWap">
+<div class="mainTitle">
+    <h1>选项</h1>
+    <!-------------------------------保存成功--开始---------------------------------------->
+    <div id="topMessage" class="topMessage" style="display: none;">
+        <div class="savedTip" flag="0">保存成功</div>
+    </div>
+    <!-------------------------------保存成功--结束---------------------------------------->
+    <div class="clear"></div>
+</div>
+<div class="mainContain">
+<!-------------------------------左侧菜单--开始---------------------------------------->
+<div class="leftList">
+    <ul>
+        <li id="baseSettingMenu" class="current">常规设置</li>
+        <li id="tabSettingMenu">标签设置</li>
+        <li id="downloadSettingMenu">下载设置</li>
+        <li id="internetTracesMenu">历史设置</li>
+        <li id="mouseHandMenu">鼠标手势</li>
+        <li id="moreMenu">增强选项</li>
+    </ul>
+</div>
+<!-------------------------------左侧菜单--结束---------------------------------------->
+
+<!-------------------------------基本设置界面--开始---------------------------------------->
+<div id="baseSetting" class="rightOption" style="width:700px;height:400px;overflow-y:auto;">
+    <!--js自适应设定框的高宽，滚动条出现 display:none;-->
+    <div class="optionBlock">
+        <div style="margin:0" >
+            <div class="optionTitle">
+                <h4>启动时</h4>
+            </div>
+            <div class="optionList">
+            	<ul>
+                    <li>
+                        <div id="homePageDrawDown" class="drawDown" >
+                           
+                            <span id="setFaviconImg" style="_margin-left:2px;"></span>
+                            <span id="currentHomePageOptionText" class="faviconTextU">新标签页</span>
+                            <ul id="homePageDrawDownList" class="drawDownList" style="display:none;">
+                                
+                                <li id="newPageOption">
+                                    <span class="faviconImg3"></span>
+                                    <span class="faviconText">新标签页</span>
+                                </li>
+                                <li id="lastOpenPageOption">
+                                    <span class="faviconImg4"></span>
+                                    <span class="faviconText">继续浏览上次关闭浏览器时在看的网页</span>
+                                </li>                                
+                                <li id="userDefinedOption">
+                                    <span class="faviconImg0"></span>
+                                    <span class="faviconText">打开以下网页</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	<div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0;">
+            <div class="optionTitle">
+                <h4>默认浏览器</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li><span id="defaultBrow" class="btnSetDefault">把Aurora浏览器设置为默认浏览器</span>
+                    	<span id="defaultBrowOff" class="btnSetDefault_un" style="display:none;">把Aurora浏览器设置为默认浏览器</span>
+                    </li>
+                    <li><span id="defaultBrowT" class="optionText fontGray" style="margin-left:0px;">Aurora浏览器已经是你的默认浏览器</span><br /></li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	<div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4 style="background:url(adb.jpg) left center no-repeat">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;广告过滤</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <span id="winBlockCheckBox" class="checkBox"></span><span class="optionText">弹出广告过滤器</span><br />
+                    </li>
+                    <li>
+                        <span id="adBlockCheckBox" class="checkBox"></span><span class="optionText">使用 ADBlock Plus</span><br />
+                    </li>
+                    <li><span id="manageNoADFilterBtn" class="btnSetDefault"  
+                    	onMouseOver="this.className='btnSetDefaultHov'"
+                   		onMouseOut="this.className='btnSetDefault'"
+                   		onMouseDown="this.className='btnSetDefaultAct'"
+                   		onMouseUp="this.className='btnSetDefaultHov'">管理例外列表</span></li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>老板键</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <div id="bossKeyDrawDown" class="drawDown"   style="z-index:1110" >
+                            <span id="bossKeyDrawDownCurrentOption" class="faviconText" style="padding-left:10px;">不使用</span>
+                            <ul id="bossKeyDrawDownList" class="drawDownList" style="display:none;">							
+                            	<li>
+                                    <span class="faviconText" style="padding-left:10px;" data="">不使用</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText" style="padding-left:10px;" data="Ctrl+Q">Ctrl+Q</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText" style="padding-left:10px;" data="Alt+Q">Alt+Q</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText" style="padding-left:10px;" data="Ctrl+`">Ctrl+~</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText" style="padding-left:10px;" data="Alt+`">Alt+~</span>
+                                </li>                                
+                                <li>
+                                    <span class="faviconText" style="padding-left:10px;" data="userCustom">自定义…</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li id="bossKeyMidKeyOptionOn">
+                        <span id="bossKeyMidKey" class="checkBox"></span>
+						<span id="bossKeyOptionText" class="optionText">按鼠标滚轮隐藏浏览器</span>
+                        <div class="clear" style="height:8px;"></div>
+                        <span id="bossKeyTip" class="optionText fontGray" style="margin-left:22px;_margin-left:11px;">使用老板键设置打开隐藏的浏览器</span>
+                    </li>
+                    
+                    <li id="bossKeyMidKeyOptionOff">
+                        <span id="" class="checkBox_un"></span><span id="bossKeyOptionText" class="optionText fontGray">按鼠标滚轮隐藏浏览器</span><br /><br />
+                    </li>
+                   
+                </ul>
+            </div>
+			<div class="clearDot optionMergin"  style="margin-bottom:20px;"></div>
+        </div>
+		<div style="margin:0">
+            <div class="optionTitle">
+                <h4>语言</h4>
+            </div>
+            <div class="optionList">
+               
+						<div id="languageDrawDown" class="drawDown"  style="z-index:0" >
+                            <span id="setFaviconImg" style="_margin-left:2px;"></span>
+                            <span id="currentLanguageOptionText" class="faviconText"></span>
+                            <ul id="languageDrawDownList" class="drawDownList" style="display:none;">
+                                <li id="setLanguagePU">
+                                    <span class="faviconText" lang="3">&nbsp;&nbsp;汉化</span>
+                                </li>
+								<li id="setLanguageEN">
+                                    <span class="faviconText" lang="1">&nbsp;&nbsp;English</span>
+                                </li>
+								<!--<li id="chn">
+                                    <span class="faviconText" lang="2">&nbsp;&nbsp;中文</span>
+                                </li>-->
+                            </ul>
+                        </div>
+					
+				 <div class="clear10"></div>
+                        <p id="languageTip" style="color:#ef1717;display:none;">设置已保存，重启浏览器后生效。</p>
+                        <!-- //aurora translate helper -->
+                        <p class="translater">
+                            <span id="translateHelperCheckBox" class="checkBox"></span>
+                            <span class="optionText">启用页面翻译</span>
+                        </p>
+                    <div class="clear10"></div>
+                    
+            </div>
+        
+    <!-- //aurora translate helper -->
+            <div class="clearDot optionMergin"  style="margin-bottom:20px;"></div>
+        </div>
+    </div>
+	
+	<div class="clear"></div>
+
+</div>
+<!-------------------------------基本设置界面--结束---------------------------------------->
+
+<!-------------------------------标签设置界面--开始---------------------------------------->
+<div id="tabSetting" class="rightOption" style="display: none;width:700px;height:400px;overflow-y:auto;">
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>打开</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <span id="newTabFromAddrBoxCheckBox" class="checkBox"></span><span class="optionText">在新标签打开地址栏输入的网址</span><br />
+                    </li>
+                    <li>
+                        <span id="newTabFromBookmarkCheckBox" class="checkBox"></span><span class="optionText">在新标签打开收藏夹里的网址</span><br />
+                    </li>
+                    <li>
+                        <span id="alwaysActiveNewTabCheckBox" class="checkBox"></span><span class="optionText">点击链接打开新标签时，总是切换到新标签页</span><br />
+                    </li>
+                    <li><span class="optionText">在网页上打开新标签时：</span>
+                        <div id="newTabAtDrawDown" class="" >
+                            <span id="newTabAtText" class="faviconText">&nbsp;&nbsp;在当前标签的右侧打开</span>
+                            <ul id="newTabAtDrawDownList" class="" style="display: none;">
+                                <li id="currentTabR">
+									
+                                    <span class="faviconText">&nbsp;&nbsp;在当前标签的右侧打开</span>
+									
+                                </li>
+                                <li id="AllTabR">
+                                    <span class="faviconText">&nbsp;&nbsp;在所有标签的右侧打开</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	<div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>关闭</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <span id="dbClickCloseTabCheckBox" class="checkBox"></span><span class="optionText">在标签上双击鼠标左键，关闭标签</span><br />
+                    </li>
+                    <li>
+                        <span id="rbClickCloseTabCheckBox" class="checkBox"></span><span class="optionText">在标签上单击鼠标右键，关闭标签</span><br />
+                    </li>
+                    <li><span class="optionText">关闭当前标签页时：</span>
+                        <div id="tabClosePolicyDrawDown" class="" >
+                            <span id="tabClosePolicyText" class="faviconText">&nbsp;&nbsp;智能选择标签</span>
+                            <ul id="tabClosePolicyDrawDownList" class="" style="display: none;">
+                                <li id="tabClosePolicyS">
+                                    <span class="faviconText">&nbsp;&nbsp;智能选择标签</span>
+                                </li>
+                                <li id="tabClosePolicyL">
+                                    <span class="faviconText">&nbsp;&nbsp;切换到左侧标签</span>
+                                </li>
+                                <li id="tabClosePolicyR">
+                                    <span class="faviconText">&nbsp;&nbsp;切换到右侧标签</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>提示</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <span id="multiTabAskCloseCheckBox" class="checkBox"></span><span class="optionText">关闭窗口时，如果有多个标签则提示</span><br />
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+    </div>
+
+</div>
+<!-------------------------------标签设置界面--结束---------------------------------------->
+
+<!-------------------------------下载设置界面--开始---------------------------------------->
+<div id="downloadSetting" class="rightOption" style="display: none;width:700px;height:400px;overflow-y:auto;">
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>下载器</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <div id="downloadAtDrawDown" class="drawDown" >
+                            <span id="downloadPolicyText" class="faviconText">&nbsp;&nbsp;总是询问使用哪个下载器</span>
+                            <ul id="downloadAtDrawDownList" class="drawDownList" style="display: none;">
+                            	<li id="chooseEverTime">
+                                    <span class="faviconText">&nbsp;&nbsp;总是询问使用哪个下载器</span>
+                                </li>
+                                <li id="chooseAurora">
+                                    <span class="faviconText">&nbsp;&nbsp;使用Aurora下载器</span>
+                                </li>
+                                <li id="chooseXunlei">
+                                    <span class="faviconText">&nbsp;&nbsp;迅雷</span>
+                                </li>
+                                <li id="chooseXunleiOff" class="fontGray">
+                                    <span class="faviconText">&nbsp;&nbsp;迅雷（未安装）</span>
+                                </li>
+                                <li id="chooseKuaiche">
+                                    <span class="faviconText">&nbsp;&nbsp;网际快车</span>
+                                </li>
+                                 <li id="chooseKuaicheOff" class="fontGray">
+                                    <span class="faviconText">&nbsp;&nbsp;网际快车（未安装）</span>
+                                </li>
+                                <li  id="chooseXuanfeng">
+                                    <span class="faviconText">&nbsp;&nbsp;QQ旋风</span>
+                                </li>
+                                <li  id="chooseXuanfengOff"  class="fontGray">
+                                    <span class="faviconText">&nbsp;&nbsp;QQ旋风（未安装）</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+				</ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	<div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>Aurora 下载器</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <span id="askDownloadSaveLocation" class="checkBox"></span><span class="optionText">下载前提示保存文件的位置</span><br />
+                    </li>
+                    <li>
+                        <span id="showDownloadListWindow" class="checkBox"></span><span class="optionText">开始新下载时显示下载列表</span><br />
+                    </li>
+                    <!--<li><span class="optionText">默认保存位置:</span>
+                    	<div class="clear"></div>
+                        <input type="text" value="###e:\downloads\测试测试###" class="downloadLocation" />
+                        <span id="" class="btnC" 
+                        onMouseOver="this.className='btnCHov'"
+                   		onMouseOut="this.className='btnC'"
+                   		onMouseDown="this.className='btnCAct'"
+                   		onMouseUp="this.className='btnCHov'"
+                   		style="float:left;margin:10px 0 0 5px;">浏览...</span>
+                        -->
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-------------------------------下载痕迹界面--结束---------------------------------------->
+
+<!-------------------------------上网痕迹界面--开始---------------------------------------->
+<div id="internetTraces" class="rightOption" style="display: none;width:700px;height:400px;overflow-y:auto;">
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>清除浏览数据</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li><span class="optionText">清除此时间范围内的数据</span>
+                        <div id="cleanPrivacyTimeDrawDown" class="drawDown" >
+                            <span id="cleanPrivacyTimeText" class="faviconText">&nbsp;&nbsp;近一小时</span>
+                            <ul id="cleanPrivacyTimeDrawDownList" class="drawDownList" style="display: none;">
+                                <li>
+                                    <span class="faviconText">&nbsp;&nbsp;近一小时</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText">&nbsp;&nbsp;近一天</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText">&nbsp;&nbsp;近一周</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText">&nbsp;&nbsp;近一个月</span>
+                                </li>
+                                <li>
+                                    <span class="faviconText">&nbsp;&nbsp;所有</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <span id="cleanPrivacyCheckBox2" class="checkBox"></span><span class="optionText">清除浏览历史记录</span><br />
+                    </li>
+                    <li>
+                        <span id="cleanPrivacyCheckBox16" class="checkBox"></span><span class="optionText">清除表单数据</span><br />
+                    </li>
+                    <li>
+                        <span id="cleanPrivacyCheckBox8" class="checkBox"></span><span class="optionText">清除地址栏历史记录</span><br />
+                    </li>
+                    <li>
+                        <span id="cleanPrivacyCheckBox1" class="checkBox"></span><span class="optionText">删除缓存的文件</span><br />
+                    </li>
+                    <li>
+                        <span id="cleanPrivacyCheckBox4" class="checkBox"></span><span class="optionText">删除cookie（不推荐）</span><br />
+                    </li>
+                    <li><span id="startCleanPrivacyBtn" class="btnSetDefault" style="float:left;">现在清除</span>
+                    	<span id="startCleanPrivacyBtnOff" class="btnSetDefault_un" style="float:left;display:none;">现在清除</span>
+                    	
+                        <span class="optionText" style="margin-top:5px;float:left;">
+                        	&emsp;<img id="waitingImg" src="waiting.gif" style="display: none;"/>
+                        </span></li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	<div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>自动清理</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <span id="cleanPrivacyOnExitCheckBox" class="checkBox"></span><span class="optionText">退出时自动清除浏览记录</span><br />
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+
+</div>
+<!-------------------------------上网痕迹界面--结束---------------------------------------->
+
+<!-------------------------------鼠标手势界面--开始---------------------------------------->
+<div id="mouseHand" class="rightOption" style="display: none;width:700px;height:600px;overflow-y:auto;">
+    <!--js自适应设定框的高宽，滚动条出现-->
+
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>鼠标手势</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <p>按住鼠标右键并滑动鼠标以激活鼠标手势功能</p>
+                    <p>
+                        <span id="mouseGestureCheckBox" class="checkBox"></span>
+                        <span class="optionText">启用鼠标手势</span>
+                    </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	<div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>对应操作</h4>
+            </div>
+            <div class="optionList">
+            	<ul><li style="height:18px;"><p>向一个方向滑动</p></li></ul>
+                <div class="clear"></div>
+            	<table style="width:420px;" border="0" cellpadding="2" cellspacing="2">
+                	<!-- 指定边距 -->
+                    <tr><td width="20"></td><td width="190"></td><td width="20"></td><td width="190"></td></tr>
+                	<!-- 向一个方向滑动 -->
+                    <tr><td><span class="mouseMovePic0"></span></td>
+                    <td style="position:relative;z-index:17" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture0" mgid="0">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td>
+                </tr>
+                    <tr> 
+                    <td><span class="mouseMovePic1"></span></td>
+                    <td style="position:relative;z-index:16" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture1" mgid="1">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+                   <tr><td><span class="mouseMovePic2"></span></td>
+                    <td style="position:relative;z-index:15" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture2" mgid="2">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+                    <tr><td><span class="mouseMovePic3"></span></td>
+                    <td style="position:relative;z-index:14" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture3" mgid="3">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+
+                </table>
+<!-- part 2 star -->
+ 				<div class="clear5"></div>
+                <div class="clear10"></div>
+                <div class="clear10"></div>
+                
+ 				<ul><li style="height:18px;"><p>往返式滑动</p></li></ul>
+                <div class="clear"></div>
+                <table style="width:420px;" border="0" cellpadding="2" cellspacing="2">
+                	<!-- 指定边距 -->
+                    <tr><td width="20"></td><td width="190"></td><td width="20"></td><td width="190"></td></tr>
+                	<!-- 往返式滑动 -->
+                     <tr><td><span class="mouseMovePic10"></span></td>
+                    <td style="position:relative;z-index:13" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture10" mgid="10">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td><td><span class="mouseMovePic11"></span></td>
+                    <td style="position:relative;z-index:12" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture11" mgid="11">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td>
+                    </tr>                 
+                    <tr>
+                    <td><span class="mouseMovePic8"></span></td>
+                    <td style="position:relative;z-index:11" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture8" mgid="8">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td><td><span class="mouseMovePic9"></span></td>
+                    <td style="position:relative;z-index:10" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture9" mgid="9">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+                   
+                </table>
+<!-- part 2 end -->
+
+<!-- part 3 star -->
+ 				<div class="clear5"></div>
+                <div class="clear10"></div>
+                <div class="clear10"></div>
+                
+ 				<ul><li style="height:18px;"><p>直角折线式滑动</p></li></ul>
+                <div class="clear"></div>
+                <table style="width:420px;" border="0" cellpadding="2" cellspacing="2">
+                	<!-- 指定边距 -->
+                    <tr><td width="20"></td><td width="190"></td><td width="20"></td><td width="190"></td></tr>
+                	<!-- 直角折线式滑动 -->
+                    <tr><td><span class="mouseMovePic4"></span></td>
+                    <td style="position:relative;z-index:9" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture4" mgid="4">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td><td><span class="mouseMovePic5"></span></td>
+                    <td style="position:relative;z-index:8" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture5" mgid="5">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+                    <tr><td><span class="mouseMovePic6"></span></td>
+                    <td style="position:relative;z-index:7" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture6" mgid="6">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td><td><span class="mouseMovePic7"></span></td>
+                    <td style="position:relative;z-index:6" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture7" mgid="7">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+                                       
+                    <tr><td><span class="mouseMovePic14"></span></td>
+                    <td style="position:relative;z-index:5" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture14" mgid="14">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td><td><span class="mouseMovePic12"></span></td>
+                    <td style="position:relative;z-index:4" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture12" mgid="12">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+                    <tr><td><span class="mouseMovePic15"></span></td>
+                    <td style="position:relative;z-index:3" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture15" mgid="15">
+                        	<span class="faviconText" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td><td><span class="mouseMovePic13"></span></td>
+                    <td style="position:relative;z-index:2" class="MouseGestureDefine">
+                        <div style="width:125px;line-height:26px;padding-left:10px;" class="drawDown"  id="MouseGesture13" mgid="13">
+                        	<span class="faviconText MouseGestureToDo" id="MouseGestureToDo">-</span>
+                        	<ul class="drawDownList MouseGestureActList" style="display:none;"></ul>
+                        </div>
+                    </td></tr>
+
+                </table>
+<!-- part 3 end -->
+            </div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+
+</div>
+<!-------------------------------鼠标手势界面--结束---------------------------------------->
+
+<!-------------------------------更多设置界面--开始---------------------------------------->
+<div id="moreSetting" class="rightOption" style="display: none;width:700px;height:600px;overflow-y:auto;">
+    <!--js自适应设定框的高宽，滚动条出现-->
+<!--
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>更多设置</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                		<li>
+                    <p>购物中心: 自动比价</p>
+                    <div class="clear10"></div>
+                   <div id="shoppingHelperDrawDown" class="drawDown2" >
+                            <span id="shoppingHelperText" class="faviconText">显示比较价格和趋势</span>
+                            <ul id="shoppingHelperDrawDownList" class="drawDownList2" style="display: none;">
+                                <li id="showAll">
+                                    <span class="faviconText">显示比较价格和趋势</span>
+                                </li>
+                                <li id="showPrice">
+                                    <span class="faviconText">显示比较价格</span>
+                                </li>
+                                <li id="showTran">
+                                    <span class="faviconText">显示价格趋势</span>
+                                </li>
+                                <li id="showOff">
+                                    <span class="faviconText">禁用</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clear10"></div> -->
+<!--                         <p id="lowiehide" style="color:#ef1717">提示：IE6、IE7内核下购物助手会影响页面打开速度。请谨慎开启。</p> -->
+<!--                     </li>
+                </ul>
+            </div>
+             <div class="clear" style="height:40px;_height:0;"></div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+	-->
+	<!--自动填写密码-->
+	 <div class="clear"></div>
+	 <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>自动填写密码</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+					<li>
+                    <p>
+						<span id="passwordSaveCheckBox" class="checkBox"></span>
+						<span class="optionText">启用自动填充功能</span>
+					</p>
+                    <div class="clear10"></div>
+					<p>
+						<!--id="manageNoADFilterBtn"-->
+						<span class="optionText2"><a href="#" id="managePasswordSaveBtn">管理已保存的密码</a>&emsp;<a href="#"  id="managePasswordNoSaveBtn">例外列表</a></span>
+					</p>
+					<div class="clear10"></div>
+                    </li>
+                </ul>
+            </div>
+             <div class="clear" style="height:40px;_height:0;"></div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+
+    <!-- //buscape shopping helper -->
+    <div class="clear"></div>
+     <div class="optionBlock" style="display:none;">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>在线价格比较</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                        <p>所选产品的在线价格比较。</p>
+                    <p>
+                      
+                        <span id="shoppingHelperCheckBox" class="checkBox"></span>
+                        <span class="optionText">启用价格比较器</span>
+                    </p>
+                    <div class="clear10"></div>
+                    
+                    <div class="clear10"></div>
+                    </li>
+                </ul>
+            </div>
+             <div class="clear" style="height:40px;_height:0;"></div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+    <!-- //end buscape shopping helper -->
+
+
+
+<!-- juzi的翻译设置 -->
+ <!-- 
+ <div class="clear"></div>
+    <div class="optionBlock">
+        <div style="margin:0">
+            <div class="optionTitle">
+                <h4>翻译</h4>
+            </div>
+            <div class="optionList">
+                <ul>
+                    <li>
+                    <p>发现您访问的是外文网页时，帮您翻译成中文。</p>
+                    <div class="clear10"></div>
+                    <div id="translateHelperDrawDown" class="drawDown2" >
+                        <span id="translateHelperText" class="faviconText">&nbsp;&nbsp;显示翻译工具栏和翻译图标</span>
+                        <ul id="translateHelperDrawDownList" class="drawDownList2" style="display: none;">
+                            <li id="showTransBarAndIcon">
+                                <span class="faviconText">&nbsp;&nbsp;显示翻译工具栏和翻译图标</span>
+                            </li>
+                            <li id="showTransIcon">
+                                <span class="faviconText">&nbsp;&nbsp;仅显示翻译图标（在地址栏右侧）</span>
+                            </li>
+                            <li id="showTransNo">
+                                <span class="faviconText">&nbsp;&nbsp;关闭翻译功能</span>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <div id="translateHelperNoSupport" class="drawDown2Off"  style="display:none;" >
+                        <ul>
+                             <li>
+                                <span id="" style="width:200px;background:none;text-align:left;line-height:28px;_line-height:26px;color:#aaa;text-align:center;cursor: default;padding-left:10px;">显示翻译工具栏和翻译图标</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear10"></div>
+                        <p id="lowiehide2" style="color:#ef1717" style="display:none;">提示：IE6、IE7内核下暂不支持翻译功能。请升级IE浏览器到IE8。</p>
+                    <div class="clear10"></div>
+                    <p id="transPop">
+                    	<span id="manageAutoTrans">自动翻译的网站</span>
+                   	&emsp;
+                    	<span id="manageNoTrans">不提示翻译的网站</span>
+                    </p>
+                    <p id="transPopHide" style="display:none;">
+                    	<span>自动翻译的网站</span>
+                   	&emsp;
+                    	<span>不提示翻译的网站</span>
+                    </p>
+                    </li>
+                </ul>
+            </div>
+             <div class="clear" style="height:50px;_height:0;"></div>
+            <div class="clearDot optionMergin"></div>
+        </div>
+    </div>
+
+	<div class="clear"></div>
+</div> 
+-->
+<!-------------------------------更多设置界面--结束---------------------------------------->
+
+</div>
+</div>
+
+<!-------------------------------自定义主页窗口--开始---------------------------------------->
+<div id="userDefinedHomePageForm" class="topMask" style="display: none;">
+    <div id="heightDiv" style="width:100%;height:100px;border:0px solid #ccc;"></div>
+    <div class="maskShadowTop"></div>
+    <div class="maskShadow">
+        <div class="maskColor"></div>
+        <div class="maskBlock">
+            <div class="maskTitle">
+                <h2>自定义主页</h2>
+                <span id="userDefinedHomePageFormClose" class="closeBtn" style="padding-top:0;">
+                	<img src="close.png" />
+                </span>
+            </div>
+            <textarea id="userDefinedHomePageFormText" class="htmlInput">http://</textarea>
+            <div style="height:41px;border-top:1px solid #f5f5f5; text-align:right;padding:16px 10px 0px 0;">
+                <span id="userDefinedHomePageFormCancel" class="btnCancle"
+                    onMouseOver="this.className='btnCancleHov'"
+                    onMouseOut="this.className='btnCancle'"
+                    onMouseDown="this.className='btnCancleAct'"
+                    onMouseUp="this.className='btnCancleHov'" style="float:right;">取消</span>
+                <span id="userDefinedHomePageFormConfirm" class="btnConfirm"
+                    onMouseOver="this.className='btnConfirmHov'"
+                    onMouseOut="this.className='btnConfirm'"
+                    onMouseDown="this.className='btnConfirmAct'"
+                    onMouseUp="this.className='btnConfirmHov'" style="float:right;">确定</span>
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom"></div>
+    <div class="whiteMask"></div>
+    <!--透明遮罩需定义浏览器高度-->
+</div>
+<!-------------------------------自定义主页窗口--结束---------------------------------------->
+
+<!-------------------------------不过滤网站列表--开始---------------------------------------->
+<div id="manageNoADFilterForm" class="topMask2"  onselectstart="return false" style="display: none;">
+    <div id="manageNoADFilterHeightDiv" style="width:100%;height:100px;border:0px solid #ccc;"></div>
+    <div class="maskShadowTop2"></div>
+    <div class="maskShadow2">
+        <div class="maskColor2"></div>
+        <div id="manageNoADFilterFormMaskBlock" class="maskBlock2">
+            <div class="maskTitle2">
+                <h2>例外列表</h2>
+                <span class="closeBtn" id="manageNoADFilterCloseBtn"><img src="close.png" /></span>
+            </div>
+            <ul id="manageNoADFilterList">
+            </ul>
+            <div class="maskNext2">
+            	<span id="manageNoADFilterCancleBtn"  
+                    class="btnC" 
+                    onMouseOver="this.className='btnCHov'"
+                    onMouseOut="this.className='btnC'"
+                    onMouseDown="this.className='btnCAct'"
+                    onMouseUp="this.className='btnCHov'" style="float: right;">关闭</span>
+               
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom2"></div>
+    <div class="whiteMask2"></div>
+</div>
+<!-------------------------------不过滤网站列表--结束---------------------------------------->
+<!-------------------------------自动翻译的网站--开始---------------------------------------->
+<!--
+<div id="manageAutoTransForm" class="topMask"  onselectstart="return false" style="display: none;">
+    <div id="manageAutoTransHeightDiv" style="width:100%;height:100px;border:0px solid #ccc;"></div>
+    <div class="maskShadowTop"></div>
+    <div class="maskShadow">
+        <div class="maskColor"></div>
+        <div id="manageAutoTransFormMaskBlock" class="maskBlock">
+            <div class="maskTitle">
+                <h2>自动翻译的网站</h2>
+                <span class="closeBtn" id="manageAutoTransCloseBtn"><img src="close.png" /></span>
+            </div>
+            <ul id="manageAutoTransList">
+            </ul>
+            <div class="maskNext">
+            	<span id="manageAutoTransCancleBtn"  
+                    class="btnC" 
+                    onMouseOver="this.className='btnCHov'"
+                    onMouseOut="this.className='btnC'"
+                    onMouseDown="this.className='btnCAct'"
+                    onMouseUp="this.className='btnCHov'" style="float: right;">关闭</span>
+               
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom"></div>
+    <div class="whiteMask"></div>
+</div>
+-->
+<!-------------------------------自动翻译的网站--结束---------------------------------------->
+<!-------------------------------不提示翻译的网站--开始---------------------------------------->
+<!--
+<div id="manageNoTransForm" class="topMask"  onselectstart="return false" style="display: none;">
+    <div id="manageNoTransHeightDiv" style="width:100%;height:100px;border:0px solid #ccc;"></div>
+    <div class="maskShadowTop"></div>
+    <div class="maskShadow">
+        <div class="maskColor"></div>
+        <div id="manageNoTransFormMaskBlock" class="maskBlock">
+            <div class="maskTitle">
+                <h2>不提示翻译的网站</h2>
+                <span class="closeBtn" id="manageNoTransCloseBtn"><img src="close.png" /></span>
+            </div>
+            <ul id="manageNoTransList">
+            </ul>
+            <div class="maskNext">
+            	<span id="manageNoTransCancleBtn"  
+                    class="btnC" 
+                    onMouseOver="this.className='btnCHov'"
+                    onMouseOut="this.className='btnC'"
+                    onMouseDown="this.className='btnCAct'"
+                    onMouseUp="this.className='btnCHov'" style="float: right;">关闭</span>
+               
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom"></div>
+    <div class="whiteMask"></div>
+</div>
+-->
+<!-------------------------------不提示翻译的网站--结束---------------------------------------->
+<!-------------------------------已保存密码的网站列表--开始---------------------------------------->
+<div id="passwordSaveForm" class="topMask2"  onselectstart="return false" style="display: none;">
+    <div id="passwordSaveHeightDiv" style="width:100%;height:100px;border:0px solid #ccc;"></div>
+    <div class="maskShadowTop2"></div>
+    <div class="maskShadow2">
+        <div class="maskColor2"></div>
+        <div id="passwordSaveFormMaskBlock" class="maskBlock2">
+            <div class="maskTitle2">
+                <h2>管理已保存的密码</h2>
+                <span class="closeBtn" id="passwordSaveCloseBtn"><img src="close.png" /></span>
+            </div>
+            <ul id="passwordSaveList">
+			
+			</ul>
+            <div class="maskNext2">
+            	<span id="passwordSaveCancleBtn" class="btnC" 
+                    onMouseOver="this.className='btnCHov'"
+                    onMouseOut="this.className='btnC'"
+                    onMouseDown="this.className='btnCAct'"
+                    onMouseUp="this.className='btnCHov'" style="float: right;">关闭</span>
+               
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom2"></div>
+    <div class="whiteMask2"></div>
+</div>
+<!-------------------------------已保存密码的网站列表--结束---------------------------------------->
+<!-------------------------------一律不保存密码的网站列表--开始---------------------------------------->
+<div id="passwordNoSaveForm" class="topMask2"  onselectstart="return false" style="display: none;">
+    <div id="passwordNoSaveHeightDiv" style="width:100%;height:100px;border:0px solid #ccc;"></div>
+    <div class="maskShadowTop2"></div>
+    <div class="maskShadow2">
+        <div class="maskColor2"></div>
+        <div id="passwordNoSaveFormMaskBlock" class="maskBlock2">
+            <div class="maskTitle2">
+                <h2>例外列表</h2>
+                <span class="closeBtn" id="passwordNoSaveCloseBtn"><img src="close.png" /></span>
+            </div>
+            <ul id="passwordNoSaveList"></ul>
+            <div class="maskNext2">
+            	<span id="passwordNoSaveCancleBtn" class="btnC" 
+                    onMouseOver="this.className='btnCHov'"
+                    onMouseOut="this.className='btnC'"
+                    onMouseDown="this.className='btnCAct'"
+                    onMouseUp="this.className='btnCHov'" style="float: right;">关闭</span>
+               
+            </div>
+        </div>
+    </div>
+    <div class="maskShadowBottom2"></div>
+    <div class="whiteMask2"></div>
+</div>
+<!-------------------------------一律不保存密码的网站列表--结束---------------------------------------->
+<script src="language_js.js"></script>
+<script src="setting.class.js"></script>
+<script src="setting.js"></script>
+	
+</body>
+</html>

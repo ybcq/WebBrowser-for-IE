@@ -1,0 +1,508 @@
+/**
+ * 历史记录主流程
+ */
+$(document).ready(function(){
+
+    /**
+     * 设置接口对象
+     */
+	histroyObj = new histroy();
+    /**
+     * 当前选择日期
+     */
+    var currentDate = getTodayDate();
+
+    /**
+     * 当前选择对象
+     */
+    var currentObj = $("#todayMenu");
+
+    /**
+     * 当前关键字
+     */
+    var currentKeyWord = '';
+
+    /**
+     * 整体初始化
+     */
+    initMain(histroyObj);
+
+    /**
+     * 点击今天菜单
+     */
+    $("#todayMenu").click(function(){
+        var date = getTodayDate();
+        addHistroyList(histroyObj, date);
+        currentDate = date;
+        currentKeyWord = ''
+        todayMenuAct();
+        currentObj = $("#todayMenu");
+    });
+
+    /**
+     * 点击昨天菜单
+     */
+    $("#yesterdayMenu").click(function(){
+        var date = getYesterdayDate();
+        addHistroyList(histroyObj, date);
+        currentDate = date;
+        currentKeyWord = ''
+        yesterdayMenuAct();
+        currentObj = $("#yesterdayMenu");
+    });
+
+    /**
+     * 点击更早菜单
+     */
+    $("#olderMenu").click(function(){
+        addDateList(histroyObj);
+        olderMenuAct();
+        if($("#olderMenuList").css("display") == "none"){
+            $("#olderMenu").parent("ul").removeClass("olderListMore");
+            $("#olderMenu").parent("ul").addClass("olderListMore_open");
+        }else{
+            $("#olderMenu").parent("ul").removeClass("olderListMore_open");
+            $("#olderMenu").parent("ul").addClass("olderListMore");
+        }
+        $("#olderMenuList").toggle();
+    });
+
+    /**
+     * 点击更早菜单列表
+     */
+    $("#olderMenuList").delegate("li","click",function(){
+        var date = $(this).attr("date");
+        addHistroyList(histroyObj, date);
+        currentDate = date;
+        currentKeyWord = ''
+        olderMenuListAct(this);
+        currentObj = this;
+    });
+
+    /**
+     * 点击清除列表网址
+     */
+    $("#histroyList").delegate("h3","click",function(){
+        var hid = $(this).parent("li").attr("hid");
+        var timeStamp = $(this).parent("li").attr("timeStamp");
+        histroyObj.delHistory(hid, timeStamp);
+        $(this).parent("li").addClass("deleted");
+    });
+
+    /**
+     * 鼠标进入列表
+     */
+    $("#histroyList").delegate("li","mouseover",function(){
+        var isIE=!!window.ActiveXObject;
+        var isIE6=isIE&&!window.XMLHttpRequest;
+        if(isIE6){
+        }else{
+            $(this).children("h3").children("a").show();
+        }
+    });
+
+    /**
+     * 鼠标离开列表
+     */
+    $("#histroyList").delegate("li","mouseout",function(){
+        var isIE=!!window.ActiveXObject;
+        var isIE6=isIE&&!window.XMLHttpRequest;
+        if(isIE6){
+        }else{
+            $(this).children("h3").children("a").hide();
+        }
+    });
+
+    /**
+     * 点击清除此页记录
+     */
+	 
+    //已移动
+	
+    /**
+     * 点击确认清除按钮
+     */
+    $("#confirmCleanBtn").click(function(){
+        if(currentKeyWord != ''){
+            delSearchList(histroyObj, currentKeyWord);
+        }else{
+            histroyObj.clearHistoryByDate(currentDate);
+        }
+        $(currentObj).click();
+        hideCleanConfirmForm();
+    });
+
+    /**
+     * 点击确认清除取消按钮
+     */
+    $("#cancleCleanBtn").click(function(){
+        hideCleanConfirmForm();
+    });
+
+    /**
+     * 点击确认清除关闭按钮
+     */
+    $("#closeConfirmForm").click(function(){
+        hideCleanConfirmForm();
+    });
+
+    /**
+     * 搜索框焦点按回车
+     */
+    $("#searchText").bind('keydown', function(e){
+        var key = e.which;
+        if(key == 13){
+            $("#searchBtn").click();
+        }
+    });
+
+    /**
+     * 点击搜索按钮
+     */
+//已移动
+
+    /**
+     * 搜索框获得焦点
+     */
+//已移动
+
+    /**
+     * 搜索框失去焦点
+     */
+//已移动
+    /**
+     * 窗口大小改变
+     */
+    $(window).resize(function(){
+        resetRightHistroySize();
+        resetLeftMenuHeight();
+        resetCleanConfirmFormHeight();
+    });
+
+});
+
+/**
+ * 整体初始化
+ */
+function initMain(histroyObj)
+{
+    initMenu(histroyObj);
+	
+    initList(histroyObj);
+}
+
+/**
+ * 初始右侧列表
+ */
+function initList(histroyObj)
+{
+    var date = getTodayDate();
+    addHistroyList(histroyObj, date);
+    resetRightHistroySize();
+}
+
+/**
+ * 初始化菜单
+ */
+function initMenu(histroyObj)
+{
+	
+    addDateList(histroyObj);
+    menuReset();
+    hideOlderMenuList();
+    todayMenuAct();
+    resetLeftMenuHeight();
+}
+
+/**
+ * 重置菜单
+ */
+function menuReset()
+{
+    todayMenuReset();
+    yesterdayMenuReset();
+    olderMenuReset();
+    olderMenuListReset();
+}
+
+/**
+ * 重置右侧历史列表尺寸
+ */
+function resetRightHistroySize()
+{
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var mainTitleHeight = $('.mainTitle').height() + 1;
+    var LeftMenuWidth = $('.leftHistroy').width() + 1;
+    var mainHeight =windowHeight - mainTitleHeight;
+    var mainWidth =windowWidth - LeftMenuWidth;
+    $('#rightHistroy').css('height',mainHeight);
+    $('#rightHistroy').css('width',mainWidth);
+
+    var maxWidth = $('#histroyList').width();
+    if(windowWidth < (LeftMenuWidth + maxWidth)){
+        $('#rightHistroy').css('overflow-x', 'auto');
+    }else{
+        $('#rightHistroy').css('overflow-x', 'hidden');
+    }
+}
+
+/**
+ * 重置左侧菜单高度
+ */
+function resetLeftMenuHeight()
+{
+    var windowHeight = $(window).height();
+    var mainTitleHeight = $('.mainTitle').height() + 1;
+    var height = windowHeight - mainTitleHeight;
+
+    $('.leftHistroy').css('height', height);
+    $('#olderMenuList').css('height', (height - 150));
+}
+
+/**
+ * 重置清除确认窗口高度
+ */
+function resetCleanConfirmFormHeight()
+{
+    var windowHeight = $(window).height();
+    $('#cleanConfirmForm').css('height',windowHeight);
+    $('#heightDiv').css('height',windowHeight / 2 - 200);
+}
+
+/**
+ * 过滤角号
+ */
+function filterStr(text)
+{
+    text = text.replace(/</g,"&lt;");
+    text = text.replace(/>/g,"&gt;");
+    return text;
+}
+
+function filterUrl(url)
+{
+    url = url.replace(/</g,"%3C");
+    url = url.replace(/>/g,"%3E");
+    return url;
+}
+/**
+ * 添加历史记录列表
+ */
+//已移动
+
+/**
+ * 添加搜索列表
+ */
+//已移动
+/**
+ * 删除搜索结果
+ */
+function delSearchList(histroyObj, keyWord)
+{	
+    var data = histroyObj.searchHistory(keyWord);
+	if(data == undefined){
+		data = '';
+	}
+    var histroyList = data.split('\r\n');
+    for(var i = 0; i < histroyList.length; i++){
+        if(histroyList[i] != ""){
+            var row = histroyList[i].split('\t\n');
+            histroyObj.delHistory(row[0], row[3]);
+        }
+    }
+}
+
+/**
+ * 添加日期列表
+ */
+function addDateList(histroyObj)
+{	
+	
+    var data = histroyObj.getHistoryDateList();
+	
+	if(data == undefined){
+		data = '';
+	}
+	//alert(data);
+    var dateList = data.split('\r\n');
+    var dateHtml = "";
+    var todayDate = getTodayDate();
+    var yesterdayDate = getYesterdayDate();
+    for(var i = 0; i < dateList.length; i++){
+        if(dateList[i] != "" && dateList[i] != todayDate && dateList[i] != yesterdayDate){
+            dateHtml = dateHtml + '<li date="' + dateList[i] + '">' + dateToCnDate(dateList[i]) + '</li>';
+        }
+    }
+
+    if(dateHtml == ""){
+        $("#olderListMore").hide();
+        $(".slipDash").hide();
+    }else{
+        $("#olderListMore").show();
+        $(".slipDash").show();
+        dateHtml = dateHtml + '<div class="clear"></div>';
+        $("#olderMenuList").html(dateHtml);
+    }
+}
+
+/**
+ * 添加日期
+ */
+//已移动
+
+/**
+ * 获取今天日期
+ */
+function getTodayDate()
+{
+    var date = new Date();
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr = y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0"+ d : d);
+    return dateStr;
+}
+
+/**
+ * 获取昨天日期
+ */
+function getYesterdayDate()
+{
+    var date = new Date();
+    date.setDate(date.getDate() - 1);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr = y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0"+ d : d);
+    return dateStr;
+}
+
+/**
+ * 时间戳转换时间
+ */
+function timeStampToTime(timeStamp)
+{
+    var date = new Date(timeStamp * 1000);
+    var h = date.getHours();
+    var mm = date.getMinutes();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var dateStr = (m < 10 ? "0" + m : m) + "月" + (d < 10 ? "0"+ d : d) + "日";
+    var timeStr = (h < 10 ? "0" + h : h) + ":" + (mm < 10 ? "0"+ mm : mm);
+
+    var arg2 = arguments[1] ? arguments[1] : null;
+    if(arg2 != null){
+        return dateStr + " " + timeStr;
+    }else{
+        return timeStr;
+    }
+}
+
+/**
+ * 日期转换中文日期
+ */
+//已移动
+
+/**
+ * 激活更早菜单列表
+ */
+function olderMenuListAct(obj)
+{
+    menuReset();
+    $(obj).addClass('current');
+}
+
+/**
+ * 重置更早菜单列表
+ */
+function olderMenuListReset()
+{
+    $("#olderListMore li").removeClass('current');
+    $("#olderMenuList li").removeClass('current');
+}
+
+/**
+ * 激活更早菜单
+ */
+function olderMenuAct()
+{
+    menuReset();
+    $("#olderMenu").addClass('current');
+}
+
+/**
+ * 重置更早菜单
+ */
+function olderMenuReset()
+{
+    $("#olderMenu").removeClass('current');
+}
+
+/**
+ * 激活昨天菜单
+ */
+function yesterdayMenuAct()
+{
+    menuReset();
+    $("#yesterdayMenu").addClass('current');
+}
+
+/**
+ * 重置昨天菜单
+ */
+function yesterdayMenuReset()
+{
+    $("#yesterdayMenu").removeClass('current');
+}
+
+/**
+ * 激活今天菜单
+ */
+function todayMenuAct()
+{
+    menuReset();
+    $("#todayMenu").addClass('current');
+}
+
+/**
+ * 重置今天菜单
+ */
+function todayMenuReset()
+{
+    $("#todayMenu").removeClass('current');
+}
+
+/**
+ * 显示更早菜单列表
+ */
+function showOlderMenuList()
+{
+    $("#olderMenuList").show();
+}
+
+/**
+ * 关闭更早菜单列表
+ */
+function hideOlderMenuList()
+{
+    $("#olderMenuList").hide();
+}
+
+/**
+ * 显示清除确认窗口
+ */
+function showCleanConfirmForm(msg)
+{
+    resetCleanConfirmFormHeight();
+    $("#cleanConfirmFormMsg").html(msg);
+    $("#cleanConfirmForm").show();
+}
+
+/**
+ * 关闭清除确认窗口
+ */
+function hideCleanConfirmForm()
+{
+    $("#cleanConfirmForm").hide();
+}

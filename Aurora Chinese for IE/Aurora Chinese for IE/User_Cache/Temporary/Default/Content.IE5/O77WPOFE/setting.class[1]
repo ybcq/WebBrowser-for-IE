@@ -1,0 +1,615 @@
+ /**
+ * setting类
+ */
+function setting(){
+
+    /**
+     * 构造处
+     * 设置秘钥
+     */
+    var superCode = window.external.ExtGetSuperCode(window);
+	
+    /**
+     * 设置选项值
+     */
+    function setOptionValue(key, value)
+    {
+        window.external.ExtSetOptionValue(superCode, key, value);
+    }
+
+    /**
+     * 获取选项值
+     */
+    function getOptionValue(key)
+    {
+        return window.external.ExtGetOptionValue(superCode, key);
+    }
+
+    /**
+     * 设置启动时打开
+     */
+	this.setStartPageType=function(value)
+	{
+        setOptionValue("StartPageType", value);
+	}
+
+    /**
+     * 获取启动时打开
+     */
+    this.getStartPageType=function()
+    {
+        return getOptionValue("StartPageType");
+    }
+
+    /**
+     * 设置自定义主页
+     */
+    this.setHomePage=function(value)
+    {
+        setOptionValue("HomePage", value);
+    }
+
+    /**
+     * 获取自定义主页
+     */
+    this.getHomePage=function()
+    {
+        return getOptionValue("HomePage");
+    }
+
+    /**
+     * 设置广告过滤
+     */
+    this.setADFilterClass=function(value)
+    {
+        setOptionValue("ADFilterClass", value);
+    }
+
+    /**
+     * 获取广告过滤
+     */
+    this.getADFilterClass=function()
+    {
+        return getOptionValue("ADFilterClass");
+    }
+
+    /**
+     * 设置弹出广告
+     */
+    this.setWinBlock=function(value)
+    {
+        setOptionValue("WinBlock", value);
+    }
+
+    /**
+     * 获取弹出广告
+     */
+    this.getWinBlock=function()
+    {
+        return getOptionValue("WinBlock");
+    }
+
+    /**
+     * 设置页面广告
+     */
+    this.setAdBlock=function(value)
+    {
+        setOptionValue("AdBlock", value);
+    }
+
+    /**
+     * 获取页面广告
+     */
+    this.getAdBlock=function()
+    {
+        return getOptionValue("AdBlock");
+    }
+
+    /**
+     * 获取不过滤网站
+     */
+    this.getWinBlockList=function()
+    {
+        return window.external.ExtGetWinBlockList(superCode, true);
+    }
+
+    /**
+     * 删除不过滤网站
+     */
+    this.delWinBlockItem=function(value)
+    {
+        window.external.ExtDelWinBlockItem(superCode, value);
+    }
+
+    /**
+     * 设置上网痕迹
+     */
+    this.setCleanPrivacy=function(value)
+    {
+        setOptionValue("CleanPrivacy", value);
+    }
+
+    /**
+     * 获取上网痕迹
+     */
+    this.getCleanPrivacy=function()
+    {
+        return getOptionValue("CleanPrivacy");
+    }
+
+    /**
+     * 设置自动清除
+     */
+    this.setCleanPrivacyOnExit=function(value)
+    {
+        setOptionValue("CleanPrivacyOnExit", value);
+    }
+
+    /**
+     * 获取自动清除
+     */
+    this.getCleanPrivacyOnExit=function()
+    {
+        return getOptionValue("CleanPrivacyOnExit");
+    }
+
+    /**
+     * 设置在新标签打开地址栏输入的网址
+     */
+    this.setNewTabFromAddrBox=function(value)
+    {
+        setOptionValue("NewTabFromAddrBox", value);
+    }
+
+    /**
+     * 获取在新标签打开地址栏输入的网址
+     */
+    this.getNewTabFromAddrBox=function()
+    {
+        return getOptionValue("NewTabFromAddrBox");
+    }
+
+    /**
+     * 设置在新标签打开收藏夹里的网址
+     */
+    this.setNewTabFromBookmark=function(value)
+    {
+        setOptionValue("NewTabFromBookmark", value);
+    }
+
+    /**
+     * 获取在新标签打开收藏夹里的网址
+     */
+    this.getNewTabFromBookmark=function()
+    {
+        return getOptionValue("NewTabFromBookmark");
+    }
+
+    /**
+     * 设置点击链接新打开标签时，自动切换到该标签
+     */
+    this.setAlwaysActiveNewTab=function(value)
+    {
+        setOptionValue("AlwaysActiveNewTab", value);
+    }
+
+    /**
+     * 获取点击链接新打开标签时，自动切换到该标签
+     */
+    this.getAlwaysActiveNewTab=function()
+    {
+        return getOptionValue("AlwaysActiveNewTab");
+    }
+
+    /**
+     * 设置新打开标签放在
+     */
+    this.setNewTabAlignment=function(value)
+    {
+        setOptionValue("NewTabAlignment", value);
+    }
+
+    /**
+     * 获取新打开标签放在
+     */
+    this.getNewTabAlignment=function()
+    {
+        return getOptionValue("NewTabAlignment");
+    }
+
+    /**
+     * 设置双击关闭对应标签
+     */
+    this.setDbClickCloseTab=function(value)
+    {
+        setOptionValue("DbClickCloseTab", value);
+    }
+
+    /**
+     * 获取双击关闭对应标签
+     */
+    this.getDbClickCloseTab=function()
+    {
+        return getOptionValue("DbClickCloseTab");
+    }
+
+    /**
+     * 设置右击关闭对应标签
+     */
+    this.setRbClickCloseTab=function(value)
+    {
+        setOptionValue("RbClickCloseTab", value);
+    }
+
+    /**
+     * 获取右击关闭对应标签
+     */
+    this.getRbClickCloseTab=function()
+    {
+        return getOptionValue("RbClickCloseTab");
+    }
+
+    /**
+     * 设置关闭当前标签后，切换到
+     */
+    this.setTabClosePolicy=function(value)
+    {
+        setOptionValue("TabClosePolicy", value);
+    }
+
+    /**
+     * 获取关闭当前标签后，切换到
+     */
+    this.getTabClosePolicy=function()
+    {
+        return getOptionValue("TabClosePolicy");
+    }
+
+    /**
+     * 设置用户自定义主页选择
+     */
+    this.setCurSelHomePage=function(value)
+    {
+        setOptionValue("CurSelHomePage", value);
+    }
+
+    /**
+     * 获取用户自定义主页选择
+     */
+    this.getCurSelHomePage=function()
+    {
+        return getOptionValue("CurSelHomePage");
+    }
+
+    /**
+     * 设置清除指定时间
+     */
+    this.setCleanPrivacyTime=function(value)
+    {
+        setOptionValue("CleanPrivacyTime", value);
+    }
+
+    /**
+     * 获取清除指定时间
+     */
+    this.getCleanPrivacyTime=function()
+    {
+        return getOptionValue("CleanPrivacyTime");
+    }
+
+    /**
+     * 设置鼠标手势
+     */
+    this.setMouseGesture=function(value)
+    {
+        setOptionValue("MouseGesture", value);
+    }
+
+    /**
+     * 获取鼠标手势
+     */
+    this.getMouseGesture=function()
+    {
+        return getOptionValue("MouseGesture");
+    }
+
+    /**
+     * 设置关闭多标签提示
+     */
+    this.setCloseMultiTabTip=function(value)
+    {
+        setOptionValue("CloseMultiTabTip", value);
+    }
+
+    /**
+     * 获取关闭多标签提示
+     */
+    this.getCloseMultiTabTip=function()
+    {
+        return getOptionValue("CloseMultiTabTip");
+    }
+
+    /**
+     * 开始清除上网痕迹
+     */
+    this.startCleanPrivacy=function()
+    {
+        window.external.ExtCleanPrivacy(superCode, "0");
+    }
+
+    /**
+     * 获取清除上网痕迹状态
+     */
+    this.getCleanPrivacyStatus=function()
+    {
+        return window.external.ExtCleanPrivacy(superCode, "1");
+    }
+
+    /**
+     * 获取url图标
+     */
+    this.getUrlIconPath=function(url)
+    {
+        return window.external.ExtGetUrlIconPath(superCode, url);
+    }
+
+    /**
+     * 检测默认浏览器
+     */
+    this.checkBrowser=function()
+    {
+        return window.external.ExtCheckBrowser(superCode);
+    }
+
+    /**
+     * 设置默认浏览器
+     */
+    this.setDefBrowser=function()
+    {
+        window.external.ExtSetDefBrowser(superCode);
+    }
+	
+	
+		/**
+     * 获取上次访问网页
+     */
+	this.ExtGetRestore=function()
+    {
+        return window.external.ExtGetRestore(superCode);
+    }
+	
+	/**
+     * 查询老板键
+     */
+    this.getBossKey=function()
+    {
+        return getOptionValue("BossKey");
+    }
+
+    /**
+     * 设置老板键
+     */
+    this.setBossKey=function(value)
+    {
+        setOptionValue("BossKey", value);
+    }
+	
+	/**
+     * 设置老板鼠标键
+     */
+    this.setBossKeyMidKey=function(value)
+    {
+     	setOptionValue("bossKeyMidKey", value);
+    }
+
+    /**
+     * 查询老板鼠标键
+     */
+    this.getBossKeyMidKey=function(value)
+    {
+        return getOptionValue("bossKeyMidKey");
+    }
+	
+	/**
+     * 下载工具选择
+     */
+    this.GetDownTools=function()
+    {
+        return window.external.ExtGetDownTools(superCode);
+    }
+	
+	/**
+	 *设置下载默认工具
+	 */
+	this.setDownloadPolicy=function(value)
+    {
+     	setOptionValue("DownDefault", value);
+    }
+	
+	/**
+     * 查询下载默认工具
+     */
+    this.getDownloadPolicy=function(value)
+    {
+        return getOptionValue("DownDefault");
+    }
+	
+	/**
+     * 查询是否询问下载保存位置
+     */
+    this.getAskSaveLocation=function(value)
+    {
+        return getOptionValue("AskDownLocation");
+    }
+	/**
+	 *设置是否询问下载保存位置
+	 */
+	 this.setAskSaveLocation=function(value)
+    {
+     	setOptionValue("AskDownLocation", value);
+    }
+	
+	/**
+     * 查询是否询问显示下载窗口
+     */
+    this.getShowDownlistWnd=function(value)
+    {
+        return getOptionValue("ShowDownlistWnd");
+    }
+	/**
+	 *设置是否询问显示下载窗口
+	 */
+	 this.setShowDownlistWnd=function(value)
+    {
+     	setOptionValue("ShowDownlistWnd", value);
+    }
+	
+	/**
+     * 查询鼠标手势的状态
+     */
+	 for(var i=0;i<=15;i++){
+		eval('this.getMouseGestureNum' + i + '=function(value){return getOptionValue("MouseGesture' + i + '");} ');
+		}
+	/**
+     * 设置鼠标手势的状态
+     */
+	 for(var i=0;i<=15;i++){
+		eval('this.setMouseGestureNum' + i + '=function(value){return setOptionValue("MouseGesture' + i + '", value);}');
+		}
+		
+	/**
+	 *设置购物助手显示
+	 */
+	this.setGWDSetting=function(value)
+    {
+     	setOptionValue("GWDDisplayMode", value);
+    }
+	
+	/**
+     * 查询购物助手显示
+     */
+    this.getGWDSetting=function(value)
+    {
+        return getOptionValue("GWDDisplayMode");
+    }
+	
+	this.ExtGetAppData=function(value)
+    {
+       return window.external.ExtGetAppData(superCode,value);
+    }
+
+	/**
+     *设置buscape购物助手显示
+     */
+    this.setShopHelperSetting=function(value)
+    {
+        setOptionValue("shoppingHelperMode", value);
+    }
+
+    /**
+     * 查询buscape购物助手显示
+     */
+    this.getShopHelperSetting=function(value)
+    {
+        return getOptionValue("shoppingHelperMode");
+    }
+
+	/**
+     * juzi 翻译功能接口
+     */
+	this.translateSetting=function(act,value)
+    {
+        return window.external.ExtTranslateList(superCode, act ,value);
+    }
+	
+    this.getTranslateMode=function(value)
+    {
+        return getOptionValue("ShowTranslatorIcon");
+    }
+	
+	this.setTranslateMode=function(value)
+    {
+        return setOptionValue("ShowTranslatorIcon" , value);
+    }
+
+    /**
+     * 翻译功能接口--aurora checkbox
+     */
+     //查询
+    this.getTranslateHelperMode=function(value)
+    {
+        return getOptionValue("translateHelperMode");
+    }
+    //设置
+    this.setTranslateHelperMode=function(value)
+    {
+        return setOptionValue("translateHelperMode" , value);
+    }
+
+
+	/**
+     * 开启密码保存接口
+     */
+    this.getLoginAssis=function(value)
+    {
+        return getOptionValue("LoginAssisEnable");
+    }
+	this.setLoginAssis=function(value)
+    {
+        return setOptionValue("LoginAssisEnable" , value);
+    }
+	/**
+     * 密码操作接口
+     */
+	this.getLoginList=function(type, param)
+    {
+        return window.external.ExtGetLoginList(superCode, type, param);
+    }
+	
+	/*superCode = window.external.ExtGetSuperCode(window);  
+	window.external.ExtGetLoginList(superCode, 1, 1);
+	window.external.ExtGetOptionValue(superCode, "LoginAssisEnable");
+	*/
+	
+	/**
+     * 获取语言标记
+	 *1.英语;2.中文;3.葡萄牙语
+     */
+	this.getProcessLanguage=function(value)
+    {
+        return getOptionValue("ProcessLanguage");
+    }
+	
+	/**
+     * 设置语言标记
+	 *1.英语;2.中文;3.葡萄牙语
+     */
+	this.setProcessLanguage=function(value)
+    {
+        setOptionValue("ProcessLanguage", value)
+    }
+	
+	/**
+     * 获取语言JSON
+	 */
+    this.getLanguageJson=function()
+    {
+     return window.external.ExtGetLangJson(superCode); 
+    }
+
+     /**
+     * 获取语言显示翻译开关
+     */
+    this.gettranslateShow=function(value)
+    {
+        return getOptionValue("translateShowSettings");
+    }
+    this.settranslateShow=function(value)
+    {
+        return setOptionValue("translateShowSettings" , value);
+    }
+}
+
+
+
+	

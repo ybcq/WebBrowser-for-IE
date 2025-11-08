@@ -1,0 +1,203 @@
+	/**
+	 * 置项主流程
+	 */
+	 var lastopenList;
+
+	$(document).ready(function(){
+	
+	
+	/**
+     * 设置接口对象
+     */
+    var lastopenObj = new lastopen();
+
+    /**
+     * 初始化设置选项
+     */
+    initlastopen(lastopenObj);
+
+	
+	/**
+     * 整体初始化
+     */
+    initMain(lastopenObj);
+	/**
+     * 鼠标进入列表
+     */
+	 $("#lastopenList").delegate("li", 'mouseover', function(){
+       
+            $(this).children("h3").css("background","url(close2.png) 10px 10px no-repeat");
+       
+    });
+
+    /**
+     * 鼠标离开列表
+     */
+	  $("#lastopenList").delegate("li", 'mouseout', function(){
+        
+            $(this).children("h3").css("background","none");
+			
+		});
+		
+	/**
+     * 鼠标点击列表
+     */
+	  $("#lastopenList h5").delegate("a", 'mousedown', function(){
+        var isIE=!!window.ActiveXObject;
+        var isIE6=isIE&&!window.XMLHttpRequest;
+        if(isIE6){
+        }else{
+            $(this).css("color","#aaa");
+			}
+		});
+	
+	/**
+     *删除列表
+     */		
+	$("#lastopenList li").on("click", "h3", function(){
+			var url = filterUrl($(this).parent("li").children("h5").attr("title"));
+			$(this).parent("li").children("h5").css("text-decoration","line-through");
+			$(this).parent("li").children("h5").css("color","#ccc");
+			$(this).parent("li").children("h4").addClass("deleted");
+			
+
+			lastopenObj.delRestore(url);
+	});
+	
+	/**
+     *打开连接
+     */		
+	$("#lastopenList li").on("click", "h5", function(){
+			var url = filterUrl($(this).parent("li").children("h5").attr("title"));
+			$(this).parent("li").children("h5").css("color","#ccc");
+			$(this).parent("li").children("h4").addClass("deleted");
+			lastopenObj.navigate(url,1,2);
+	});
+	
+	/**
+	 * 打开全部叶面
+	 */
+	$("#openAllPage").click(function(){
+		var lastList = new Array(); 
+		$("#lastopenList li").each(function(index){
+			if(!$(this).children("h4").hasClass("deleted")){
+				var url = filterUrl($(this).children("h5").attr("title"));
+				lastList.push(url);
+			}
+		});
+		while(lastList.length > 0){
+			lastopenObj.navigate(lastList.pop(),1,2);
+		}
+		lastopenObj.closeWindow();
+	});
+	
+	
+});
+
+
+document.onselectstart=new Function('event.returnValue=false;');
+
+	/**
+	 * 初始化设置选项
+	 */
+	 
+	function initlastopen(lastopenObj)
+	{
+		setlastopenData(lastopenObj)
+	}
+	
+	$(window).resize(function(){
+				initList()
+			});
+	/**
+	 * 上次打开页面内容
+	 */
+	
+	function setlastopenData(lastopenObj)
+	{	
+		
+		var data = lastopenObj.getRestore();
+		
+		if(typeof(data) != "string")
+			return;
+		
+		lastopenList = data.split('\r\n');
+		
+		var flag = lastopenList[0].split('=')[1];
+    	var lastopenHtml = "";
+		
+		for(var i = lastopenList.length - 1; i >0 ; i--){
+        	if(lastopenList[i] != ""){
+				
+				var splitStr = lastopenList[i].split('\f');
+				var title = splitStr[0];
+				var url = splitStr[1];
+				
+				if( url=="Aurora:last")
+					continue;
+					
+				if( url==url.indexOf("res:\\",0) && url.indexOf("lastopen.html",0))
+					continue;
+				
+				var src = lastopenObj.getUrlIconPath(url);
+				
+				if(typeof(src) == "undefined"){
+                	src = "favicon0.png"
+            	}
+					lastopenHtml = lastopenHtml + '<li><h3></h3><h4><img src="'+ src +'" /></h4><h5 title="' +  filterUrl(url) + '">' + title +'</h5></li>';
+				
+				}
+    		}
+			
+    		$("#lastopenList").html(lastopenHtml);
+			
+			if(flag == 1)
+			$(".errFlag").show();	
+			
+			$(".errFlag .closeBtn").click(function(){
+				$(".errFlag").hide();
+				flag = 0;
+	});	
+	}
+
+	/**
+ 	* 高度滚动条出现
+ 	*/
+	function lastopenListHeight()
+	{	var height = $("#lastOpen").height();
+		var w = $(window).height() - 80;
+		//alert(heightList)
+		if( height > w){
+				//alert($("#lastOpen").height());
+				$("#lastOpen").height(w);
+				$("#lastOpen").css("overflow-y","scroll");
+			}else{
+				$("#lastOpen").height(w);
+				$("#lastOpen").css("overflow-y","auto");
+			}
+		}
+
+	/**
+	 * 整体初始化
+	 */
+	function initMain(lastopenObj)
+	{
+		initList(lastopenObj);
+	}
+	
+	/**
+	 * 初始列表
+	 */
+	function initList(lastopenObj)
+	{
+		lastopenListHeight();
+	}
+	/**
+	 * 过滤角号
+	 */
+	function filterUrl(url)
+{
+    url = url.replace(/</g,"%3C");
+    url = url.replace(/>/g,"%3E");
+    return url;
+}
